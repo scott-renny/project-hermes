@@ -1,0 +1,24 @@
+﻿# Project Hermes Git attributes
+# Normalize text files in the repository while preserving Windows-compatible
+# line endings for PowerShell and Windows command files.
+
+* text=auto
+
+*.ps1 text eol=crlf
+*.psm1 text eol=crlf
+*.psd1 text eol=crlf
+*.cmd text eol=crlf
+*.bat text eol=crlf
+
+*.json text eol=lf
+*.md text eol=lf
+*.yml text eol=lf
+*.yaml text eol=lf
+*.xml text eol=lf
+
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.ico binary
+*.zip binary
