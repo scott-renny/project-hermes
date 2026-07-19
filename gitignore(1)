@@ -1,0 +1,120 @@
+# ============================================================
+# Project Hermes - Custom .gitignore
+# ============================================================
+
+# -------------------------
+# Operating System
+# -------------------------
+Thumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+*.tmp
+*.temp
+
+# -------------------------
+# Logs
+# -------------------------
+*.log
+logs/
+*.etl
+
+# -------------------------
+# Environment / Secrets
+# -------------------------
+.env
+.env.*
+!.env.example
+
+*.key
+*.pem
+*.pfx
+*.p12
+*.cer
+
+# -------------------------
+# Credentials
+# -------------------------
+secrets/
+credentials/
+tokens/
+api_keys/
+
+# -------------------------
+# VS Code
+# -------------------------
+.vscode/settings.json
+.vscode/tasks.json
+.vscode/launch.json
+.history/
+
+# -------------------------
+# PowerShell
+# -------------------------
+PSReadLineHistory.txt
+*.psd1.bak
+
+# -------------------------
+# Rainmeter
+# -------------------------
+Rainmeter_Backups/
+Rainmeter_Temp/
+
+# -------------------------
+# Windhawk
+# -------------------------
+windhawk-backup/
+windhawk-temp/
+
+# -------------------------
+# Windows Terminal
+# -------------------------
+terminal-backups/
+
+# -------------------------
+# Temporary exports
+# -------------------------
+exports/
+backups/
+temp/
+
+# -------------------------
+# Archives
+# -------------------------
+*.zip
+*.7z
+*.rar
+
+# -------------------------
+# Python
+# -------------------------
+__pycache__/
+*.py[cod]
+
+# -------------------------
+# Build artifacts
+# -------------------------
+dist/
+build/
+coverage/
+
+# -------------------------
+# Local overrides
+# -------------------------
+*.local
+*.override
+
+# -------------------------
+# Terraform / Infrastructure
+# -------------------------
+.terraform/
+*.tfstate*
+
+# -------------------------
+# Node (future tooling)
+# -------------------------
+node_modules/
+
+# -------------------------
+# Keep examples
+# -------------------------
+!.gitkeep
