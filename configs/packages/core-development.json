@@ -1,0 +1,43 @@
+{
+  "schemaVersion": "1.0",
+  "profile": "core-development",
+  "description": "Core development tools for Project Hermes.",
+  "packages": [
+    {
+      "id": "Git.Git",
+      "name": "Git",
+      "required": true,
+      "scope": "machine"
+    },
+    {
+      "id": "GitHub.cli",
+      "name": "GitHub CLI",
+      "required": true,
+      "scope": "machine"
+    },
+    {
+      "id": "Microsoft.VisualStudioCode",
+      "name": "Visual Studio Code",
+      "required": true,
+      "scope": "machine"
+    },
+    {
+      "id": "Microsoft.PowerShell",
+      "name": "PowerShell 7",
+      "required": true,
+      "scope": "machine"
+    },
+    {
+      "id": "Microsoft.WindowsTerminal",
+      "name": "Windows Terminal",
+      "required": false,
+      "scope": "user"
+    },
+    {
+      "id": "JanDeDobbeleer.OhMyPosh",
+      "name": "Oh My Posh",
+      "required": false,
+      "scope": "user"
+    }
+  ]
+}

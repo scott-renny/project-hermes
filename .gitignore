@@ -1,0 +1,31 @@
+# Generated logs and workstation inventory
+logs/*
+exports/*
+!logs/.gitkeep
+!exports/.gitkeep
+
+# Local state and temporary files
+*.tmp
+*.bak
+*.log
+*.out.txt
+*.err.txt
+
+# PowerShell and editor artifacts
+.vscode/
+.history/
+*.ps1xml
+
+# Windows files
+Thumbs.db
+Desktop.ini
+
+# Secrets and credentials
+*.key
+*.pem
+*.pfx
+*.p12
+.env
+.env.*
+credentials*
+secrets*
