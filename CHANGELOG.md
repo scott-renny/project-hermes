@@ -1,66 +1,46 @@
 # Changelog
 
-All notable changes to **Project Hermes** are documented in this file.
+All notable changes to Project Hermes are documented in this file.
 
-The format is based on **Keep a Changelog** and follows **Semantic
-Versioning**.
+The format is based on the principles of Keep a Changelog and follows Semantic Versioning where applicable.
 
-------------------------------------------------------------------------
+---
 
-## \[Unreleased\]
-
-### Planned
-
--   Foundation workstation configuration
--   PowerShell profile
--   Windows Terminal customization
--   PowerToys configuration
--   AutoHotkey automation
--   Rainmeter dashboards
--   Windhawk customization
--   Automation scripts
-
-------------------------------------------------------------------------
-
-## \[0.1.0\] - July 19, 2026
+## [v0.4.0] - YYYY-MM-DD
 
 ### Added
 
--   Initial repository structure
--   README
--   Project Charter
--   Engineering Documentation Standard (EDS)
--   Roadmap
--   Build Journal
+- Environment validation framework
+- Centralized validation script
+- Git repository validation
+- Git remote validation
+- PowerShell validation
+- Git validation
+- GitHub CLI validation
+- Visual Studio Code validation
+- WinGet validation
+- Repository structure validation
+- `.gitattributes` for consistent repository formatting
 
-### Documentation
+### Changed
 
--   Established documentation-first engineering workflow
--   Defined repository standards
--   Created governance documentation
--   Defined project execution phases
+- Improved repository standards
+- Standardized line-ending handling
+- Established a reusable validation architecture
 
-### Notes
+### Fixed
 
-This release establishes the planning and governance foundation for
-Project Hermes. No workstation implementation has begun yet.
+- Removed duplicate `gitignore(1)` file
+- Improved repository consistency
 
-------------------------------------------------------------------------
+---
 
-# Release Policy
+## [v0.3.0]
 
-## Versioning
+Initial bootstrap framework.
 
--   **0.x.x** --- Planning and active development
--   **1.0.0** --- First stable release
--   **Major** --- Breaking architectural changes
--   **Minor** --- New features
--   **Patch** --- Bug fixes and documentation improvements
+### Added
 
-------------------------------------------------------------------------
-
-# Revision History
-
-  Version   Date            Description
-  --------- --------------- ----------------------------
-  1.0.0     July 19, 2026   Initial changelog created.
+- Bootstrap framework
+- Core tool installation
+- Modular PowerShell architecture
