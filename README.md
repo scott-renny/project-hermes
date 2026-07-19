@@ -1,28 +1,97 @@
 # Project Hermes
 
-> A modular PowerShell framework for provisioning, configuring, and maintaining Windows engineering workstations.
+<h1 align="center">Project Hermes</h1>
+
+<p align="center">
+<b>Engineering Workstation Automation Framework</b>
+</p>
+
+<p align="center">
+
+![Status](https://img.shields.io/badge/Status-Active%20Development-orange?style=for-the-badge)
+![PowerShell](https://img.shields.io/badge/PowerShell-7+-5391FE?style=for-the-badge&logo=powershell&logoColor=white)
+![Windows](https://img.shields.io/badge/Windows-11-0078D6?style=for-the-badge&logo=windows11&logoColor=white)
+![License](https://img.shields.io/github/license/scott-renny/project-hermes?style=for-the-badge)
+![Last Commit](https://img.shields.io/github/last-commit/scott-renny/project-hermes?style=for-the-badge)
+![Repo Size](https://img.shields.io/github/repo-size/scott-renny/project-hermes?style=for-the-badge)
+![Issues](https://img.shields.io/github/issues/scott-renny/project-hermes?style=for-the-badge)
+
+</p>
 
 ---
 
 ## Overview
 
-Project Hermes automates the setup of a complete engineering workstation from a clean Windows installation.
+Project Hermes is a modular PowerShell framework designed to automate the provisioning, configuration, validation, and long-term maintenance of Windows engineering workstations.
 
-Rather than simply installing software, Hermes provides a repeatable deployment framework capable of configuring Windows, installing development tools, validating system requirements, and preparing a workstation for software engineering, cybersecurity, homelab administration, and infrastructure projects.
+Instead of manually configuring every new Windows installation, Hermes provides a repeatable deployment process that installs development tools, validates system requirements, configures the operating system, and prepares a workstation for software engineering, cybersecurity, homelab administration, and infrastructure projects.
 
-The long-term objective is to make rebuilding an entire workstation as simple as running a single PowerShell command.
+The long-term objective is to transform a clean Windows installation into a fully configured engineering workstation through a consistent, repeatable deployment process.
 
 ---
 
-# Current Status
+# Quick Start
 
-**Current Release**
+Clone the repository:
 
+```powershell
+git clone https://github.com/scott-renny/project-hermes.git
 ```
-v0.4.0
+
+Move into the project:
+
+```powershell
+cd project-hermes
 ```
 
-Current development focuses on building the deployment framework before expanding into full workstation customization.
+Run the environment validator:
+
+```powershell
+.\scripts\diagnostics\Test-HermesEnvironment.ps1 -Detailed
+```
+
+---
+
+# Current Release
+
+## v0.4.0 — Validation Framework
+
+### Included
+
+- Bootstrap deployment framework
+- Modular PowerShell architecture
+- WinGet package management
+- Environment validation
+- Git validation
+- GitHub CLI validation
+- Visual Studio Code validation
+- Repository validation
+- Git remote validation
+- Repository standards
+- `.gitattributes`
+
+---
+
+# Repository Structure
+
+```text
+Project-Hermes
+│
+├── configs/
+├── docs/
+├── scripts/
+│   ├── bootstrap/
+│   ├── diagnostics/
+│   └── modules/
+│
+├── README.md
+├── BUILD_JOURNAL.md
+├── CHANGELOG.md
+├── CONTRIBUTING.md
+├── ENGINEERING_STANDARD.md
+├── PROJECT_CHARTER.md
+└── SECURITY.md
+```
 
 ---
 
@@ -31,18 +100,18 @@ Current development focuses on building the deployment framework before expandin
 ## Bootstrap
 
 - Repository initialization
-- Project structure validation
 - Initial deployment workflow
+- Modular script loading
 
 ## Package Management
 
 - WinGet integration
-- Automated software installation
 - Modular package collections
+- Automated software installation
 
 ## Environment Validation
 
-The environment validator verifies:
+Hermes validates the local workstation before deployment by checking:
 
 - PowerShell
 - Git
@@ -59,9 +128,9 @@ Run the validator:
 .\scripts\diagnostics\Test-HermesEnvironment.ps1 -Detailed
 ```
 
-Typical successful output:
+Expected output:
 
-```
+```text
 Passed:   12
 Warnings: 0
 Failed:   0
@@ -69,93 +138,76 @@ Failed:   0
 
 ---
 
-# Repository Structure
-
-```
-Project-Hermes/
-│
-├── configs/
-├── docs/
-├── scripts/
-│   ├── bootstrap/
-│   ├── diagnostics/
-│   └── modules/
-│
-├── README.md
-├── CHANGELOG.md
-├── BUILD_JOURNAL.md
-└── PROJECT_CHARTER.md
-```
-
----
-
 # Roadmap
 
-## v0.4.0
+## ✅ v0.4.0
 
-✔ Bootstrap Framework
+- Bootstrap framework
+- Validation framework
+- Repository standards
 
-✔ Environment Validation
+## 🚧 v0.5.0
 
-✔ Repository Standards
-
----
-
-## v0.5.0
-
-Planned:
+Planned work:
 
 - Windows configuration
 - Explorer configuration
 - Windows Terminal configuration
 - PowerShell profile deployment
-- VS Code configuration
 - Git configuration
+- Visual Studio Code configuration
 - Desktop customization
-
----
+- Workstation profiles
 
 ## Future Releases
 
 - Docker provisioning
-- WSL configuration
+- WSL automation
 - SSH deployment
-- PowerToys automation
+- PowerToys configuration
 - Wallpaper deployment
-- Workstation profiles
+- Multi-profile workstation support
 - One-command workstation provisioning
 
 ---
 
-# Development Philosophy
+# Engineering Principles
 
-Project Hermes follows several engineering principles:
+Project Hermes is built around several engineering principles.
 
 - Modular architecture
-- Idempotent scripts
+- Idempotent scripting
 - Repeatable deployments
-- Clear documentation
+- Documentation-first development
 - Git-first workflow
+- Automated validation
 - Incremental releases
 
-Every feature should be independently testable and safe to execute multiple times.
+Every script should be safe to execute multiple times and produce predictable, repeatable results.
 
 ---
 
-# Contributing
+# Documentation
 
-Contributions, suggestions, and issues are welcome.
+Additional project documentation:
 
-Please read:
-
+- BUILD_JOURNAL.md
+- CHANGELOG.md
+- PROJECT_CHARTER.md
 - CONTRIBUTING.md
 - ENGINEERING_STANDARD.md
 - SECURITY.md
 
-before submitting changes.
+---
+
+# Long-Term Vision
+
+Project Hermes is being developed as a reusable workstation deployment framework capable of automating software installation, operating system configuration, validation, and engineering environment provisioning from a clean Windows installation.
+
+The framework is designed to support future expansion through additional deployment modules while maintaining a consistent and repeatable deployment workflow.
 
 ---
 
 # License
 
-This project is released under the MIT License.
+Released under the MIT License.
