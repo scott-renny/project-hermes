@@ -72,8 +72,8 @@ Restore when required
 | `Hermes.PowerToys` lifecycle | Complete and tested |
 | `Hermes.Winget` package profiles | Complete and tested |
 | Component desired-state profiles | Complete and tested |
-| Unified workstation profile | Planned |
-| v0.5.0 integration validation | Complete — 304 tests passed |
+| Unified workstation profile | Complete and tested |
+| v0.5.0 integration validation | Complete — 314 tests passed |
 
 `Hermes.Common` v0.1.0 and `Hermes.Taskbar` v0.5.0 each pass **48 Pester tests with no failures**.
 
@@ -385,6 +385,20 @@ and the module loads from the managed PowerShell profile.
 
 Documentation: [`modules/workstation/winget/README.md`](modules/workstation/winget/README.md)
 
+### Unified Workstation Profile
+
+The schema-versioned base workstation profile ties all ten configurable components
+to their owning module manifests and desired-state files without duplicating policy.
+It defines supported platform metadata, execution order, enabled state, required
+versus optional components, and portable repository-relative paths.
+
+The profile is stored in
+[`configs/profiles/hermes-workstation-base.psd1`](configs/profiles/hermes-workstation-base.psd1),
+with its contract documented in
+[`docs/reference/workstation-profile-format.md`](docs/reference/workstation-profile-format.md).
+Integration tests validate every referenced manifest and configuration through the
+owning module's public validator.
+
 ---
 
 ## Validation
@@ -420,12 +434,15 @@ Run the complete integrated suite:
 
 ```powershell
 Invoke-Pester `
-    -Path .\modules `
+    -Path @(
+        '.\modules'
+        '.\tests'
+    ) `
     -Output Detailed
 ```
 
-The current v0.5.0 feature branch passes **304 tests with no failures** across
-12 test files.
+The current v0.5.0 feature branch passes **314 tests with no failures** across
+13 test files.
 
 No module is considered complete until its manifest, import, public exports, documentation, and Pester suite have been validated.
 
@@ -474,8 +491,9 @@ In progress:
 - Desktop configuration
 - PowerToys configuration (complete and tested)
 - WinGet package profiles (complete and tested)
-- Integrated module validation (304 tests passed)
-- Unified workstation profile and release closeout
+- Unified workstation profile (complete and tested)
+- Integrated module and profile validation (314 tests passed)
+- Final release closeout
 
 ### Future Milestones
 

@@ -6,7 +6,7 @@
 |---|---|
 | Document | Project Roadmap |
 | Project | Project Hermes |
-| Document Version | 2.1.0 |
+| Document Version | 2.2.0 |
 | Status | Active |
 | Primary Platform | Windows 11 Home |
 | Current Milestone | v0.5.0 — Workstation Framework |
@@ -202,11 +202,11 @@ Restore-Hermes<Component>Settings
 | `Hermes.PowerToys` | Selected global settings and feature states | Complete and tested |
 | `Hermes.Winget` | Approved package profiles, audit, inventory, and selective installation | Complete and tested |
 | Component profiles | Version-controlled component desired state | Complete and tested |
-| Unified workstation profile | One selected profile spanning included components | Planned |
+| Unified workstation profile | One selected profile spanning included components | Complete and tested |
 | Initial Windows visual profile | Version-controlled dark personalization baseline | Complete and tested |
 | Initial Taskbar profile | Windows Home-compatible operations Taskbar baseline | Complete and tested |
 | Initial Desktop profile | Portable wallpaper and native desktop baseline | Complete and tested |
-| Integrated validation | Full v0.5.0 workstation test pass | Complete — 304 tests passed |
+| Integrated validation | Full v0.5.0 workstation test pass | Complete — 314 tests passed |
 
 ### Shared Architecture Work
 
@@ -223,7 +223,9 @@ Completed shared architecture work:
 - Established Core and Common as independent peer modules with no mutual imports.
 - Aligned Explorer's PowerShell requirement with its mandatory Core dependency.
 - Added automatic loading of all completed workstation modules through the managed PowerShell profile.
-- Validated 12 module suites together with 304 passing tests and no failures.
+- Added a schema-versioned unified workstation profile spanning all ten configurable components.
+- Added a portable Explorer baseline and dictionary-compatible Explorer configuration validation.
+- Validated 12 module suites and the workstation profile integration suite together with 314 passing tests and no failures.
 
 Remaining shared architecture work:
 
@@ -527,3 +529,4 @@ Optional dependencies must be detected and reported rather than assumed.
 | 1.0.0 | July 19, 2026 | Initial phase-oriented project roadmap. |
 | 2.0.0 | July 20, 2026 | Replaced the phase-only plan with a release-oriented roadmap aligned to the modular workstation architecture. |
 | 2.1.0 | July 20, 2026 | Synchronized v0.5.0 component status, package-profile delivery, and 304-test integrated validation evidence. |
+| 2.2.0 | July 20, 2026 | Completed the unified workstation profile and recorded the canonical 314-test integrated validation result. |

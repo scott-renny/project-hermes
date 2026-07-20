@@ -147,7 +147,14 @@ function Test-HermesExplorerConfiguration {
     )
 
     foreach ($requiredProperty in $requiredProperties) {
-        if ($null -eq $Configuration.PSObject.Properties[$requiredProperty]) {
+        $propertyExists = if ($Configuration -is [System.Collections.IDictionary]) {
+            @($Configuration.Keys) -icontains $requiredProperty
+        }
+        else {
+            $null -ne $Configuration.PSObject.Properties[$requiredProperty]
+        }
+
+        if (-not $propertyExists) {
             $errors.Add(
                 "The required property '$requiredProperty' is missing."
             )

@@ -8,6 +8,11 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and
 
 ### Added
 
+- Schema-versioned unified workstation profile spanning ten configurable components through portable module and configuration references.
+- Version-controlled Explorer desired-state baseline and dictionary-compatible Explorer configuration validation.
+- Workstation profile-format reference documentation and nine integration tests covering schema, platform, ordering, paths, manifests, and component validation.
+- Canonical integrated validation across module and root integration suites with 314 passing tests and no failures.
+
 - `Hermes.VSCode` v0.5.0 with preserved JSON/JSONC settings, exact-byte backup and restoration, safe apply, verification, and 14 passing tests.
 - `Hermes.PowerToys` v0.5.0 with preservation of unmanaged settings, selected feature-state management, exact-byte recovery, live v0.100.2 compliance, and 14 passing tests.
 - `Hermes.Winget` v0.5.0 with explicit Core and Customization package profiles, installed-state auditing, selective installation, JSON inventory export, read-only upgrade reporting, and 16 passing tests.
@@ -70,6 +75,9 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and
 - Automated validation that the Taskbar profile remains a complete supported configuration.
 
 ### Changed
+
+- Made the WinGet private-scope tests discovery-safe during complete clean-session Pester runs.
+- Updated the canonical full-suite command to include both `modules` and root `tests`.
 
 - Added `Hermes.VSCode`, `Hermes.PowerToys`, and `Hermes.Winget` to the managed PowerShell startup profile.
 - Updated root project documentation to distinguish completed component profiles from the remaining unified workstation profile and release-closeout work.

@@ -1,3 +1,11 @@
+BeforeDiscovery {
+    $moduleRoot = Split-Path $PSScriptRoot -Parent
+    $manifestPath = Join-Path $moduleRoot 'Hermes.Winget.psd1'
+
+    Remove-Module Hermes.Winget -Force -ErrorAction SilentlyContinue
+    Import-Module $manifestPath -Force -ErrorAction Stop
+}
+
 BeforeAll {
     $script:ModuleRoot=Split-Path $PSScriptRoot -Parent
     $script:ManifestPath=Join-Path $script:ModuleRoot 'Hermes.Winget.psd1'

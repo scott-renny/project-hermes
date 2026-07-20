@@ -166,7 +166,7 @@ InModuleScope Hermes.Explorer {
         }
     }
 
-    Describe 'Test-HermesExplorerConfiguration' {
+Describe 'Test-HermesExplorerConfiguration' {
         It 'accepts a valid configuration' {
             $configuration = [PSCustomObject]@{
                 showFileExtensions = $true
@@ -185,6 +185,23 @@ InModuleScope Hermes.Explorer {
 
             $result.NormalizedConfiguration.ShowFileExtensions |
                 Should -BeTrue
+        }
+
+        It 'accepts a PowerShell data-file dictionary' {
+            $configuration = @{
+                showFileExtensions = $true
+                showHiddenFiles    = $false
+                launchExplorerTo   = 'ThisPC'
+            }
+
+            $result = Test-HermesExplorerConfiguration `
+                -Configuration $configuration
+
+            $result.IsValid |
+                Should -BeTrue
+
+            $result.NormalizedConfiguration.LaunchExplorerTo |
+                Should -Be 'ThisPC'
         }
 
         It 'reports all missing required properties' {

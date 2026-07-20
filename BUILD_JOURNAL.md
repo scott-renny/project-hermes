@@ -880,6 +880,53 @@ Skipped:      0
 
 ---
 
+## Unified Workstation Profile v1.0
+
+### Objective
+
+Create the final v0.5.0 profile-format deliverable without introducing premature
+deployment orchestration or duplicating component configuration policy.
+
+### Work Completed
+
+- Added `configs/profiles/hermes-workstation-base.psd1` with schema version 1.0.
+- Defined Windows 11 and PowerShell 7 platform requirements.
+- Defined a deterministic component order spanning WinGet, Windows, Explorer,
+  Taskbar, Desktop, Terminal, Git, VS Code, PowerToys, and PowerShell.
+- Classified core baseline components as required and selected applications as
+  enabled but non-required for future orchestration.
+- Referenced every module manifest and desired-state file through portable
+  repository-relative paths.
+- Added the missing version-controlled Explorer baseline.
+- Updated Explorer validation to accept PowerShell data-file dictionaries.
+- Added profile-format reference documentation.
+- Added nine integration tests validating the complete cross-component contract.
+- Made WinGet private-scope tests safe during clean full-suite discovery.
+
+### Engineering Decision
+
+The unified profile is declarative data, not a new settings module. Existing
+component modules retain ownership of validation, backup, apply, verification,
+and restore behavior. End-to-end execution remains reserved for the later
+orchestration milestone.
+
+### Validation
+
+```text
+Test files:   13
+Tests Passed: 314
+Tests Failed: 0
+Skipped:      0
+```
+
+### Remaining v0.5.0 Work
+
+- Complete final installation and usage documentation.
+- Perform release-branch review and final clean-state validation.
+- Merge the feature branch and prepare the v0.5.0 release according to project policy.
+
+---
+
 ## Journal Maintenance Standard
 
 Future entries should record:
