@@ -192,7 +192,7 @@ Restore-Hermes<Component>Settings
 | Repository hygiene | Generated-data exclusions and cleanup | Complete |
 | `Hermes.Explorer` | Complete Explorer lifecycle | Complete and tested |
 | `Hermes.Common` | Shared logging, validation, Registry, JSON, and shell helpers | Complete and tested |
-| `Hermes.Taskbar` | Selected Windows 11 taskbar settings | In development |
+| `Hermes.Taskbar` | Selected Windows 11 taskbar settings | Complete and tested |
 | `Hermes.Windows` | Supported general Windows user settings | Planned |
 | `Hermes.PowerShell` | Profile and shell configuration | Planned |
 | `Hermes.Terminal` | Windows Terminal configuration | Planned |
@@ -204,12 +204,18 @@ Restore-Hermes<Component>Settings
 
 ### Shared Architecture Work
 
-Before remaining modules are completed:
+Completed shared architecture work:
 
-- Define the stable responsibility boundary between common helpers and core infrastructure.
-- Prevent circular dependencies between shared and component modules.
-- Determine how existing Explorer and Taskbar implementations consume shared helpers.
-- Standardize module import and dependency discovery.
+- Established one-way Taskbar dependencies on `Hermes.Core` and `Hermes.Common` without circular imports.
+- Standardized Taskbar use of Core backup services and Common Registry and Explorer helpers.
+- Preserved component-specific configuration policy inside `Hermes.Taskbar`.
+- Validated the integration through the complete 48-test Taskbar suite.
+
+Remaining shared architecture work:
+
+- Finalize the long-term responsibility boundary between common helpers and core infrastructure.
+- Review whether `Hermes.Explorer` should adopt the proven Taskbar dependency pattern.
+- Standardize dependency discovery across remaining workstation modules.
 - Reuse test helpers only where reuse improves clarity without hiding module behavior.
 
 ### v0.5.0 Acceptance Criteria

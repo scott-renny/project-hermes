@@ -62,11 +62,11 @@ Restore when required
 | Repository cleanup and generated-data exclusions | Complete |
 | `Hermes.Explorer` lifecycle | Complete and tested |
 | `Hermes.Common` shared utilities | Complete and tested |
-| `Hermes.Taskbar` lifecycle | In development |
+| `Hermes.Taskbar` lifecycle | Complete and tested |
 | Remaining workstation modules | Planned |
 | v0.5.0 integration validation | Planned |
 
-`Hermes.Common` v0.1.0 currently passes **48 Pester tests with no failures**.
+`Hermes.Common` v0.1.0 and `Hermes.Taskbar` v0.5.0 each pass **48 Pester tests with no failures**.
 
 ---
 
@@ -237,7 +237,11 @@ Documentation: [`modules/workstation/explorer/README.md`](modules/workstation/ex
 
 ### Hermes.Taskbar
 
-`Hermes.Taskbar` is under active development for the v0.5.0 workstation milestone. It is intended to manage selected Windows 11 taskbar settings using the same lifecycle established by `Hermes.Explorer`.
+`Hermes.Taskbar` v0.5.0 manages selected Windows 11 taskbar settings through the standard Hermes lifecycle. It validates desired state, detects compliance, creates versioned backups, applies settings safely, verifies the result, and restores configured or previously unconfigured Registry state.
+
+The module uses `Hermes.Core` for standardized backup storage and `Hermes.Common` for Registry operations and Windows Explorer restart handling. Its backup format preserves canonical settings and the raw binary taskbar auto-hide state for exact restoration while retaining compatibility with legacy backups.
+
+The complete Taskbar Pester suite currently passes **48 tests with no failures**.
 
 Documentation: [`modules/workstation/taskbar/README.md`](modules/workstation/taskbar/README.md)
 
@@ -310,7 +314,7 @@ In progress:
 
 - Shared common utilities
 - Windows Explorer configuration
-- Taskbar configuration
+- Taskbar configuration (complete and tested)
 - Windows configuration
 - PowerShell profile deployment
 - Windows Terminal configuration

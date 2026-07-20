@@ -21,7 +21,13 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and
 - Comprehensive `Hermes.Common` Pester suite with 48 passing tests.
 - Completed `Hermes.Explorer` restore lifecycle with backup validation, safety backups, idempotency, `-WhatIf`, and post-restore verification.
 - Expanded `Hermes.Explorer` Pester coverage for the completed restore workflow.
-- Initial `Hermes.Taskbar` module structure and implementation work for the v0.5.0 workstation milestone.
+- `Hermes.Taskbar` v0.5.0 with current-state discovery, configuration validation, compliance testing, backup, apply, verification, and restore commands.
+- Taskbar management for alignment, Search presentation, Task View, Widgets, Copilot policy, auto-hide, and clock seconds where supported.
+- Version 2.0 Taskbar backup metadata with raw binary auto-hide state preserved for exact restoration.
+- Restoration of previously unconfigured Registry values by removing only the corresponding managed value.
+- Legacy Taskbar backup compatibility when version 2.0 raw auto-hide metadata is unavailable.
+- Independent post-apply and post-restore verification.
+- Complete `Hermes.Taskbar` documentation and a comprehensive Pester suite with 48 passing tests.
 
 ### Changed
 
@@ -30,6 +36,8 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and
 - Expanded repository documentation for module responsibilities, safety, validation, generated runtime data, and current milestone status.
 - Standardized the `Hermes.Common` module documentation filename as `README.md`.
 - Advanced `Hermes.Explorer` to module version 0.4.0.
+- Integrated `Hermes.Taskbar` with `Hermes.Core` for standardized backups and `Hermes.Common` for Registry and Explorer operations.
+- Classified unsupported auto-hide binary data as `Unknown` instead of silently treating it as disabled.
 
 ### Fixed
 
@@ -37,6 +45,8 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and
 - Corrected test isolation in `Hermes.Common` JSON tests for Pester 6.
 - Prevented generated logs, baselines, backups, summaries, and state files from being tracked by Git.
 - Removed temporary documentation backups and the dated Taskbar backup directory from the source tree.
+- Corrected Taskbar compliance difference reporting and unsupported auto-hide state handling.
+- Corrected restore validation so backups containing only unsupported values are rejected while `NotConfigured` values remain restorable.
 
 ### Security
 
