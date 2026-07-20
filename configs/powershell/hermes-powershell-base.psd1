@@ -9,5 +9,6 @@
         'Hermes.Git'
         'Hermes.VSCode'
         'Hermes.PowerToys'
+        'Hermes.Winget'
     )
 }
