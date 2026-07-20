@@ -63,6 +63,7 @@ Restore when required
 | `Hermes.Explorer` lifecycle | Complete and tested |
 | `Hermes.Common` shared utilities | Complete and tested |
 | `Hermes.Taskbar` lifecycle | Complete and tested |
+| `Hermes.Windows` personalization lifecycle | Complete and tested |
 | Remaining workstation modules | Planned |
 | v0.5.0 integration validation | Planned |
 
@@ -250,6 +251,14 @@ The complete Taskbar Pester suite currently passes **48 tests with no failures**
 
 Documentation: [`modules/workstation/taskbar/README.md`](modules/workstation/taskbar/README.md)
 
+### Hermes.Windows
+
+`Hermes.Windows` v0.5.0 manages application theme, system theme, transparency, and accent color on title bars through the standard Hermes lifecycle. It supports partial desired-state configurations, exact backup and restoration of configured or absent Registry values, independent verification, and an explicitly optional Explorer restart.
+
+The complete Windows Pester suite currently passes **32 tests with no failures**.
+
+Documentation: [`modules/workstation/windows/README.md`](modules/workstation/windows/README.md)
+
 ---
 
 ## Validation
@@ -320,7 +329,7 @@ In progress:
 - Shared common utilities
 - Windows Explorer configuration
 - Taskbar configuration (complete and tested)
-- Windows configuration
+- Windows personalization configuration (complete and tested)
 - PowerShell profile deployment
 - Windows Terminal configuration
 - Git configuration

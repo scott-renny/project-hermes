@@ -193,7 +193,7 @@ Restore-Hermes<Component>Settings
 | `Hermes.Explorer` | Complete Explorer lifecycle | Complete and tested |
 | `Hermes.Common` | Shared logging, validation, Registry, JSON, and shell helpers | Complete and tested |
 | `Hermes.Taskbar` | Selected Windows 11 taskbar settings | Complete and tested |
-| `Hermes.Windows` | Supported general Windows user settings | Planned |
+| `Hermes.Windows` | Supported Windows personalization settings | Complete and tested |
 | `Hermes.PowerShell` | Profile and shell configuration | Planned |
 | `Hermes.Terminal` | Windows Terminal configuration | Planned |
 | `Hermes.Git` | Git workstation configuration | Planned |

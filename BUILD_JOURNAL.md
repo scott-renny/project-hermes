@@ -367,9 +367,62 @@ Compatibility is transitive. A component cannot truthfully claim support for a P
 
 ### Next Steps
 
-1. Select and implement the next v0.5.0 workstation module.
-2. Add profile-driven desired state after the component module contracts stabilize.
-3. Perform an integrated v0.5.0 validation pass before merging into `main`.
+1. Validate and deliberately apply the initial Hermes.Windows personalization profile.
+2. Select and implement the next v0.5.0 workstation module.
+3. Add profile-driven desired state after the component module contracts stabilize.
+4. Perform an integrated v0.5.0 validation pass before merging into `main`.
+
+---
+
+### Hermes.Windows v0.5.0
+
+#### Objective
+
+Create the first Project Hermes component focused directly on visible Windows personalization while preserving the validated workstation lifecycle and shared dependency architecture.
+
+#### Managed Scope
+
+- Application theme
+- System theme
+- Transparency effects
+- Accent color on supported title bars and window borders
+
+#### Work Completed
+
+- Implemented the six-command discovery, validation, compliance, backup, apply, verification, and restore lifecycle.
+- Added partial desired-state configurations so only explicitly selected settings are managed.
+- Integrated `Hermes.Core` backup creation and reading.
+- Integrated `Hermes.Common` Registry and Explorer restart helpers.
+- Added version 1.0 component metadata preserving exact Registry existence and values.
+- Added exact restoration of values that existed and removal of managed values that were absent.
+- Added legacy canonical-backup compatibility.
+- Added idempotent apply and restore behavior.
+- Added `ShouldProcess`, `-WhatIf`, and `-Confirm` support.
+- Kept Explorer restart explicitly optional.
+- Added complete module documentation and Pester coverage.
+
+#### Validation
+
+The module passed manifest validation, clean import, exact public export inspection, help validation, shared dependency tests, configuration validation, Registry mapping, backup metadata, apply, `-WhatIf`, failure handling, exact restore, and legacy restore coverage.
+
+Final result:
+
+```text
+Tests Passed: 32
+Tests Failed: 0
+```
+
+#### Problems Encountered
+
+Pester 6 evaluates `InModuleScope` during discovery, before `BeforeAll` executes. The initial test bootstrap therefore imported the module too late. After correcting discovery import, the behavioral suite exposed PowerShell pipeline unrolling a one-item property collection into a scalar, causing `.Count` failures for partial configurations.
+
+#### Corrective Action
+
+The test suite now imports Hermes.Windows during discovery and execution. Configuration property enumeration is wrapped at the assignment boundary so empty, single-item, and multi-item configurations always produce an array.
+
+#### Lesson Learned
+
+PowerShell collection behavior must be validated at zero, one, and many elements. A multi-setting happy path can conceal scalar unrolling that breaks the partial configuration contract.
 
 ---
 

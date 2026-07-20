@@ -28,6 +28,12 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and
 - Legacy Taskbar backup compatibility when version 2.0 raw auto-hide metadata is unavailable.
 - Independent post-apply and post-restore verification.
 - Complete `Hermes.Taskbar` documentation and a comprehensive Pester suite with 48 passing tests.
+- `Hermes.Windows` v0.5.0 with discovery, validation, compliance testing, backup, apply, verification, and restore commands.
+- Management of application theme, system theme, transparency, and accent color on title bars.
+- Partial Windows desired-state configurations so callers can manage selected settings without overwriting the others.
+- Version 1.0 Windows backup metadata preserving exact Registry existence and values.
+- Exact Windows personalization restoration with legacy canonical-backup compatibility.
+- Complete `Hermes.Windows` documentation and a Pester suite with 32 passing tests.
 
 ### Changed
 
@@ -57,6 +63,8 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and
 - Removed temporary documentation backups and the dated Taskbar backup directory from the source tree.
 - Corrected Taskbar compliance difference reporting and unsupported auto-hide state handling.
 - Corrected restore validation so backups containing only unsupported values are rejected while `NotConfigured` values remain restorable.
+- Corrected the Hermes.Windows Pester 6 discovery and execution import lifecycle.
+- Prevented PowerShell pipeline unrolling from converting one-item Windows configuration property collections into scalars.
 
 ### Security
 
