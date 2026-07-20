@@ -14,6 +14,10 @@ BeforeAll {
 
     Remove-Module Hermes.Windows -Force -ErrorAction SilentlyContinue
     Import-Module $script:ModuleManifest -Force -ErrorAction Stop
+
+    $script:VisualProfilePath = Join-Path `
+        -Path $PSScriptRoot `
+        -ChildPath '..\..\..\..\configs\windows\hermes-visual-base.psd1'
 }
 
 AfterAll {
@@ -55,6 +59,26 @@ Describe 'Hermes.Windows module contract' {
             (Get-Help $command.Name).Synopsis |
                 Should -Not -BeNullOrEmpty
         }
+    }
+}
+
+Describe 'Hermes Windows visual profile' {
+    It 'exists as a PowerShell data file' {
+        Test-Path `
+            -LiteralPath $script:VisualProfilePath `
+            -PathType Leaf |
+            Should -BeTrue
+    }
+
+    It 'contains a valid Hermes.Windows configuration' {
+        $configuration = Import-PowerShellDataFile `
+            -LiteralPath $script:VisualProfilePath
+
+        $result = Test-HermesWindowsConfiguration `
+            -Configuration $configuration
+
+        $result.IsValid | Should -BeTrue
+        $result.Configuration.Count | Should -Be 4
     }
 }
 

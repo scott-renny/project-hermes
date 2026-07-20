@@ -34,6 +34,8 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and
 - Version 1.0 Windows backup metadata preserving exact Registry existence and values.
 - Exact Windows personalization restoration with legacy canonical-backup compatibility.
 - Complete `Hermes.Windows` documentation and a Pester suite with 32 passing tests.
+- Version-controlled `configs/windows/hermes-visual-base.psd1` profile for the initial dark Hermes appearance.
+- Automated validation that the visual profile exists and remains compatible with `Hermes.Windows`.
 
 ### Changed
 

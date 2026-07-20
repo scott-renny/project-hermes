@@ -255,6 +255,8 @@ Documentation: [`modules/workstation/taskbar/README.md`](modules/workstation/tas
 
 `Hermes.Windows` v0.5.0 manages application theme, system theme, transparency, and accent color on title bars through the standard Hermes lifecycle. It supports partial desired-state configurations, exact backup and restoration of configured or absent Registry values, independent verification, and an explicitly optional Explorer restart.
 
+The initial reproducible desired state is stored in [`configs/windows/hermes-visual-base.psd1`](configs/windows/hermes-visual-base.psd1) and can be loaded safely with `Import-PowerShellDataFile`.
+
 The complete Windows Pester suite currently passes **32 tests with no failures**.
 
 Documentation: [`modules/workstation/windows/README.md`](modules/workstation/windows/README.md)

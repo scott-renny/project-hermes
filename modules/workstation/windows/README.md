@@ -65,6 +65,19 @@ $configuration = [ordered]@{
 }
 ```
 
+The repository includes the validated initial Hermes profile:
+
+```text
+configs\windows\hermes-visual-base.psd1
+```
+
+Load it without executing arbitrary script code:
+
+```powershell
+$configuration = Import-PowerShellDataFile `
+    -LiteralPath '.\configs\windows\hermes-visual-base.psd1'
+```
+
 Validate without making changes:
 
 ```powershell
@@ -75,6 +88,9 @@ Test-HermesWindowsSettings -Configuration $configuration
 ## Preview visible changes
 
 ```powershell
+$configuration = Import-PowerShellDataFile `
+    -LiteralPath '.\configs\windows\hermes-visual-base.psd1'
+
 Set-HermesWindowsSettings `
     -Configuration $configuration `
     -WhatIf
@@ -85,6 +101,9 @@ Preview mode creates no backup and writes no Registry values.
 ## Apply personalization
 
 ```powershell
+$configuration = Import-PowerShellDataFile `
+    -LiteralPath '.\configs\windows\hermes-visual-base.psd1'
+
 $result = Set-HermesWindowsSettings `
     -Configuration $configuration `
     -Confirm:$false

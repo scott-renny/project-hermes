@@ -200,6 +200,7 @@ Restore-Hermes<Component>Settings
 | `Hermes.VSCode` | Visual Studio Code configuration | Planned |
 | `Hermes.Desktop` | Desktop layout and related user settings | Planned |
 | Workstation profiles | Profile-driven desired state | Planned |
+| Initial Windows visual profile | Version-controlled dark personalization baseline | Complete and tested |
 | Integrated validation | Full v0.5.0 workstation test pass | Planned |
 
 ### Shared Architecture Work

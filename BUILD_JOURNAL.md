@@ -427,6 +427,10 @@ Only `AccentOnTitleBars` differed from the existing workstation state. The apply
 
 The full Core, Common, Explorer, Taskbar, and Windows regression run passed 186 tests with no failures after the Core filename correction.
 
+#### Reproducible Profile
+
+The applied desired state is stored in `configs/windows/hermes-visual-base.psd1` rather than existing only as a temporary PowerShell variable. The profile is a PowerShell data file loaded with `Import-PowerShellDataFile`, and the Windows test suite validates that it contains only supported settings and values.
+
 #### Problems Encountered
 
 Pester 6 evaluates `InModuleScope` during discovery, before `BeforeAll` executes. The initial test bootstrap therefore imported the module too late. After correcting discovery import, the behavioral suite exposed PowerShell pipeline unrolling a one-item property collection into a scalar, causing `.Count` failures for partial configurations.
