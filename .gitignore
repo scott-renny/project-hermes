@@ -29,3 +29,27 @@ Desktop.ini
 .env.*
 credentials*
 secrets*
+
+# Temporary backup files
+*.bak
+*.tmp
+*.old
+*~
+
+# Generated Hermes runtime data
+logs/*
+exports/backups/*
+exports/baseline/*
+exports/state/*
+exports/summaries/*
+
+# Preserve folder structure
+!logs/.gitkeep
+!exports/backups/.gitkeep
+!exports/baseline/.gitkeep
+!exports/state/.gitkeep
+!exports/summaries/.gitkeep
+
+# Dated module backup folders
+modules/**/*.backup-*
+modules/**/*backup-*
