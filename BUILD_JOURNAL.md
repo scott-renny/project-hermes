@@ -335,12 +335,41 @@ Documentation drift became visible when the root README continued to present v0.
 
 ---
 
+### Shared Module Architecture Decision
+
+#### Objective
+
+Finalize the responsibility and dependency boundary between `Hermes.Core`, `Hermes.Common`, and component modules before adding more workstation modules.
+
+#### Decision
+
+- `Hermes.Core` owns repository discovery, project identity, GUID generation, and the standardized Hermes backup contract.
+- `Hermes.Common` owns repository-independent helpers for logging, environment validation, Registry operations, generic JSON files, and Explorer restart handling.
+- Core and Common remain independent peers and do not import one another.
+- Component modules import either or both according to their actual requirements.
+- Component-specific desired-state policy remains inside the component module.
+
+#### Compatibility Correction
+
+`Hermes.Explorer` imports `Hermes.Core` 0.1.1, which requires PowerShell 7.0, while its manifest previously declared PowerShell 5.1. Explorer now requires PowerShell 7.0 so its compatibility contract matches its mandatory dependency.
+
+`Hermes.Common` continues to target PowerShell 5.1 because it remains independent of Core and its generic helpers are intentionally more broadly reusable.
+
+#### Outcome
+
+No public functions were moved. The audit confirmed that the modules own distinct contracts. The architecture was stabilized through explicit dependency rules, compatibility alignment, and authoritative documentation rather than unnecessary code movement.
+
+#### Lesson Learned
+
+Compatibility is transitive. A component cannot truthfully claim support for a PowerShell version lower than the minimum required by a module it imports during initialization.
+
+---
+
 ### Next Steps
 
-1. Finalize the responsibility boundary between `Hermes.Common` and the existing core infrastructure.
-2. Select and implement the next v0.5.0 workstation module.
-3. Add profile-driven desired state after the component module contracts stabilize.
-4. Perform an integrated v0.5.0 validation pass before merging into `main`.
+1. Select and implement the next v0.5.0 workstation module.
+2. Add profile-driven desired state after the component module contracts stabilize.
+3. Perform an integrated v0.5.0 validation pass before merging into `main`.
 
 ---
 

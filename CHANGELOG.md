@@ -41,6 +41,13 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and
 - Refactored `Hermes.Explorer` to use `Hermes.Common` for all managed Registry reads, writes, and removals while retaining `Hermes.Core` backup services.
 - Standardized the one-way shared dependency pattern across the completed Explorer and Taskbar workstation modules.
 - Expanded the Explorer module documentation with dependencies, configuration examples, validation procedures, safety behavior, and restore guidance.
+- Defined the stable responsibility and dependency boundary between `Hermes.Core`, `Hermes.Common`, and component modules.
+- Aligned the `Hermes.Explorer` manifest with its mandatory PowerShell 7.0 `Hermes.Core` dependency.
+- Replaced the minimal `Hermes.Core` README with complete contract, usage, dependency, and validation documentation.
+
+### Documentation
+
+- Added `docs/reference/shared-module-architecture.md` as the authoritative shared-module architecture decision.
 
 ### Fixed
 

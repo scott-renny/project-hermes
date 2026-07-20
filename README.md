@@ -174,6 +174,7 @@ Project-Hermes/
 | Directory | Responsibility |
 |---|---|
 | `modules/common` | Reusable technical helpers shared across Hermes modules. |
+| `modules/core` | Repository-aware identity and standardized backup infrastructure. |
 | `modules/workstation` | Windows workstation configuration policy and lifecycle modules. |
 | `modules/developer` | Developer tooling and platform provisioning modules. |
 | `scripts` | Executable orchestration, diagnostics, bootstrap, and maintenance entry points. |
@@ -212,6 +213,8 @@ Each completed module is expected to provide:
 - `ShouldProcess`, `-WhatIf`, and `-Confirm` where appropriate
 - A module-specific README
 - Pester coverage
+
+Shared modules follow a peer dependency model: `Hermes.Core` owns repository-aware persistence and backup contracts, while `Hermes.Common` owns repository-independent technical helpers. Neither imports the other; component modules import only what they require. See [`docs/reference/shared-module-architecture.md`](docs/reference/shared-module-architecture.md).
 
 ---
 

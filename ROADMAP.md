@@ -212,10 +212,13 @@ Completed shared architecture work:
 - Preserved component-specific configuration policy inside `Hermes.Taskbar`.
 - Preserved component-specific configuration policy inside `Hermes.Explorer`.
 - Validated both shared-helper integrations through their complete module test suites.
+- Finalized Core as the owner of repository-aware identity and backup infrastructure.
+- Finalized Common as the owner of repository-independent technical helpers.
+- Established Core and Common as independent peer modules with no mutual imports.
+- Aligned Explorer's PowerShell requirement with its mandatory Core dependency.
 
 Remaining shared architecture work:
 
-- Finalize the long-term responsibility boundary between common helpers and core infrastructure.
 - Standardize dependency discovery across remaining workstation modules.
 - Reuse test helpers only where reuse improves clarity without hiding module behavior.
 

@@ -307,6 +307,14 @@ Changes to `Hermes.Common` must:
 - Add or update Pester coverage.
 - Pass manifest validation, module import, and the complete test suite before commit.
 
+## Shared Module Boundary
+
+`Hermes.Common` owns repository-independent technical helpers. It does not own repository discovery, project version identity, Hermes backup envelopes, backup schema validation, or default backup storage. Those persistent framework contracts belong to `Hermes.Core`.
+
+Common and Core remain independent peers and do not import one another. Component modules may import either or both according to their requirements. This prevents circular dependencies and keeps generic mechanics separate from repository-aware persistence and component policy.
+
+See [`docs/reference/shared-module-architecture.md`](../../docs/reference/shared-module-architecture.md) for the authoritative boundary.
+
 ## License
 
 Project Hermes is licensed under the MIT License. See the repository-level `LICENSE` file for details.

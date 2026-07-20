@@ -6,7 +6,7 @@
     CompanyName       = 'Project Hermes'
     Copyright         = '(c) 2026 Scott Renny. All rights reserved.'
     Description       = 'Manages, validates, backs up, applies, verifies, and restores Windows Explorer settings for Project Hermes.'
-    PowerShellVersion = '5.1'
+    PowerShellVersion = '7.0'
 
     FunctionsToExport = @(
         'Get-HermesExplorerSettings'
