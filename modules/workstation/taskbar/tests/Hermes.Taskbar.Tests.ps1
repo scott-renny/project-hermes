@@ -1,6 +1,9 @@
 BeforeAll {
     $script:ModuleRoot = Split-Path -Path $PSScriptRoot -Parent
     $script:ManifestPath = Join-Path $script:ModuleRoot 'Hermes.Taskbar.psd1'
+    $script:TaskbarProfilePath = Join-Path `
+        -Path $PSScriptRoot `
+        -ChildPath '..\..\..\..\configs\windows\hermes-taskbar-base.psd1'
     $script:ExpectedCommands = @(
         'Backup-HermesTaskbarSettings'
         'Get-HermesTaskbarSettings'
@@ -52,6 +55,27 @@ Describe 'Hermes.Taskbar module contract' {
             (Get-Help -Name $CommandName -ErrorAction Stop).Synopsis |
                 Should -Not -BeNullOrEmpty -Because "$CommandName requires help"
         }
+    }
+}
+
+Describe 'Hermes Taskbar profile' {
+    It 'exists as a PowerShell data file' {
+        Test-Path `
+            -LiteralPath $script:TaskbarProfilePath `
+            -PathType Leaf |
+            Should -BeTrue
+    }
+
+    It 'contains a valid Windows Home Taskbar configuration' {
+        $configuration = Import-PowerShellDataFile `
+            -LiteralPath $script:TaskbarProfilePath
+
+        $result = Test-HermesTaskbarConfiguration `
+            -Configuration $configuration
+
+        $result.IsValid | Should -BeTrue
+        @($result.Errors).Count | Should -Be 0
+        $result.Configuration.Count | Should -Be 6
     }
 }
 
@@ -428,7 +452,13 @@ Describe 'Set-HermesTaskbarSettings' {
             Mock Backup-HermesTaskbarSettings { [pscustomobject]@{ BackupPath = 'backup.json' } }
             Mock Set-HermesRegistryDword {}
             Mock Set-HermesTaskbarAutoHideState {}
-            Mock Restart-HermesExplorer {}
+            Mock Restart-HermesExplorer {
+                [pscustomobject]@{
+                    Requested = $true
+                    Restarted = $true
+                    ProcessId = 1234
+                }
+            }
 
             $Result = Set-HermesTaskbarSettings `
                 -Configuration @{
@@ -443,6 +473,7 @@ Describe 'Set-HermesTaskbarSettings' {
                 -RestartExplorer `
                 -Confirm:$false
 
+            @($Result).Count | Should -Be 1
             $Result.Changed | Should -BeTrue
             $Result.ExplorerRestarted | Should -BeTrue
             Should -Invoke Backup-HermesTaskbarSettings -Times 1
@@ -498,7 +529,7 @@ Describe 'Set-HermesTaskbarSettings' {
                 Set-HermesTaskbarSettings `
                     -Configuration @{ Alignment = 'Center' } `
                     -Confirm:$false
-            } | Should -Throw '*Unable to apply Hermes taskbar settings*Registry denied*'
+            } | Should -Throw '*Unable to apply Hermes taskbar settings*Registry denied*backup.json*'
         }
     }
 

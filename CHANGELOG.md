@@ -27,15 +27,17 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and
 - Restoration of previously unconfigured Registry values by removing only the corresponding managed value.
 - Legacy Taskbar backup compatibility when version 2.0 raw auto-hide metadata is unavailable.
 - Independent post-apply and post-restore verification.
-- Complete `Hermes.Taskbar` documentation and a comprehensive Pester suite with 48 passing tests.
+- Complete `Hermes.Taskbar` documentation and a comprehensive Pester suite with 50 passing tests.
 - `Hermes.Windows` v0.5.0 with discovery, validation, compliance testing, backup, apply, verification, and restore commands.
 - Management of application theme, system theme, transparency, and accent color on title bars.
 - Partial Windows desired-state configurations so callers can manage selected settings without overwriting the others.
 - Version 1.0 Windows backup metadata preserving exact Registry existence and values.
 - Exact Windows personalization restoration with legacy canonical-backup compatibility.
-- Complete `Hermes.Windows` documentation and a Pester suite with 32 passing tests.
+- Complete `Hermes.Windows` documentation and a Pester suite with 34 passing tests.
 - Version-controlled `configs/windows/hermes-visual-base.psd1` profile for the initial dark Hermes appearance.
 - Automated validation that the visual profile exists and remains compatible with `Hermes.Windows`.
+- Version-controlled `configs/windows/hermes-taskbar-base.psd1` profile for the initial operations-focused Taskbar layout.
+- Automated validation that the Taskbar profile remains a complete supported configuration.
 
 ### Changed
 
@@ -52,10 +54,13 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and
 - Defined the stable responsibility and dependency boundary between `Hermes.Core`, `Hermes.Common`, and component modules.
 - Aligned the `Hermes.Explorer` manifest with its mandatory PowerShell 7.0 `Hermes.Core` dependency.
 - Replaced the minimal `Hermes.Core` README with complete contract, usage, dependency, and validation documentation.
+- Limited the initial Taskbar profile to Windows Home-compatible user settings and left the protected Copilot policy unmanaged.
+- Added automatic Taskbar backup-path context to Registry write failures.
 
 ### Documentation
 
 - Added `docs/reference/shared-module-architecture.md` as the authoritative shared-module architecture decision.
+- Documented the boundary between native Hermes Taskbar state and optional Windhawk visual overrides.
 
 ### Fixed
 
@@ -68,6 +73,8 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and
 - Corrected the Hermes.Windows Pester 6 discovery and execution import lifecycle.
 - Prevented PowerShell pipeline unrolling from converting one-item Windows configuration property collections into scalars.
 - Prevented `Hermes.Core` from generating duplicated `Hermes.Hermes.*` backup filename prefixes for canonically named component modules.
+- Prevented the initial Taskbar profile from failing on access-denied writes to the Windows Copilot policy key.
+- Prevented the internal Explorer restart result from leaking into the public `Set-HermesTaskbarSettings` result stream.
 
 ### Security
 

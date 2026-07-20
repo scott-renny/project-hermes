@@ -247,7 +247,13 @@ Documentation: [`modules/workstation/explorer/README.md`](modules/workstation/ex
 
 The module uses `Hermes.Core` for standardized backup storage and `Hermes.Common` for Registry operations and Windows Explorer restart handling. Its backup format preserves canonical settings and the raw binary taskbar auto-hide state for exact restoration while retaining compatibility with legacy backups.
 
-The complete Taskbar Pester suite currently passes **48 tests with no failures**.
+The complete Taskbar Pester suite currently passes **50 tests with no failures**.
+
+The initial reproducible Windows Home desired state is stored in [`configs/windows/hermes-taskbar-base.psd1`](configs/windows/hermes-taskbar-base.psd1) and is validated by the Taskbar test suite. Copilot remains unmanaged because its policy key may reject user-level writes.
+
+Hermes manages the native Windows taskbar state. Windhawk and similar shell tools
+are treated as an optional visual-authority layer because they can override the
+rendered taskbar without changing the native settings that Hermes validates.
 
 Documentation: [`modules/workstation/taskbar/README.md`](modules/workstation/taskbar/README.md)
 
@@ -257,7 +263,7 @@ Documentation: [`modules/workstation/taskbar/README.md`](modules/workstation/tas
 
 The initial reproducible desired state is stored in [`configs/windows/hermes-visual-base.psd1`](configs/windows/hermes-visual-base.psd1) and can be loaded safely with `Import-PowerShellDataFile`.
 
-The complete Windows Pester suite currently passes **32 tests with no failures**.
+The complete Windows Pester suite currently passes **34 tests with no failures**.
 
 Documentation: [`modules/workstation/windows/README.md`](modules/workstation/windows/README.md)
 

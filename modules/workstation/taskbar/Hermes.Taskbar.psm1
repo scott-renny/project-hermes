@@ -617,7 +617,14 @@ function Set-HermesTaskbarSettings {
         }
     }
     catch {
-        throw "Unable to apply Hermes taskbar settings. $($_.Exception.Message)"
+        $recovery = if ($null -ne $backup) {
+            " Restore from '$($backup.BackupPath)' if necessary."
+        }
+        else {
+            ''
+        }
+
+        throw "Unable to apply Hermes taskbar settings. $($_.Exception.Message)$recovery"
     }
 
     $verification = Test-HermesTaskbarSettings -Configuration $desired
@@ -634,7 +641,7 @@ function Set-HermesTaskbarSettings {
     $restarted = $false
 
     if ($RestartExplorer) {
-        Restart-HermesExplorer
+        Restart-HermesExplorer | Out-Null
         $restarted = $true
     }
 

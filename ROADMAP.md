@@ -201,6 +201,7 @@ Restore-Hermes<Component>Settings
 | `Hermes.Desktop` | Desktop layout and related user settings | Planned |
 | Workstation profiles | Profile-driven desired state | Planned |
 | Initial Windows visual profile | Version-controlled dark personalization baseline | Complete and tested |
+| Initial Taskbar profile | Windows Home-compatible operations Taskbar baseline | Complete and tested |
 | Integrated validation | Full v0.5.0 workstation test pass | Planned |
 
 ### Shared Architecture Work

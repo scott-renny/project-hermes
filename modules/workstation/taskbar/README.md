@@ -36,6 +36,38 @@ $config = @{
 }
 ```
 
+The repository includes the initial validated Hermes Taskbar profile:
+
+```text
+configs\windows\hermes-taskbar-base.psd1
+```
+
+Load it safely as data:
+
+```powershell
+$config = Import-PowerShellDataFile `
+    -LiteralPath '.\configs\windows\hermes-taskbar-base.psd1'
+```
+
+The Windows Home profile uses centered alignment, icon-only Search, enabled Task View, disabled Widgets, a persistent taskbar, and clock seconds. It intentionally leaves Copilot unmanaged because the applicable policy key may reject user-level writes on supported Windows Home installations.
+
+## Native Windows state and Windhawk
+
+`Hermes.Taskbar` manages the native Windows taskbar configuration. Third-party
+shell customization tools can change the rendered taskbar without changing the
+Registry values reported by this module.
+
+Windhawk mods such as **Vertical Taskbar for Windows 11**, **Windows 11 Taskbar
+Styler**, **Taskbar height and icon size**, **Taskbar Clock Customization**, and
+taskbar auto-hide or fade mods therefore form a separate visual layer. When one
+of these mods is active, `Test-HermesTaskbarSettings` can correctly report native
+compliance even though the visible taskbar has a different position, size,
+appearance, clock, or hide behavior.
+
+Validate the native Hermes baseline with taskbar-affecting Windhawk mods disabled.
+Windhawk configuration will be introduced later as an optional, profile-controlled
+integration and will not be treated as part of the native Taskbar contract.
+
 ## Validate and compare
 
 ```powershell

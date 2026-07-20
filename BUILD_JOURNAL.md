@@ -315,6 +315,20 @@ Taskbar backups store both a canonical configuration model and raw auto-hide Reg
 
 Configuration backup formats must distinguish a setting that is absent, a supported configured value, and an unsupported value. Treating absence as a default can prevent exact restoration and conceal drift.
 
+#### Reproducible Profile
+
+The initial desired Taskbar state is stored in `configs/windows/hermes-taskbar-base.psd1`. It favors a compact operations workspace with centered alignment, icon-only Search, Task View enabled, Widgets disabled, auto-hide disabled, and clock seconds enabled. Copilot is intentionally unmanaged because the Windows Home policy key rejected user-level writes during live validation. The Taskbar test suite validates the profile before it can be applied.
+
+#### Live Application Finding
+
+The first profile application successfully changed alignment, Search, and Task View before Windows denied access to `HKCU:\Software\Policies\Microsoft\Windows\WindowsCopilot`. The module stopped before applying clock seconds and did not restart Explorer. Current-state and compliance commands accurately reported the partial result.
+
+The profile was narrowed rather than bypassing the protected policy or requiring elevation. Taskbar failure messages now include the automatic backup path so a partially applied sequence always identifies its recovery point.
+
+The corrected profile subsequently applied `ShowSeconds`, restarted Explorer, and passed independent compliance verification. The resulting live Taskbar state matches every setting managed by the Windows Home profile; Copilot remains intentionally `NotConfigured` and unmanaged.
+
+The live result also exposed the structured output from `Restart-HermesExplorer` leaking into the Taskbar command pipeline. The internal result is now suppressed, and the apply test asserts that `Set-HermesTaskbarSettings` returns exactly one public change-result object.
+
 ---
 
 ### Repository Documentation Synchronization
@@ -426,6 +440,20 @@ AccentOnTitleBars : Enabled
 Only `AccentOnTitleBars` differed from the existing workstation state. The apply result reported `Changed = True`, the post-change compliance result reported `IsCompliant = True`, and no Explorer restart was required. The original disabled accent state remains recoverable from the generated Windows backups.
 
 The full Core, Common, Explorer, Taskbar, and Windows regression run passed 186 tests with no failures after the Core filename correction.
+
+#### Native Taskbar and Windhawk Validation
+
+Live Taskbar validation confirmed that the Hermes profile correctly managed the
+native Windows state. The visible taskbar initially remained on the left edge
+because the enabled Windhawk `Vertical Taskbar for Windows 11` mod controlled its
+rendered position independently of the native alignment Registry value.
+
+All Windhawk mods were temporarily disabled to establish a clean Windows baseline.
+This confirmed an important ownership boundary: `Hermes.Taskbar` manages and tests
+native Windows configuration, while Windhawk is an optional visual layer that can
+override position, styling, dimensions, clock presentation, and hide behavior.
+Future Windhawk integration will use its own profile and validation contract rather
+than being inferred from native Registry compliance.
 
 #### Reproducible Profile
 
