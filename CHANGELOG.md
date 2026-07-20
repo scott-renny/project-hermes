@@ -8,6 +8,11 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and
 
 ### Added
 
+- `Hermes.Git` v0.5.0 with global-setting discovery, validation, compliance testing, backup, safe apply, verification, and exact managed-key restoration.
+- Version-controlled Git baseline for default branch naming, line-ending behavior, fetch pruning, pull strategy, automatic upstream setup, and credential-helper selection.
+- Complete `Hermes.Git` documentation and a Pester suite with 16 passing tests.
+- Successful live application, idempotency validation, identity preservation, and repository remote verification.
+
 - `Hermes.Terminal` v0.5.0 with settings discovery, configuration validation, compliance testing, exact-byte backup, safe apply, verification, and exact restoration.
 - Version-controlled `Project Hermes` Windows Terminal color scheme and visual baseline.
 - Preservation of unrelated Terminal profiles, actions, schemes, themes, and application settings.
@@ -60,6 +65,7 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and
 
 ### Changed
 
+- Added `Hermes.Git` to the managed PowerShell startup profile.
 - Consolidated `.gitignore` into one authoritative generated-data, temporary-file, editor, Windows, and credential exclusion policy.
 - Standardized active configuration data under `configs/` and removed the obsolete singular `config/` prototype.
 - Added `Hermes.Terminal` to the managed PowerShell startup profile.

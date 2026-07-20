@@ -196,7 +196,7 @@ Restore-Hermes<Component>Settings
 | `Hermes.Windows` | Supported Windows personalization settings | Complete and tested |
 | `Hermes.PowerShell` | Safe managed profile and automatic module initialization | Complete and tested |
 | `Hermes.Terminal` | Windows Terminal configuration | Complete and tested |
-| `Hermes.Git` | Git workstation configuration | Planned |
+| `Hermes.Git` | Git workstation configuration | Complete and tested |
 | `Hermes.VSCode` | Visual Studio Code configuration | Planned |
 | `Hermes.Desktop` | Native wallpaper, fit mode, and desktop-icon visibility | Complete and tested |
 | Workstation profiles | Profile-driven desired state | Planned |

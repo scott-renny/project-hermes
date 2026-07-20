@@ -753,6 +753,48 @@ IsCompliant  : True
 
 ---
 
+## Hermes.Git v0.5.0
+
+### Objective
+
+Establish safe, reproducible user-level Git defaults without taking ownership of
+developer identity, credentials, signing, aliases, or repository-specific policy.
+
+### Work Completed
+
+- Added the standard six-command configuration lifecycle.
+- Added deterministic Git executable discovery and native process execution.
+- Added partial desired-state validation and canonical Boolean normalization.
+- Added global defaults for initial branch naming, line endings, fetch pruning,
+  pull behavior, automatic upstream setup, and credential-helper selection.
+- Added per-key backup metadata preserving prior existence and value.
+- Added exact managed-key restoration, including removal of previously absent keys.
+- Added `ShouldProcess`, `-WhatIf`, idempotency, and post-change verification.
+- Isolated Pester from the real user configuration through `GIT_CONFIG_GLOBAL`.
+- Added complete module documentation and a version-controlled baseline.
+- Added Git to the managed PowerShell startup profile.
+
+### Validation
+
+The module manifest, import, exports, help, configuration validation, missing-state
+discovery, preview, apply, idempotency, partial updates, and unmanaged identity
+preservation passed in an isolated Git configuration.
+
+```text
+Tests Passed: 16
+Tests Failed: 0
+```
+
+### Live Validation
+
+The development workstation reported no existing values for the seven managed
+global keys. Hermes created a safety backup, applied the baseline, and independently
+verified compliance. A second application returned `Changed = False` and created no
+unnecessary backup. Existing user identity remained unchanged and the Project Hermes
+GitHub fetch and push remotes remained intact.
+
+---
+
 ## Repository Audit After Hermes.Terminal
 
 ### Objective

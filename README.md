@@ -67,6 +67,7 @@ Restore when required
 | `Hermes.Desktop` lifecycle | Complete and tested |
 | `Hermes.PowerShell` managed profile lifecycle | Complete and tested |
 | `Hermes.Terminal` lifecycle | Complete and tested |
+| `Hermes.Git` lifecycle | Complete and tested |
 | Remaining workstation modules | Planned |
 | v0.5.0 integration validation | Planned |
 
@@ -319,6 +320,24 @@ settings paths. Its complete Pester suite passes **14 tests with no failures**, 
 the profile has been applied and independently verified on the development workstation.
 
 Documentation: [`modules/workstation/terminal/README.md`](modules/workstation/terminal/README.md)
+
+### Hermes.Git
+
+`Hermes.Git` v0.5.0 manages selected user-level Git defaults for new branch
+naming, Windows line endings, fetch pruning, pull behavior, automatic upstream
+setup, and Git Credential Manager selection. It backs up the prior existence and
+value of every managed key and restores missing values by removing only those keys.
+
+The module deliberately excludes Git identity, credentials, signing configuration,
+aliases, conditional includes, repository-local settings, and system configuration.
+The portable baseline is stored in
+[`configs/git/hermes-git-base.psd1`](configs/git/hermes-git-base.psd1).
+
+The complete Pester suite passes **16 tests with no failures**. Live validation
+confirmed safe application, independent compliance, idempotency, preserved user
+identity, and an unchanged Project Hermes GitHub remote.
+
+Documentation: [`modules/workstation/git/README.md`](modules/workstation/git/README.md)
 
 ---
 
