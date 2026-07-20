@@ -148,7 +148,13 @@ function Write-HermesBackup {
     $backupId = New-HermesGuid
     $timestamp = $createdAt.ToString('yyyyMMdd-HHmmss-fff')
     $safeModuleName = $normalizedModuleName -replace '[^A-Za-z0-9._-]', '-'
-    $backupFileName = "Hermes.$safeModuleName-$timestamp.json"
+    $backupFileStem = if ($safeModuleName -like 'Hermes.*') {
+        $safeModuleName
+    }
+    else {
+        "Hermes.$safeModuleName"
+    }
+    $backupFileName = "$backupFileStem-$timestamp.json"
 
     $backupPath = Join-Path `
         -Path $BackupDirectory `

@@ -1,6 +1,6 @@
 @{
     RootModule        = 'Hermes.Core.psm1'
-    ModuleVersion     = '0.1.1'
+    ModuleVersion     = '0.1.2'
     GUID              = 'f8bd2149-e1de-4681-94fc-df80a7ae4fc1'
     Author            = 'Scott Renny'
     CompanyName       = 'Project Hermes'

@@ -1,6 +1,6 @@
 # Hermes.Core
 
-`Hermes.Core` v0.1.1 provides repository-aware infrastructure and the standardized backup contract used by Project Hermes component modules.
+`Hermes.Core` v0.1.2 provides repository-aware infrastructure and the standardized backup contract used by Project Hermes component modules.
 
 ## Responsibility
 

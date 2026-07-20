@@ -57,7 +57,7 @@ InModuleScope Hermes.Core {
     Describe 'Get-HermesVersion' {
         It 'returns the executing module version' {
             Get-HermesVersion |
-                Should -Be '0.1.1'
+                Should -Be '0.1.2'
         }
     }
 
@@ -94,6 +94,19 @@ InModuleScope Hermes.Core {
                 Should -BeTrue
         }
 
+        It 'does not duplicate the Hermes prefix for canonical module names' {
+            $result = Write-HermesBackup `
+                -ModuleName 'Hermes.Windows' `
+                -Settings ([pscustomobject]@{ Enabled = $true }) `
+                -BackupDirectory $testDirectory
+
+            Split-Path -Path $result.BackupPath -Leaf |
+                Should -Match '^Hermes\.Windows-'
+
+            Split-Path -Path $result.BackupPath -Leaf |
+                Should -Not -Match '^Hermes\.Hermes\.'
+        }
+
         It 'writes standardized metadata' {
             $settings = [PSCustomObject]@{
                 ExampleSetting = $true
@@ -116,7 +129,7 @@ InModuleScope Hermes.Core {
                 Should -Be 'TestModule'
 
             $document.HermesVersion |
-                Should -Be '0.1.1'
+                Should -Be '0.1.2'
 
             $document.Settings.ExampleSetting |
                 Should -BeTrue

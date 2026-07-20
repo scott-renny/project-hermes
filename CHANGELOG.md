@@ -65,6 +65,7 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and
 - Corrected restore validation so backups containing only unsupported values are rejected while `NotConfigured` values remain restorable.
 - Corrected the Hermes.Windows Pester 6 discovery and execution import lifecycle.
 - Prevented PowerShell pipeline unrolling from converting one-item Windows configuration property collections into scalars.
+- Prevented `Hermes.Core` from generating duplicated `Hermes.Hermes.*` backup filename prefixes for canonically named component modules.
 
 ### Security
 

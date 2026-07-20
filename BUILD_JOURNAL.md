@@ -412,6 +412,21 @@ Tests Passed: 32
 Tests Failed: 0
 ```
 
+#### Live Validation
+
+The initial Hermes visual base was previewed with `-WhatIf`, backed up, applied, and independently verified on the development workstation.
+
+```text
+AppTheme          : Dark
+SystemTheme       : Dark
+Transparency      : Enabled
+AccentOnTitleBars : Enabled
+```
+
+Only `AccentOnTitleBars` differed from the existing workstation state. The apply result reported `Changed = True`, the post-change compliance result reported `IsCompliant = True`, and no Explorer restart was required. The original disabled accent state remains recoverable from the generated Windows backups.
+
+The full Core, Common, Explorer, Taskbar, and Windows regression run passed 186 tests with no failures after the Core filename correction.
+
 #### Problems Encountered
 
 Pester 6 evaluates `InModuleScope` during discovery, before `BeforeAll` executes. The initial test bootstrap therefore imported the module too late. After correcting discovery import, the behavioral suite exposed PowerShell pipeline unrolling a one-item property collection into a scalar, causing `.Count` failures for partial configurations.
@@ -419,6 +434,8 @@ Pester 6 evaluates `InModuleScope` during discovery, before `BeforeAll` executes
 #### Corrective Action
 
 The test suite now imports Hermes.Windows during discovery and execution. Configuration property enumeration is wrapped at the assignment boundary so empty, single-item, and multi-item configurations always produce an array.
+
+The first live Windows backup also revealed that Core prefixed canonical module names such as `Hermes.Windows` a second time. Core 0.1.2 now detects an existing `Hermes.` prefix, produces `Hermes.Windows-<timestamp>.json`, and includes regression coverage for the naming contract. Existing duplicated-name backups remain valid and require no migration.
 
 #### Lesson Learned
 
