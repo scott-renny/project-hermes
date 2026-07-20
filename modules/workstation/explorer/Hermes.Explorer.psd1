@@ -25,7 +25,7 @@
         PSData = @{
             Tags         = @('ProjectHermes', 'Windows', 'Explorer', 'Configuration', 'Backup', 'Restore')
             ProjectUri   = 'https://github.com/'
-            ReleaseNotes = 'v0.4.0 implements verified Explorer restoration through Hermes.Core backups.'
+            ReleaseNotes = 'v0.4.0 implements verified Explorer configuration and restoration using Hermes.Core backups and Hermes.Common Registry helpers.'
         }
     }
 }

@@ -13,6 +13,19 @@ Import-Module `
     -Force `
     -ErrorAction Stop
 
+$commonManifest = Join-Path `
+    -Path $PSScriptRoot `
+    -ChildPath '..\..\common\Hermes.Common.psd1'
+
+if (-not (Test-Path -LiteralPath $commonManifest -PathType Leaf)) {
+    throw "Hermes.Common could not be found at '$commonManifest'."
+}
+
+Import-Module `
+    -Name $commonManifest `
+    -Force `
+    -ErrorAction Stop
+
 $script:ExplorerAdvancedRegistryPath =
     'HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced'
 
@@ -49,29 +62,47 @@ function Get-HermesExplorerSettings {
     [OutputType([PSCustomObject])]
     param()
 
-    $registryValues = try {
-        Get-ItemProperty `
-            -LiteralPath $script:ExplorerAdvancedRegistryPath `
-            -ErrorAction Stop
+    $missingValue = [object]::new()
+
+    try {
+        $hideFileExt = Get-HermesRegistryValue `
+            -Path $script:ExplorerAdvancedRegistryPath `
+            -Name 'HideFileExt' `
+            -DefaultValue $missingValue
+
+        $hidden = Get-HermesRegistryValue `
+            -Path $script:ExplorerAdvancedRegistryPath `
+            -Name 'Hidden' `
+            -DefaultValue $missingValue
+
+        $launchTo = Get-HermesRegistryValue `
+            -Path $script:ExplorerAdvancedRegistryPath `
+            -Name 'LaunchTo' `
+            -DefaultValue $missingValue
     }
     catch {
         throw "Unable to read Explorer settings from '$script:ExplorerAdvancedRegistryPath'. $($_.Exception.Message)"
     }
 
-    $showFileExtensions = $false
-    $showHiddenFiles = $false
-    $launchExplorerTo = 'NotConfigured'
-
-    if ($registryValues.PSObject.Properties.Name -contains 'HideFileExt') {
-        $showFileExtensions = ([int]$registryValues.HideFileExt -eq 0)
+    $showFileExtensions = if ([object]::ReferenceEquals($hideFileExt, $missingValue)) {
+        $false
+    }
+    else {
+        ([int]$hideFileExt -eq 0)
     }
 
-    if ($registryValues.PSObject.Properties.Name -contains 'Hidden') {
-        $showHiddenFiles = ([int]$registryValues.Hidden -eq 1)
+    $showHiddenFiles = if ([object]::ReferenceEquals($hidden, $missingValue)) {
+        $false
+    }
+    else {
+        ([int]$hidden -eq 1)
     }
 
-    if ($registryValues.PSObject.Properties.Name -contains 'LaunchTo') {
-        $launchExplorerTo = switch ([int]$registryValues.LaunchTo) {
+    $launchExplorerTo = if ([object]::ReferenceEquals($launchTo, $missingValue)) {
+        'NotConfigured'
+    }
+    else {
+        switch ([int]$launchTo) {
             1 { 'ThisPC' }
             2 { 'Home' }
             default { 'Unknown' }
@@ -336,25 +367,31 @@ function Set-HermesExplorerSettings {
     $launchToValue = if ($desiredSettings.LaunchExplorerTo -eq 'ThisPC') { 1 } else { 2 }
 
     try {
-        Set-ItemProperty `
-            -LiteralPath $script:ExplorerAdvancedRegistryPath `
+        Set-HermesRegistryValue `
+            -Path $script:ExplorerAdvancedRegistryPath `
             -Name 'HideFileExt' `
             -Value $hideFileExtValue `
             -Type DWord `
+            -CreatePath `
+            -Confirm:$false `
             -ErrorAction Stop
 
-        Set-ItemProperty `
-            -LiteralPath $script:ExplorerAdvancedRegistryPath `
+        Set-HermesRegistryValue `
+            -Path $script:ExplorerAdvancedRegistryPath `
             -Name 'Hidden' `
             -Value $hiddenValue `
             -Type DWord `
+            -CreatePath `
+            -Confirm:$false `
             -ErrorAction Stop
 
-        Set-ItemProperty `
-            -LiteralPath $script:ExplorerAdvancedRegistryPath `
+        Set-HermesRegistryValue `
+            -Path $script:ExplorerAdvancedRegistryPath `
             -Name 'LaunchTo' `
             -Value $launchToValue `
             -Type DWord `
+            -CreatePath `
+            -Confirm:$false `
             -ErrorAction Stop
     }
     catch {
@@ -542,44 +579,54 @@ function Restore-HermesExplorerSettings {
     $hiddenValue = if ($restoreSettings.ShowHiddenFiles) { 1 } else { 2 }
 
     try {
-        Set-ItemProperty `
-            -LiteralPath $script:ExplorerAdvancedRegistryPath `
+        Set-HermesRegistryValue `
+            -Path $script:ExplorerAdvancedRegistryPath `
             -Name 'HideFileExt' `
             -Value $hideFileExtValue `
             -Type DWord `
+            -CreatePath `
+            -Confirm:$false `
             -ErrorAction Stop
 
-        Set-ItemProperty `
-            -LiteralPath $script:ExplorerAdvancedRegistryPath `
+        Set-HermesRegistryValue `
+            -Path $script:ExplorerAdvancedRegistryPath `
             -Name 'Hidden' `
             -Value $hiddenValue `
             -Type DWord `
+            -CreatePath `
+            -Confirm:$false `
             -ErrorAction Stop
 
         switch ($restoreSettings.LaunchExplorerTo) {
             'ThisPC' {
-                Set-ItemProperty `
-                    -LiteralPath $script:ExplorerAdvancedRegistryPath `
+                Set-HermesRegistryValue `
+                    -Path $script:ExplorerAdvancedRegistryPath `
                     -Name 'LaunchTo' `
                     -Value 1 `
                     -Type DWord `
+                    -CreatePath `
+                    -Confirm:$false `
                     -ErrorAction Stop
             }
 
             'Home' {
-                Set-ItemProperty `
-                    -LiteralPath $script:ExplorerAdvancedRegistryPath `
+                Set-HermesRegistryValue `
+                    -Path $script:ExplorerAdvancedRegistryPath `
                     -Name 'LaunchTo' `
                     -Value 2 `
                     -Type DWord `
+                    -CreatePath `
+                    -Confirm:$false `
                     -ErrorAction Stop
             }
 
             'NotConfigured' {
-                Remove-ItemProperty `
-                    -LiteralPath $script:ExplorerAdvancedRegistryPath `
+                Remove-HermesRegistryValue `
+                    -Path $script:ExplorerAdvancedRegistryPath `
                     -Name 'LaunchTo' `
-                    -ErrorAction SilentlyContinue
+                    -IgnoreMissing `
+                    -Confirm:$false `
+                    -ErrorAction Stop
             }
         }
     }

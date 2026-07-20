@@ -60,13 +60,36 @@ InModuleScope Hermes.Explorer {
         }
     }
 
+    Describe 'Hermes.Common dependency' {
+        It 'provides the shared Registry reader inside Explorer scope' {
+            Get-Command `
+                -Name Get-HermesRegistryValue `
+                -ErrorAction SilentlyContinue |
+                Should -Not -BeNullOrEmpty
+        }
+
+        It 'provides the shared Registry writer inside Explorer scope' {
+            Get-Command `
+                -Name Set-HermesRegistryValue `
+                -ErrorAction SilentlyContinue |
+                Should -Not -BeNullOrEmpty
+        }
+
+        It 'provides the shared Registry removal helper inside Explorer scope' {
+            Get-Command `
+                -Name Remove-HermesRegistryValue `
+                -ErrorAction SilentlyContinue |
+                Should -Not -BeNullOrEmpty
+        }
+    }
+
     Describe 'Get-HermesExplorerSettings' {
         It 'maps registry values to Hermes settings' {
-            Mock Get-ItemProperty {
-                [PSCustomObject]@{
-                    HideFileExt = 0
-                    Hidden      = 1
-                    LaunchTo    = 1
+            Mock Get-HermesRegistryValue {
+                switch ($Name) {
+                    'HideFileExt' { 0 }
+                    'Hidden' { 1 }
+                    'LaunchTo' { 1 }
                 }
             }
 
@@ -83,11 +106,11 @@ InModuleScope Hermes.Explorer {
         }
 
         It 'maps disabled values correctly' {
-            Mock Get-ItemProperty {
-                [PSCustomObject]@{
-                    HideFileExt = 1
-                    Hidden      = 2
-                    LaunchTo    = 2
+            Mock Get-HermesRegistryValue {
+                switch ($Name) {
+                    'HideFileExt' { 1 }
+                    'Hidden' { 2 }
+                    'LaunchTo' { 2 }
                 }
             }
 
@@ -104,10 +127,11 @@ InModuleScope Hermes.Explorer {
         }
 
         It 'returns NotConfigured when LaunchTo is absent' {
-            Mock Get-ItemProperty {
-                [PSCustomObject]@{
-                    HideFileExt = 0
-                    Hidden      = 2
+            Mock Get-HermesRegistryValue {
+                switch ($Name) {
+                    'HideFileExt' { 0 }
+                    'Hidden' { 2 }
+                    'LaunchTo' { $DefaultValue }
                 }
             }
 
@@ -116,11 +140,11 @@ InModuleScope Hermes.Explorer {
         }
 
         It 'returns Unknown for an unsupported LaunchTo value' {
-            Mock Get-ItemProperty {
-                [PSCustomObject]@{
-                    HideFileExt = 0
-                    Hidden      = 2
-                    LaunchTo    = 99
+            Mock Get-HermesRegistryValue {
+                switch ($Name) {
+                    'HideFileExt' { 0 }
+                    'Hidden' { 2 }
+                    'LaunchTo' { 99 }
                 }
             }
 
@@ -129,7 +153,7 @@ InModuleScope Hermes.Explorer {
         }
 
         It 'throws when the registry cannot be read' {
-            Mock Get-ItemProperty {
+            Mock Get-HermesRegistryValue {
                 throw 'Registry unavailable'
             }
 
@@ -349,7 +373,7 @@ InModuleScope Hermes.Explorer {
                 }
             }
 
-            Mock Set-ItemProperty
+            Mock Set-HermesRegistryValue
         }
 
         It 'creates a backup before applying changes' {
@@ -385,7 +409,7 @@ InModuleScope Hermes.Explorer {
                 -Configuration $configuration `
                 -Confirm:$false
 
-            Should -Invoke Set-ItemProperty `
+            Should -Invoke Set-HermesRegistryValue `
                 -Times 1 `
                 -Exactly `
                 -ParameterFilter {
@@ -393,7 +417,7 @@ InModuleScope Hermes.Explorer {
                     $Value -eq 0
                 }
 
-            Should -Invoke Set-ItemProperty `
+            Should -Invoke Set-HermesRegistryValue `
                 -Times 1 `
                 -Exactly `
                 -ParameterFilter {
@@ -401,7 +425,7 @@ InModuleScope Hermes.Explorer {
                     $Value -eq 1
                 }
 
-            Should -Invoke Set-ItemProperty `
+            Should -Invoke Set-HermesRegistryValue `
                 -Times 1 `
                 -Exactly `
                 -ParameterFilter {
@@ -449,7 +473,7 @@ InModuleScope Hermes.Explorer {
                 -Times 0 `
                 -Exactly
 
-            Should -Invoke Set-ItemProperty `
+            Should -Invoke Set-HermesRegistryValue `
                 -Times 0 `
                 -Exactly
         }
@@ -483,13 +507,13 @@ InModuleScope Hermes.Explorer {
                 -Times 0 `
                 -Exactly
 
-            Should -Invoke Set-ItemProperty `
+            Should -Invoke Set-HermesRegistryValue `
                 -Times 0 `
                 -Exactly
         }
 
         It 'throws and includes the backup path when a registry write fails' {
-            Mock Set-ItemProperty {
+            Mock Set-HermesRegistryValue {
                 throw 'Write denied'
             }
 
@@ -538,8 +562,8 @@ InModuleScope Hermes.Explorer {
                 }
             }
 
-            Mock Set-ItemProperty
-            Mock Remove-ItemProperty
+            Mock Set-HermesRegistryValue
+            Mock Remove-HermesRegistryValue
 
             Mock Get-HermesExplorerSettings {
                 $script:restoreReadCount++
@@ -641,7 +665,7 @@ InModuleScope Hermes.Explorer {
                 -Times 0 `
                 -Exactly
 
-            Should -Invoke Set-ItemProperty `
+            Should -Invoke Set-HermesRegistryValue `
                 -Times 0 `
                 -Exactly
         }
@@ -664,11 +688,11 @@ InModuleScope Hermes.Explorer {
                 -Times 0 `
                 -Exactly
 
-            Should -Invoke Set-ItemProperty `
+            Should -Invoke Set-HermesRegistryValue `
                 -Times 0 `
                 -Exactly
 
-            Should -Invoke Remove-ItemProperty `
+            Should -Invoke Remove-HermesRegistryValue `
                 -Times 0 `
                 -Exactly
         }
@@ -697,7 +721,7 @@ InModuleScope Hermes.Explorer {
                 -Times 1 `
                 -Exactly
 
-            Should -Invoke Set-ItemProperty `
+            Should -Invoke Set-HermesRegistryValue `
                 -Times 1 `
                 -Exactly `
                 -ParameterFilter {
@@ -705,7 +729,7 @@ InModuleScope Hermes.Explorer {
                     $Value -eq 0
                 }
 
-            Should -Invoke Set-ItemProperty `
+            Should -Invoke Set-HermesRegistryValue `
                 -Times 1 `
                 -Exactly `
                 -ParameterFilter {
@@ -713,7 +737,7 @@ InModuleScope Hermes.Explorer {
                     $Value -eq 1
                 }
 
-            Should -Invoke Set-ItemProperty `
+            Should -Invoke Set-HermesRegistryValue `
                 -Times 1 `
                 -Exactly `
                 -ParameterFilter {
@@ -759,14 +783,14 @@ InModuleScope Hermes.Explorer {
             $result.Verified |
                 Should -BeTrue
 
-            Should -Invoke Remove-ItemProperty `
+            Should -Invoke Remove-HermesRegistryValue `
                 -Times 1 `
                 -Exactly `
                 -ParameterFilter {
                     $Name -eq 'LaunchTo'
                 }
 
-            Should -Invoke Set-ItemProperty `
+            Should -Invoke Set-HermesRegistryValue `
                 -Times 0 `
                 -Exactly `
                 -ParameterFilter {
@@ -793,7 +817,7 @@ InModuleScope Hermes.Explorer {
         }
 
         It 'throws with the safety backup path when a registry write fails' {
-            Mock Set-ItemProperty {
+            Mock Set-HermesRegistryValue {
                 throw 'Write denied'
             }
 

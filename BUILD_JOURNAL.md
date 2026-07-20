@@ -97,6 +97,11 @@ Complete the Windows Explorer configuration lifecycle and establish a reference 
 - Added `ShouldProcess` and `-WhatIf` support.
 - Updated the module manifest and documentation.
 - Replaced the obsolete restore placeholder test with implementation coverage.
+- Replaced direct Registry access with the shared `Hermes.Common` read, write, and removal helpers.
+- Retained `Hermes.Core` as the standardized backup writer and reader.
+- Added explicit dependency validation during module import.
+- Updated the test suite to mock and verify shared Registry helpers instead of direct PowerShell Registry commands.
+- Replaced the minimal module notes with complete operational documentation.
 
 #### Validation
 
@@ -129,6 +134,8 @@ The complete test file was replaced with coverage for the implemented restore wo
 #### Lesson Learned
 
 When an implementation replaces a planned placeholder, its tests must be reviewed as part of the same change. A failing obsolete test can indicate successful implementation progress rather than a code regression.
+
+Shared mechanics should be adopted only after their contract is proven. The completed Taskbar integration provided sufficient evidence to migrate Explorer without changing its public lifecycle or component-specific policy.
 
 ---
 
@@ -330,11 +337,10 @@ Documentation drift became visible when the root README continued to present v0.
 
 ### Next Steps
 
-1. Review whether `Hermes.Explorer` should adopt the proven `Hermes.Common` integration pattern.
-2. Finalize the responsibility boundary between `Hermes.Common` and the existing core infrastructure.
-3. Select and implement the next v0.5.0 workstation module.
-4. Add profile-driven desired state after the component module contracts stabilize.
-5. Perform an integrated v0.5.0 validation pass before merging into `main`.
+1. Finalize the responsibility boundary between `Hermes.Common` and the existing core infrastructure.
+2. Select and implement the next v0.5.0 workstation module.
+3. Add profile-driven desired state after the component module contracts stabilize.
+4. Perform an integrated v0.5.0 validation pass before merging into `main`.
 
 ---
 

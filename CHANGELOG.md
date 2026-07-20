@@ -38,6 +38,9 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and
 - Advanced `Hermes.Explorer` to module version 0.4.0.
 - Integrated `Hermes.Taskbar` with `Hermes.Core` for standardized backups and `Hermes.Common` for Registry and Explorer operations.
 - Classified unsupported auto-hide binary data as `Unknown` instead of silently treating it as disabled.
+- Refactored `Hermes.Explorer` to use `Hermes.Common` for all managed Registry reads, writes, and removals while retaining `Hermes.Core` backup services.
+- Standardized the one-way shared dependency pattern across the completed Explorer and Taskbar workstation modules.
+- Expanded the Explorer module documentation with dependencies, configuration examples, validation procedures, safety behavior, and restore guidance.
 
 ### Fixed
 

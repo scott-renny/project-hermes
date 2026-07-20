@@ -233,6 +233,8 @@ Documentation: [`modules/common/README.md`](modules/common/README.md)
 
 `Hermes.Explorer` manages Windows Explorer settings through a validated lifecycle with backup, restore, idempotency, `-WhatIf`, and post-restore verification.
 
+The module uses `Hermes.Core` for standardized backup services and `Hermes.Common` for all managed Registry reads, writes, and removals. This establishes the same one-way shared-dependency pattern used by `Hermes.Taskbar` without changing Explorer's public API.
+
 Documentation: [`modules/workstation/explorer/README.md`](modules/workstation/explorer/README.md)
 
 ### Hermes.Taskbar

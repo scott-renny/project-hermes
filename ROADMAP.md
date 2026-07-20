@@ -208,13 +208,14 @@ Completed shared architecture work:
 
 - Established one-way Taskbar dependencies on `Hermes.Core` and `Hermes.Common` without circular imports.
 - Standardized Taskbar use of Core backup services and Common Registry and Explorer helpers.
+- Migrated `Hermes.Explorer` to the same one-way Core and Common dependency pattern without changing its public API.
 - Preserved component-specific configuration policy inside `Hermes.Taskbar`.
-- Validated the integration through the complete 48-test Taskbar suite.
+- Preserved component-specific configuration policy inside `Hermes.Explorer`.
+- Validated both shared-helper integrations through their complete module test suites.
 
 Remaining shared architecture work:
 
 - Finalize the long-term responsibility boundary between common helpers and core infrastructure.
-- Review whether `Hermes.Explorer` should adopt the proven Taskbar dependency pattern.
 - Standardize dependency discovery across remaining workstation modules.
 - Reuse test helpers only where reuse improves clarity without hiding module behavior.
 
