@@ -1,59 +1,339 @@
 # Build Journal
 
-This journal documents the engineering progress of Project Hermes.
+The Project Hermes Build Journal records implementation history, engineering decisions, validation evidence, problems encountered, corrective action, and lessons learned.
 
-Each entry summarizes the work completed during a development milestone, lessons learned throughout implementation, and planned work for the next iteration.
-
----
-
-# v0.4.0 — Validation Framework
-
-**Status:** Completed
-
-**Development Branch:** `feature/v0.4-validation`
-
-**Completion Date:** *(Update when merged into `main`.)*
+Release-focused changes belong in `CHANGELOG.md`. This document preserves the reasoning and operational history behind those changes.
 
 ---
 
-## Objective
+## v0.5.0 — Workstation Framework
 
-The goal of this milestone was to establish a reliable validation framework capable of confirming that a workstation is correctly prepared before any deployment or configuration tasks are executed.
+**Status:** In progress  
+**Development Branch:** `feature/v0.5-workstation`  
+**Started:** July 19, 2026  
+**Last Updated:** July 20, 2026
 
-The validator provides early detection of missing tools, repository configuration issues, and unsupported environments, reducing the likelihood of deployment failures later in the provisioning process.
+### Objective
+
+Build a modular workstation configuration framework capable of safely reading, validating, backing up, applying, verifying, and restoring Windows user configuration.
+
+The milestone establishes a reusable module lifecycle rather than a collection of one-time customization scripts.
+
+### Planned Workstation Lifecycle
+
+```text
+Read current settings
+        ↓
+Validate desired configuration
+        ↓
+Back up current settings
+        ↓
+Apply desired settings
+        ↓
+Verify resulting state
+        ↓
+Restore from backup when required
+```
+
+### Current Milestone Status
+
+| Component | Status |
+|---|---|
+| Repository cleanup | Complete |
+| `Hermes.Explorer` lifecycle | Complete and tested |
+| `Hermes.Common` v0.1.0 | Complete and tested |
+| `Hermes.Taskbar` | In development |
+| Remaining workstation modules | Planned |
+| v0.5.0 integration validation | Planned |
 
 ---
 
-## Features Added
+### Repository Cleanup
 
-### Validation Framework
+#### Work Completed
 
-Implemented a centralized environment validation script capable of verifying:
+- Removed temporary `.bak` documentation files.
+- Removed the dated Taskbar backup directory from the source tree.
+- Added ignore rules for generated runtime data.
+- Preserved required runtime folder structure with `.gitkeep` files.
+- Removed generated logs, baselines, backups, state, and summaries from Git tracking while retaining local copies.
+- Removed the obsolete `feature/v0.4-validation` branch after confirming it contained no commits unique from `main`.
 
-- PowerShell installation
-- Git installation
-- GitHub CLI installation
-- Visual Studio Code installation
-- WinGet availability
+#### Generated Data Policy
+
+The following data remains local by default:
+
+```text
+logs/*
+exports/backups/*
+exports/baseline/*
+exports/state/*
+exports/summaries/*
+```
+
+This protects workstation-specific data and prevents runtime artifacts from obscuring source changes.
+
+#### Lesson Learned
+
+Generated operational evidence is valuable locally but should not automatically become public repository content. Source, templates, and examples must be separated from machine-specific output.
+
+---
+
+### Hermes.Explorer v0.4.0
+
+#### Objective
+
+Complete the Windows Explorer configuration lifecycle and establish a reference pattern for future workstation modules.
+
+#### Work Completed
+
+- Implemented validated Explorer settings restoration.
+- Verified backup files belong to the Explorer module before use.
+- Validated required backup properties and supported values.
+- Added idempotent behavior when current settings already match the backup.
+- Created a safety backup before applying restored values.
+- Added Registry write error handling.
+- Added post-restore verification.
+- Added `ShouldProcess` and `-WhatIf` support.
+- Updated the module manifest and documentation.
+- Replaced the obsolete restore placeholder test with implementation coverage.
+
+#### Validation
+
+The module passed:
+
+- `Test-ModuleManifest`
+- Module import
+- Public command export inspection
+- Complete Explorer Pester suite
+
+#### Problem Encountered
+
+The first Pester run contained one failing test named as though restore was not implemented. The implementation correctly rejected a missing backup file, while the outdated test still expected the former placeholder exception.
+
+#### Corrective Action
+
+The complete test file was replaced with coverage for the implemented restore workflow, including:
+
+- Missing backup files
+- Incorrect module identity
+- Invalid saved settings
+- Idempotent restore behavior
+- `-WhatIf`
+- Safety backup creation
+- Registry restoration
+- `NotConfigured` handling
+- Registry write failures
+- Post-restore verification failures
+
+#### Lesson Learned
+
+When an implementation replaces a planned placeholder, its tests must be reviewed as part of the same change. A failing obsolete test can indicate successful implementation progress rather than a code regression.
+
+---
+
+### Hermes.Common v0.1.0
+
+#### Objective
+
+Create a shared technical utility module so workstation modules do not independently reimplement logging, environment validation, Registry operations, JSON serialization, and Windows shell handling.
+
+#### Public API
+
+The initial release exports 14 commands.
+
+Logging:
+
+- `Write-HermesLog`
+- `Write-HermesSuccess`
+- `Write-HermesWarning`
+- `Write-HermesError`
+
+Validation:
+
+- `Test-HermesAdministrator`
+- `Test-HermesOperatingSystem`
+- `Test-HermesPowerShell`
+
+Registry:
+
+- `Test-HermesRegistryPath`
+- `Get-HermesRegistryValue`
+- `Set-HermesRegistryValue`
+- `Remove-HermesRegistryValue`
+
+JSON and Windows shell:
+
+- `Export-HermesJson`
+- `Import-HermesJson`
+- `Restart-HermesExplorer`
+
+#### Engineering Decisions
+
+##### Separate Shared Mechanics from Module Policy
+
+`Hermes.Common` owns reusable technical mechanics. It does not define desired Explorer, Taskbar, Windows, Git, Terminal, or VS Code settings.
+
+This boundary prevents the common module from becoming an unstructured collection of unrelated configuration policy.
+
+##### Preserve Broad PowerShell Compatibility
+
+The module manifest targets Windows PowerShell 5.1 and declares compatibility with Desktop and Core editions. Project Hermes continues to use PowerShell 7+ as its primary development shell, while the common helper layer avoids unnecessary incompatibility with a clean Windows installation.
+
+##### Require Safe Mutation Patterns
+
+State-changing helpers use `SupportsShouldProcess` and support `-WhatIf` and `-Confirm`.
+
+Registry writes are idempotent and return structured objects distinguishing:
+
+- A value that already matched
+- A proposed `-WhatIf` operation
+- A successfully applied operation
+
+##### Keep Error Ownership Clear
+
+`Write-HermesError` records an error-level message without terminating execution. Callers decide whether a condition should throw, continue, warn, or be reported in a summary.
+
+#### Validation Evidence
+
+The module passed:
+
+- Manifest validation
+- Clean module import
+- Exact export validation for all 14 public commands
+- Comment-based help validation
+- Logging and UTF-8 file output tests
+- PowerShell, platform, and administrator validation tests
+- JSON read, write, overwrite, malformed-input, and `-WhatIf` tests
+- Temporary HKCU Registry create, read, update, idempotency, removal, and `-WhatIf` tests
+- Explorer restart `-WhatIf` tests without restarting the active shell
+
+Final result:
+
+```text
+Tests Passed: 48
+Tests Failed: 0
+Tests Skipped: 0
+```
+
+#### Problem Encountered: Pester Test Isolation
+
+The first complete Pester run produced:
+
+```text
+Tests Passed: 43
+Tests Failed: 5
+```
+
+All five failures occurred in JSON tests because Pester 6 reused the same `$TestDrive` path across test cases. The first test created the JSON file, and later tests correctly encountered overwrite protection.
+
+#### Corrective Action
+
+Each JSON test now receives a unique GUID-based file path. No production module change was required.
+
+The corrected suite passed all 48 tests.
+
+#### Lesson Learned
+
+Tests must isolate filesystem state explicitly rather than assuming the test runner removes artifacts between individual cases. A repeated failure pattern should be diagnosed at the shared fixture level before changing production code.
+
+---
+
+### Hermes.Taskbar
+
+#### Objective
+
+Implement selected Windows 11 taskbar settings using the lifecycle established by `Hermes.Explorer`.
+
+#### Intended Scope
+
+- Alignment
+- Search presentation
+- Task View visibility
+- Widgets
+- Copilot where supported
+- Auto-hide
+- Clock seconds where supported
+
+#### Current State
+
+- Module manifest present
+- Module implementation present
+- Module import and public command export validation completed
+- Module documentation present
+- Test suite present
+- Full behavior and integration review remains outstanding
+
+Taskbar must not be declared complete until its complete Pester suite, backup behavior, restore behavior, idempotency, `-WhatIf`, Windows 11 Home compatibility, and shared helper integration have been reviewed and validated.
+
+---
+
+### Repository Documentation Synchronization
+
+#### Work Completed
+
+- Updated the root README for the v0.5.0 workstation milestone.
+- Documented Windows 11 Home as the primary platform.
+- Added current module status and architecture.
+- Documented generated-data isolation and security considerations.
+- Updated `CHANGELOG.md` with current work under `Unreleased`.
+- Preserved v0.2.0, v0.3.1, and v0.4.0 tagged history.
+- Standardized the `Hermes.Common` documentation filename as `README.md`.
+
+#### Lesson Learned
+
+Documentation drift became visible when the root README continued to present v0.4.0 as the current state after v0.5.0 work had begun. Repository documentation must be synchronized as a normal completion gate for each implementation milestone.
+
+---
+
+### Next Steps
+
+1. Synchronize the remaining root planning documentation.
+2. Audit and fully validate `Hermes.Taskbar`.
+3. Review how `Hermes.Explorer` and `Hermes.Taskbar` should consume `Hermes.Common` without creating circular dependencies.
+4. Define the boundary between `Hermes.Common` and the existing core infrastructure.
+5. Continue remaining v0.5.0 workstation modules only after shared dependencies are stable.
+6. Perform an integrated v0.5.0 validation pass before merging into `main`.
+
+---
+
+## v0.4.0 — Validation Framework
+
+**Status:** Complete  
+**Development Branch:** `feature/v0.4-validation`  
+**Completed:** July 19, 2026
+
+### Objective
+
+Establish a reliable validation framework capable of confirming that a workstation is prepared before deployment or configuration tasks execute.
+
+The validator provides early detection of missing tools, repository configuration issues, and unsupported environments, reducing the likelihood of failures later in the provisioning process.
+
+### Features Added
+
+The centralized environment validator verifies:
+
+- PowerShell
+- Git
+- GitHub CLI
+- Visual Studio Code
+- WinGet
 - Repository directory structure
 - Git repository initialization
 - Git remote configuration
 
----
-
 ### Repository Standards
 
-Added repository-wide standards through:
+Added and refined repository-wide standards through:
 
 - `.gitattributes`
-- Improved repository consistency
-- Standardized line-ending handling
+- Consistent line-ending handling
+- Repository structure validation
+- Git and remote validation
 
----
+### Validation Result
 
-## Validation Results
-
-Successful execution returns:
+Successful execution returned:
 
 ```text
 Passed:   12
@@ -61,58 +341,49 @@ Warnings: 0
 Failed:   0
 ```
 
----
+### Problems Encountered
 
-## Challenges Encountered
+#### PowerShell Execution Policy
 
-### PowerShell Execution Policy
+Windows initially prevented unsigned script execution because the effective execution policy was `Restricted`.
 
-During testing, Windows prevented execution of unsigned scripts because the effective execution policy was set to `Restricted`.
-
-Testing was completed using a temporary process-level execution policy:
+Testing used a temporary process-level exception:
 
 ```powershell
 Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass
 ```
 
-This approach allowed testing without permanently modifying the system's execution policy.
+This allowed validation without permanently weakening the machine-wide execution policy.
+
+#### Repository Cleanup
+
+A duplicate `gitignore(1)` file was identified and removed.
+
+### Lessons Learned
+
+- Validate prerequisites before deployment.
+- Keep validation logic centralized and extensible.
+- Prefer temporary, process-scoped execution-policy changes during local development.
+- Maintain repository standards throughout implementation rather than deferring cleanup.
+
+### Outcome
+
+Version 0.4.0 established the validation foundation required for the v0.5.0 workstation framework.
 
 ---
 
-### Repository Cleanup
+## Journal Maintenance Standard
 
-A duplicate `gitignore(1)` file was identified and removed to maintain repository cleanliness.
+Future entries should record:
 
----
+- Milestone and branch
+- Objective
+- Work completed
+- Significant engineering decisions
+- Validation evidence
+- Problems encountered
+- Corrective action
+- Lessons learned
+- Remaining work
 
-## Lessons Learned
-
-- Validate prerequisites before attempting deployment.
-- Keep validation logic centralized and easy to extend.
-- Favor repeatable automation over manual verification.
-- Maintain repository standards throughout development.
-
----
-
-## Next Milestone
-
-### v0.5.0
-
-Planned work includes:
-
-- Windows configuration automation
-- Explorer configuration
-- Windows Terminal configuration
-- PowerShell profile deployment
-- Git configuration
-- Visual Studio Code configuration
-- Desktop customization
-- Additional validation coverage
-
----
-
-## Summary
-
-Version 0.4.0 establishes the foundation for Project Hermes by introducing a reusable validation framework that verifies workstation readiness before deployment.
-
-Future development will build on this foundation by expanding Hermes into a complete workstation provisioning and configuration platform.
+Entries should describe implementation truthfully and must not mark a module or milestone complete before its required validation passes.
