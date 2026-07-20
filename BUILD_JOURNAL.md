@@ -753,6 +753,31 @@ IsCompliant  : True
 
 ---
 
+## Repository Audit After Hermes.Terminal
+
+### Objective
+
+Verify that the public feature branch accurately represents the supported v0.5.0
+implementation and remove files that were stale, duplicated, empty, or misleading.
+
+### Work Completed
+
+- Confirmed the feature branch was published and remained current with `main`.
+- Confirmed generated logs, exports, backups, and workstation inventories were not published.
+- Removed the stale `Hermes.Taskbar.README.md` duplicate and retained the standard `README.md`.
+- Removed `.gitkeep` files from Taskbar and PowerShell directories that contain real files.
+- Removed the empty `restore-workstation.ps1` placeholder.
+- Removed the non-operational early `apply-workstation.ps1` prototype.
+- Removed the obsolete `Hermes.Configuration` prototype and singular `config/` tree.
+- Retained `configs/` as the authoritative location for component desired-state data.
+- Consolidated duplicate `.gitignore` rules into one generated-data and sensitive-file policy.
+
+### Engineering Decision
+
+Integrated workstation orchestration remains planned work. Project Hermes will not
+publish placeholder commands or parallel profile formats that suggest capabilities
+which have not yet passed the milestone's lifecycle and validation requirements.
+
 ---
 
 ## Journal Maintenance Standard

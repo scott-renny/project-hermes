@@ -60,6 +60,8 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and
 
 ### Changed
 
+- Consolidated `.gitignore` into one authoritative generated-data, temporary-file, editor, Windows, and credential exclusion policy.
+- Standardized active configuration data under `configs/` and removed the obsolete singular `config/` prototype.
 - Added `Hermes.Terminal` to the managed PowerShell startup profile.
 - Normalized Windows Terminal scheme properties to the canonical lower-camel-case JSON schema.
 - Added portable repository-relative wallpaper resolution to `Hermes.Desktop` while retaining absolute-path support.
@@ -82,11 +84,13 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and
 
 ### Documentation
 
+- Removed the stale duplicate Taskbar README and retained the standard module-level `README.md`.
 - Added `docs/reference/shared-module-architecture.md` as the authoritative shared-module architecture decision.
 - Documented the boundary between native Hermes Taskbar state and optional Windhawk visual overrides.
 
 ### Fixed
 
+- Removed redundant module placeholders, an unused configuration utility, and empty or non-operational workstation scripts that implied unsupported orchestration behavior.
 - Made PowerShell profile parent-directory creation terminating and independently verified before writing the managed profile.
 - Routed PowerShell profile writes and byte-exact restoration through the PowerShell filesystem provider for OneDrive-backed profile compatibility.
 - Corrected zero-byte PowerShell profile handling so empty existing files produce valid state and backups instead of null-value cascades.
