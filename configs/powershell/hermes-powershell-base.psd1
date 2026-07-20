@@ -8,5 +8,6 @@
         'Hermes.Terminal'
         'Hermes.Git'
         'Hermes.VSCode'
+        'Hermes.PowerToys'
     )
 }
