@@ -23,4 +23,4 @@ Import-Module .\modules\workstation\powershell\Hermes.PowerShell.psd1 -Force
 Invoke-Pester .\modules\workstation\powershell\tests -Output Detailed
 ```
 
-Current result: 14 passing tests with no failures.
+Current result: 15 passing tests with no failures.

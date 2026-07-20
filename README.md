@@ -64,6 +64,9 @@ Restore when required
 | `Hermes.Common` shared utilities | Complete and tested |
 | `Hermes.Taskbar` lifecycle | Complete and tested |
 | `Hermes.Windows` personalization lifecycle | Complete and tested |
+| `Hermes.Desktop` lifecycle | Complete and tested |
+| `Hermes.PowerShell` managed profile lifecycle | Complete and tested |
+| `Hermes.Terminal` lifecycle | Complete and tested |
 | Remaining workstation modules | Planned |
 | v0.5.0 integration validation | Planned |
 
@@ -296,9 +299,26 @@ exist.
 
 The initial profile automatically imports the completed Hermes modules in each
 new PowerShell 7 session, eliminating repeated manual imports during development.
-The complete suite passes **14 tests with no failures**.
+The complete suite passes **15 tests with no failures**. Live validation also
+confirmed that the managed profile imports the selected Hermes modules in a fresh
+PowerShell 7 session outside the repository directory.
 
 Documentation: [`modules/workstation/powershell/README.md`](modules/workstation/powershell/README.md)
+
+### Hermes.Terminal
+
+`Hermes.Terminal` v0.5.0 manages the Windows Terminal application theme,
+default color scheme, font, opacity, acrylic material, cursor shape, and complete
+Project Hermes color palette. It preserves unrelated profiles, actions, schemes,
+and settings while backing up the exact original `settings.json` bytes.
+
+The portable baseline is stored in
+[`configs/terminal/hermes-terminal-base.psd1`](configs/terminal/hermes-terminal-base.psd1).
+The module supports Store, Preview, unpackaged, and explicitly supplied Terminal
+settings paths. Its complete Pester suite passes **14 tests with no failures**, and
+the profile has been applied and independently verified on the development workstation.
+
+Documentation: [`modules/workstation/terminal/README.md`](modules/workstation/terminal/README.md)
 
 ---
 

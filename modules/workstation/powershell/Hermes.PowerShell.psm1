@@ -9,6 +9,7 @@ $script:SupportedModules = [ordered]@{
     'Hermes.Taskbar'  = 'modules\workstation\taskbar\Hermes.Taskbar.psd1'
     'Hermes.Windows'  = 'modules\workstation\windows\Hermes.Windows.psd1'
     'Hermes.Desktop'  = 'modules\workstation\desktop\Hermes.Desktop.psd1'
+    'Hermes.Terminal' = 'modules\workstation\terminal\Hermes.Terminal.psd1'
 }
 
 $coreManifest = Join-Path $PSScriptRoot '..\..\core\Hermes.Core.psd1'

@@ -679,7 +679,7 @@ the user's PowerShell profile.
   backup, installation, verification, and exact restoration.
 - Limited ownership to an explicit Project Hermes managed block.
 - Preserved unrelated profile content during installation and replacement.
-- Added automatic imports for Common, Explorer, Taskbar, Windows, and Desktop.
+- Added automatic imports for Common, Explorer, Taskbar, Windows, Desktop, and Terminal.
 - Added `ShouldProcess`, `-WhatIf`, idempotency, and duplicate-block prevention.
 - Added a version-controlled initial profile configuration.
 
@@ -690,9 +690,68 @@ block installation, content preservation, idempotency, and replacement behavior
 all pass.
 
 ```text
+Tests Passed: 15
+Tests Failed: 0
+```
+
+### Live Validation
+
+Controlled Folder Access initially blocked writes to the OneDrive-backed profile.
+The protection remained enabled while the installed PowerShell 7 executable was
+added to its allowed-app list. The managed block then installed successfully.
+A fresh PowerShell 7 session launched outside the repository automatically exposed
+the Desktop, Taskbar, and Windows commands without manual imports.
+
+---
+
+## Hermes.Terminal v0.5.0
+
+### Objective
+
+Create a portable Project Hermes Windows Terminal appearance while preserving
+the user's existing profiles and unrelated application configuration.
+
+### Work Completed
+
+- Added the standard six-command configuration lifecycle.
+- Added Store, Preview, unpackaged, and explicit settings-path discovery.
+- Added application theme, default scheme, font, opacity, acrylic, and cursor management.
+- Added the complete Project Hermes color scheme as version-controlled data.
+- Preserved unrelated profiles, actions, keybindings, schemes, and settings.
+- Added exact-byte backup and restoration of `settings.json`.
+- Added `ShouldProcess`, `-WhatIf`, idempotency, and post-change verification.
+- Added complete module documentation and Pester coverage.
+- Added Terminal to the managed PowerShell startup profile.
+
+### Validation
+
+The initial suite exposed case-sensitive scheme-name lookup and noncanonical
+PowerShell-style scheme property names. Dictionary reads now match keys
+case-insensitively, while serialized Terminal JSON uses the canonical lower-camel
+schema. The final module suite passed completely.
+
+```text
 Tests Passed: 14
 Tests Failed: 0
 ```
+
+### Live Validation
+
+Hermes discovered the installed Store Terminal settings file, created an exact
+backup, applied the portable visual baseline, and independently verified the result.
+
+```text
+Theme        : dark
+ColorScheme  : Project Hermes
+FontFace     : Cascadia Mono
+FontSize     : 11
+Opacity      : 92
+UseAcrylic   : True
+CursorShape  : bar
+IsCompliant  : True
+```
+
+---
 
 ---
 

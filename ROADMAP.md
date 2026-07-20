@@ -195,7 +195,7 @@ Restore-Hermes<Component>Settings
 | `Hermes.Taskbar` | Selected Windows 11 taskbar settings | Complete and tested |
 | `Hermes.Windows` | Supported Windows personalization settings | Complete and tested |
 | `Hermes.PowerShell` | Safe managed profile and automatic module initialization | Complete and tested |
-| `Hermes.Terminal` | Windows Terminal configuration | Planned |
+| `Hermes.Terminal` | Windows Terminal configuration | Complete and tested |
 | `Hermes.Git` | Git workstation configuration | Planned |
 | `Hermes.VSCode` | Visual Studio Code configuration | Planned |
 | `Hermes.Desktop` | Native wallpaper, fit mode, and desktop-icon visibility | Complete and tested |

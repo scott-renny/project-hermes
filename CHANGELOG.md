@@ -8,9 +8,17 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and
 
 ### Added
 
+- `Hermes.Terminal` v0.5.0 with settings discovery, configuration validation, compliance testing, exact-byte backup, safe apply, verification, and exact restoration.
+- Version-controlled `Project Hermes` Windows Terminal color scheme and visual baseline.
+- Preservation of unrelated Terminal profiles, actions, schemes, themes, and application settings.
+- Store, Preview, unpackaged, and explicit Windows Terminal settings-path support.
+- Complete `Hermes.Terminal` documentation and a Pester suite with 14 passing tests.
+- Successful live backup, application, and independent compliance verification of the Hermes Terminal baseline.
+
 - `Hermes.PowerShell` v0.5.0 with safe managed-block installation, validation, backup, exact restore, and automatic module initialization.
 - Version-controlled initial PowerShell module-loading profile.
-- Complete `Hermes.PowerShell` documentation and a Pester suite with 14 passing tests.
+- Complete `Hermes.PowerShell` documentation and a Pester suite with 15 passing tests.
+- Successful live profile installation and automatic module-import validation in a fresh PowerShell 7 session.
 
 - `Hermes.Desktop` v0.5.0 with native wallpaper path, wallpaper style, and desktop-icon visibility management.
 - Desktop discovery, validation, compliance testing, backup, apply, verification, and exact restore commands.
@@ -52,6 +60,8 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and
 
 ### Changed
 
+- Added `Hermes.Terminal` to the managed PowerShell startup profile.
+- Normalized Windows Terminal scheme properties to the canonical lower-camel-case JSON schema.
 - Added portable repository-relative wallpaper resolution to `Hermes.Desktop` while retaining absolute-path support.
 
 - Updated the root README for the active v0.5.0 workstation architecture.

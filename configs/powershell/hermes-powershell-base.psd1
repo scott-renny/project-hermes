@@ -5,5 +5,6 @@
         'Hermes.Taskbar'
         'Hermes.Windows'
         'Hermes.Desktop'
+        'Hermes.Terminal'
     )
 }
