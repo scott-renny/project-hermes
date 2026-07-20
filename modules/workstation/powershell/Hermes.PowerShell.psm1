@@ -11,6 +11,7 @@ $script:SupportedModules = [ordered]@{
     'Hermes.Desktop'  = 'modules\workstation\desktop\Hermes.Desktop.psd1'
     'Hermes.Terminal' = 'modules\workstation\terminal\Hermes.Terminal.psd1'
     'Hermes.Git'      = 'modules\workstation\git\Hermes.Git.psd1'
+    'Hermes.VSCode'   = 'modules\workstation\vscode\Hermes.VSCode.psd1'
 }
 
 $coreManifest = Join-Path $PSScriptRoot '..\..\core\Hermes.Core.psd1'

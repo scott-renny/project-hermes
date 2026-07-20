@@ -7,5 +7,6 @@
         'Hermes.Desktop'
         'Hermes.Terminal'
         'Hermes.Git'
+        'Hermes.VSCode'
     )
 }
