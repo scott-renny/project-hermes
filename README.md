@@ -521,6 +521,7 @@ See [`ROADMAP.md`](ROADMAP.md) for the broader project execution plan.
 | [`RELEASES.md`](RELEASES.md) | Documents release history and release policy. |
 | [`CONTRIBUTING.md`](CONTRIBUTING.md) | Defines contribution and review requirements. |
 | [`SECURITY.md`](SECURITY.md) | Defines security and disclosure practices. |
+| [`docs/implementation/v0.5-installation-and-usage.md`](docs/implementation/v0.5-installation-and-usage.md) | Documents supported v0.5 installation, preview, apply, validation, and recovery workflows. |
 
 ---
 

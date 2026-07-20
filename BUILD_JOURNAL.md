@@ -927,6 +927,35 @@ Skipped:      0
 
 ---
 
+## v0.5.0 Release Closeout Audit
+
+### Objective
+
+Align public installation, release, and governance documentation with the validated
+v0.5.0 implementation before branch review and merge.
+
+### Work Completed
+
+- Added a supported installation-and-usage guide with explicit preview, apply,
+  validation, generated-data, and recovery procedures.
+- Documented that the unified workstation profile is declarative and does not yet
+  provide one-command application or recovery.
+- Added the v0.5.0 release-candidate overview and final release gate.
+- Updated the Project Charter from planning status to active development.
+- Reconciled the future release table with the current release-oriented roadmap.
+- Recorded Hermes concept v1 as the initial lock-screen candidate for v0.7 visual
+  integration; concept v2 remains the current desktop wallpaper baseline.
+
+### Remaining Release Actions
+
+- Review the complete feature-branch diff against `main`.
+- Confirm the working tree is clean and the remote branch is current.
+- Run the canonical 314-test suite immediately before merge.
+- Merge to `main`, validate the merged state, and create the release tag only after
+  the documented release gate is satisfied.
+
+---
+
 ## Journal Maintenance Standard
 
 Future entries should record:

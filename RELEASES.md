@@ -10,8 +10,55 @@ While the `CHANGELOG.md` contains a technical record of every change, this docum
 
 | Version | Status | Summary |
 |----------|--------|---------|
+| v0.5.0 | 🟡 Release candidate | Workstation Framework |
 | v0.4.0 | ✅ Released | Validation Framework |
 | v0.3.0 | ✅ Released | Bootstrap Framework |
+
+---
+
+# v0.5.0 — Workstation Framework
+
+**Status**
+
+Release candidate on `feature/v0.5-workstation`
+
+**Release Date**
+
+Pending final branch review and merge.
+
+---
+
+## Overview
+
+Version 0.5.0 establishes the modular workstation configuration framework used by
+Project Hermes. It provides explicit desired state, current-state discovery,
+preview behavior, backups where practical, post-change verification, restoration
+for reversible settings, and complete validation evidence.
+
+## Highlights
+
+- Shared Core and Common infrastructure
+- Explorer, Taskbar, Windows appearance, and Desktop lifecycles
+- Managed PowerShell module-loading profile
+- Project Hermes Windows Terminal scheme
+- Git and Visual Studio Code configuration
+- PowerToys configuration
+- Explicit Core and Customization WinGet package profiles
+- Schema-versioned unified workstation profile spanning ten components
+- Portable component configuration data
+- 314 passing Pester tests across module and integration suites
+
+## Safety Boundaries
+
+- The unified profile is declarative and does not apply every component automatically.
+- WinGet installs only missing approved packages and does not perform blanket upgrades or uninstalls.
+- Generated backups, inventories, logs, and workstation state remain excluded from Git.
+- Windhawk and Rainmeter visual configuration remain deferred to the visual-integration milestone.
+
+## Release Gate
+
+The release becomes final only after the feature branch is reviewed, merged into
+`main`, validated again from the merged state, and tagged according to project policy.
 
 ---
 
@@ -130,9 +177,8 @@ The following milestones are currently planned.
 
 | Version | Planned Focus |
 |----------|---------------|
-| v0.5.0 | Windows configuration and desktop customization |
-| v0.6.0 | Windows Terminal and PowerShell automation |
-| v0.7.0 | Visual Studio Code deployment |
-| v0.8.0 | Docker, WSL, and developer tooling |
-| v0.9.0 | Multi-profile workstation deployments |
+| v0.6.0 | Developer environment provisioning, WSL, Docker, and toolchains |
+| v0.7.0 | Visual environment, Rainmeter, Windhawk, and productivity integration |
+| v0.8.0 | Recovery, maintenance, drift detection, and reporting |
+| v0.9.0 | Integrated orchestration and release candidate |
 | v1.0.0 | Stable production release |

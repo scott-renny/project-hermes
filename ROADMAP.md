@@ -303,6 +303,7 @@ Apply the Project Hermes visual identity and productivity configuration without 
 
 - Project Hermes design language
 - Wallpaper and approved visual assets
+- Use the Hermes concept v1 artwork as the initial lock-screen candidate, subject to final visual review and export validation
 - PowerToys configuration
 - Extend the PowerToys configuration foundation delivered during v0.5.0
 - Windhawk configuration management

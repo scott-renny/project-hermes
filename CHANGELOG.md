@@ -8,6 +8,9 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and
 
 ### Added
 
+- Supported v0.5.0 installation-and-usage guide covering prerequisites, complete validation, component preview and application, managed PowerShell initialization, WinGet safety, generated data, and recovery boundaries.
+- v0.5.0 release-candidate overview and release gate in `RELEASES.md`.
+
 - Schema-versioned unified workstation profile spanning ten configurable components through portable module and configuration references.
 - Version-controlled Explorer desired-state baseline and dictionary-compatible Explorer configuration validation.
 - Workstation profile-format reference documentation and nine integration tests covering schema, platform, ordering, paths, manifests, and component validation.
@@ -75,6 +78,9 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and
 - Automated validation that the Taskbar profile remains a complete supported configuration.
 
 ### Changed
+
+- Updated the Project Charter from planning status to active v0.5.0 release-candidate development.
+- Recorded Hermes concept v1 as the initial lock-screen candidate for the future visual-integration milestone.
 
 - Made the WinGet private-scope tests discovery-safe during complete clean-session Pester runs.
 - Updated the canonical full-suite command to include both `modules` and root `tests`.
