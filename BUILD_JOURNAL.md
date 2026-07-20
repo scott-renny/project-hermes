@@ -822,6 +822,64 @@ which have not yet passed the milestone's lifecycle and validation requirements.
 
 ---
 
+## Hermes.VSCode, Hermes.PowerToys, and Hermes.Winget v0.5.0
+
+### Objective
+
+Complete the remaining application-configuration and package-management
+foundations required by the v0.5.0 workstation framework.
+
+### Work Completed
+
+- Added `Hermes.VSCode` with preservation of unrelated JSON and JSONC settings,
+  exact-byte backup and restoration, safe application, and idempotent verification.
+- Added `Hermes.PowerToys` with approved global and feature settings while
+  preserving all unmanaged PowerToys configuration.
+- Installed and live-validated PowerToys v0.100.2.
+- Added `Hermes.Winget` with explicit Core and Customization profiles.
+- Added installed-package auditing, selective missing-package installation,
+  local JSON inventory export, and read-only upgrade reporting.
+- Kept uninstallation and blanket upgrades outside the module's authority.
+- Added all three modules to the managed PowerShell startup profile.
+
+### Problems Encountered and Corrective Action
+
+- VS Code backup initially mishandled an absent settings file; exact restore
+  metadata and absent-file coverage were added.
+- PowerShell's built-in `$PROFILE` variable conflicted with the WinGet `Profile`
+  parameter. Internal profile selection now uses explicit bound-parameter data.
+- WinGet package enumeration behaved differently with ordered dictionaries during
+  live execution. Profile lookup now uses explicit case-insensitive key matching.
+- `-WhatIf` propagated into method-style pipeline conversion and caused read-only
+  WinGet output to appear empty. Output conversion now uses a plain script block so
+  preview mode governs installation without corrupting discovery.
+- Regression tests were added for omitted-profile auditing and preview safety.
+
+### Live Validation
+
+- VS Code, PowerToys, and WinGet configurations were independently verified.
+- All nine approved WinGet packages were detected as installed.
+- WinGet preview returned `Changed = False` with compliant verification.
+- A local WinGet inventory was exported under the ignored `exports/` tree.
+- Fresh-session module loading was verified through the managed PowerShell profile.
+
+### Integrated Validation
+
+```text
+Test files:   12
+Tests Passed: 304
+Tests Failed: 0
+Skipped:      0
+```
+
+### Remaining v0.5.0 Work
+
+- Define the unified workstation profile spanning the completed component profiles.
+- Complete final installation and usage documentation.
+- Perform release-branch review, merge validation, and v0.5.0 release preparation.
+
+---
+
 ## Journal Maintenance Standard
 
 Future entries should record:

@@ -6,7 +6,7 @@
 |---|---|
 | Document | Project Roadmap |
 | Project | Project Hermes |
-| Document Version | 2.0.0 |
+| Document Version | 2.1.0 |
 | Status | Active |
 | Primary Platform | Windows 11 Home |
 | Current Milestone | v0.5.0 — Workstation Framework |
@@ -197,13 +197,16 @@ Restore-Hermes<Component>Settings
 | `Hermes.PowerShell` | Safe managed profile and automatic module initialization | Complete and tested |
 | `Hermes.Terminal` | Windows Terminal configuration | Complete and tested |
 | `Hermes.Git` | Git workstation configuration | Complete and tested |
-| `Hermes.VSCode` | Visual Studio Code configuration | Planned |
+| `Hermes.VSCode` | Visual Studio Code configuration | Complete and tested |
 | `Hermes.Desktop` | Native wallpaper, fit mode, and desktop-icon visibility | Complete and tested |
-| Workstation profiles | Profile-driven desired state | Planned |
+| `Hermes.PowerToys` | Selected global settings and feature states | Complete and tested |
+| `Hermes.Winget` | Approved package profiles, audit, inventory, and selective installation | Complete and tested |
+| Component profiles | Version-controlled component desired state | Complete and tested |
+| Unified workstation profile | One selected profile spanning included components | Planned |
 | Initial Windows visual profile | Version-controlled dark personalization baseline | Complete and tested |
 | Initial Taskbar profile | Windows Home-compatible operations Taskbar baseline | Complete and tested |
 | Initial Desktop profile | Portable wallpaper and native desktop baseline | Complete and tested |
-| Integrated validation | Full v0.5.0 workstation test pass | Planned |
+| Integrated validation | Full v0.5.0 workstation test pass | Complete — 304 tests passed |
 
 ### Shared Architecture Work
 
@@ -219,6 +222,8 @@ Completed shared architecture work:
 - Finalized Common as the owner of repository-independent technical helpers.
 - Established Core and Common as independent peer modules with no mutual imports.
 - Aligned Explorer's PowerShell requirement with its mandatory Core dependency.
+- Added automatic loading of all completed workstation modules through the managed PowerShell profile.
+- Validated 12 module suites together with 304 passing tests and no failures.
 
 Remaining shared architecture work:
 
@@ -259,7 +264,7 @@ Provision and validate the development tools required for engineering, cybersecu
 
 ### Planned Scope
 
-- WinGet package collections
+- Expand the WinGet package-profile foundation delivered during v0.5.0
 - Git and GitHub CLI installation validation
 - Visual Studio Code installation and extension management
 - PowerShell 7 installation and module management
@@ -297,6 +302,7 @@ Apply the Project Hermes visual identity and productivity configuration without 
 - Project Hermes design language
 - Wallpaper and approved visual assets
 - PowerToys configuration
+- Extend the PowerToys configuration foundation delivered during v0.5.0
 - Windhawk configuration management
 - Rainmeter configuration and selected widgets
 - AutoHotkey workflow automation
@@ -520,3 +526,4 @@ Optional dependencies must be detected and reported rather than assumed.
 |---|---|---|
 | 1.0.0 | July 19, 2026 | Initial phase-oriented project roadmap. |
 | 2.0.0 | July 20, 2026 | Replaced the phase-only plan with a release-oriented roadmap aligned to the modular workstation architecture. |
+| 2.1.0 | July 20, 2026 | Synchronized v0.5.0 component status, package-profile delivery, and 304-test integrated validation evidence. |

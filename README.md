@@ -68,8 +68,12 @@ Restore when required
 | `Hermes.PowerShell` managed profile lifecycle | Complete and tested |
 | `Hermes.Terminal` lifecycle | Complete and tested |
 | `Hermes.Git` lifecycle | Complete and tested |
-| Remaining workstation modules | Planned |
-| v0.5.0 integration validation | Planned |
+| `Hermes.VSCode` lifecycle | Complete and tested |
+| `Hermes.PowerToys` lifecycle | Complete and tested |
+| `Hermes.Winget` package profiles | Complete and tested |
+| Component desired-state profiles | Complete and tested |
+| Unified workstation profile | Planned |
+| v0.5.0 integration validation | Complete — 304 tests passed |
 
 `Hermes.Common` v0.1.0 and `Hermes.Taskbar` v0.5.0 each pass **48 Pester tests with no failures**.
 
@@ -339,6 +343,48 @@ identity, and an unchanged Project Hermes GitHub remote.
 
 Documentation: [`modules/workstation/git/README.md`](modules/workstation/git/README.md)
 
+### Hermes.VSCode
+
+`Hermes.VSCode` v0.5.0 manages a selected set of Visual Studio Code user
+settings while preserving unrelated JSON and JSONC configuration. The module
+supports discovery, validation, compliance testing, exact-byte backup, safe
+application, verification, restoration, `-WhatIf`, and idempotent execution.
+
+The portable baseline is stored in
+[`configs/vscode/hermes-vscode-base.psd1`](configs/vscode/hermes-vscode-base.psd1).
+Its complete Pester suite passes **14 tests with no failures**, and live validation
+confirmed the applied configuration and automatic module loading in a fresh shell.
+
+Documentation: [`modules/workstation/vscode/README.md`](modules/workstation/vscode/README.md)
+
+### Hermes.PowerToys
+
+`Hermes.PowerToys` v0.5.0 manages approved global settings and selected feature
+states while preserving every unmanaged PowerToys setting. It supports exact-byte
+backup and restoration, safe preview, post-change verification, and idempotency.
+
+The portable baseline is stored in
+[`configs/powertoys/hermes-powertoys-base.psd1`](configs/powertoys/hermes-powertoys-base.psd1).
+Its complete Pester suite passes **14 tests with no failures**, and the live
+PowerToys v0.100.2 configuration is compliant.
+
+Documentation: [`modules/workstation/powertoys/README.md`](modules/workstation/powertoys/README.md)
+
+### Hermes.Winget
+
+`Hermes.Winget` v0.5.0 defines explicit Core and Customization package profiles,
+audits installed state, installs only missing approved packages, exports local JSON
+inventory, and reports upgrades without applying them. It deliberately does not
+uninstall software or perform blanket upgrades.
+
+The approved package baseline is stored in
+[`configs/winget/hermes-winget-base.psd1`](configs/winget/hermes-winget-base.psd1).
+Its complete Pester suite passes **16 tests with no failures**. Live validation
+confirmed all nine approved packages are installed, `-WhatIf` proposes no changes,
+and the module loads from the managed PowerShell profile.
+
+Documentation: [`modules/workstation/winget/README.md`](modules/workstation/winget/README.md)
+
 ---
 
 ## Validation
@@ -369,6 +415,17 @@ Invoke-Pester `
     -Path .\modules\common\tests `
     -Output Detailed
 ```
+
+Run the complete integrated suite:
+
+```powershell
+Invoke-Pester `
+    -Path .\modules `
+    -Output Detailed
+```
+
+The current v0.5.0 feature branch passes **304 tests with no failures** across
+12 test files.
 
 No module is considered complete until its manifest, import, public exports, documentation, and Pester suite have been validated.
 
@@ -413,15 +470,18 @@ In progress:
 - PowerShell profile deployment
 - Windows Terminal configuration
 - Git configuration
-- Visual Studio Code configuration
+- Visual Studio Code configuration (complete and tested)
 - Desktop configuration
-- Workstation profile integration
+- PowerToys configuration (complete and tested)
+- WinGet package profiles (complete and tested)
+- Integrated module validation (304 tests passed)
+- Unified workstation profile and release closeout
 
 ### Future Milestones
 
 - Developer environment provisioning
 - WSL and Docker automation
-- PowerToys, Rainmeter, and Windhawk integration
+- Rainmeter and Windhawk integration
 - Backup, restore, repair, and drift detection
 - Reporting and operational summaries
 - Full workstation orchestration

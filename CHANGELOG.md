@@ -8,6 +8,12 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and
 
 ### Added
 
+- `Hermes.VSCode` v0.5.0 with preserved JSON/JSONC settings, exact-byte backup and restoration, safe apply, verification, and 14 passing tests.
+- `Hermes.PowerToys` v0.5.0 with preservation of unmanaged settings, selected feature-state management, exact-byte recovery, live v0.100.2 compliance, and 14 passing tests.
+- `Hermes.Winget` v0.5.0 with explicit Core and Customization package profiles, installed-state auditing, selective installation, JSON inventory export, read-only upgrade reporting, and 16 passing tests.
+- Live WinGet validation confirming all nine approved packages are installed and compliant without unnecessary installation.
+- Integrated v0.5.0 validation across 12 test files with 304 passing tests and no failures.
+
 - `Hermes.Git` v0.5.0 with global-setting discovery, validation, compliance testing, backup, safe apply, verification, and exact managed-key restoration.
 - Version-controlled Git baseline for default branch naming, line-ending behavior, fetch pruning, pull strategy, automatic upstream setup, and credential-helper selection.
 - Complete `Hermes.Git` documentation and a Pester suite with 16 passing tests.
@@ -64,6 +70,9 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and
 - Automated validation that the Taskbar profile remains a complete supported configuration.
 
 ### Changed
+
+- Added `Hermes.VSCode`, `Hermes.PowerToys`, and `Hermes.Winget` to the managed PowerShell startup profile.
+- Updated root project documentation to distinguish completed component profiles from the remaining unified workstation profile and release-closeout work.
 
 - Added `Hermes.Git` to the managed PowerShell startup profile.
 - Consolidated `.gitignore` into one authoritative generated-data, temporary-file, editor, Windows, and credential exclusion policy.
