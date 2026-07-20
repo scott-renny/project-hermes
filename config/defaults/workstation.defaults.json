@@ -1,0 +1,45 @@
+{
+  "schemaVersion": "1.0",
+  "profileName": "Hermes Default Workstation",
+  "description": "Default Project Hermes workstation configuration.",
+
+  "windows": {
+    "createRestorePoint": true,
+    "showFileExtensions": true,
+    "showHiddenFiles": false,
+    "launchExplorerTo": "ThisPC"
+  },
+
+  "taskbar": {
+    "alignment": "Left",
+    "searchMode": "Icon",
+    "showWidgets": false,
+    "showTaskView": true
+  },
+
+  "desktop": {
+    "applyWallpaper": false,
+    "wallpaperPath": "",
+    "theme": "System"
+  },
+
+  "terminal": {
+    "configureWindowsTerminal": false,
+    "defaultProfile": "PowerShell"
+  },
+
+  "powershell": {
+    "deployProfile": false,
+    "installModules": []
+  },
+
+  "git": {
+    "configureGit": false,
+    "defaultBranch": "main"
+  },
+
+  "vscode": {
+    "configureVSCode": false,
+    "installExtensions": []
+  }
+}

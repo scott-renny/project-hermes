@@ -1,0 +1,45 @@
+{
+  "schemaVersion": "1.0",
+  "profileName": "Hermes Engineering Workstation",
+  "description": "Engineering-focused Windows workstation configuration.",
+
+  "windows": {
+    "createRestorePoint": true,
+    "showFileExtensions": true,
+    "showHiddenFiles": true,
+    "launchExplorerTo": "ThisPC"
+  },
+
+  "taskbar": {
+    "alignment": "Left",
+    "searchMode": "Icon",
+    "showWidgets": false,
+    "showTaskView": true
+  },
+
+  "desktop": {
+    "applyWallpaper": false,
+    "wallpaperPath": "",
+    "theme": "Dark"
+  },
+
+  "terminal": {
+    "configureWindowsTerminal": true,
+    "defaultProfile": "PowerShell"
+  },
+
+  "powershell": {
+    "deployProfile": true,
+    "installModules": []
+  },
+
+  "git": {
+    "configureGit": true,
+    "defaultBranch": "main"
+  },
+
+  "vscode": {
+    "configureVSCode": true,
+    "installExtensions": []
+  }
+}
