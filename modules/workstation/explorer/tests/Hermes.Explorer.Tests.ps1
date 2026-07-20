@@ -511,14 +511,319 @@ InModuleScope Hermes.Explorer {
     }
 
     Describe 'Restore-HermesExplorerSettings' {
-        It 'is not implemented yet' {
+        BeforeEach {
+            $script:restoreReadCount = 0
+            $script:validRestoreBackupPath = Join-Path `
+                -Path $TestDrive `
+                -ChildPath 'explorer-restore.json'
+
+            '{}' | Set-Content `
+                -LiteralPath $script:validRestoreBackupPath `
+                -Encoding UTF8
+
+            Mock Read-HermesBackup {
+                [PSCustomObject]@{
+                    ModuleName = 'Explorer'
+                    Settings   = [PSCustomObject]@{
+                        ShowFileExtensions = $true
+                        ShowHiddenFiles    = $true
+                        LaunchExplorerTo   = 'ThisPC'
+                    }
+                }
+            }
+
+            Mock Backup-HermesExplorerSettings {
+                [PSCustomObject]@{
+                    BackupPath = 'C:\Backups\Explorer-Safety.json'
+                }
+            }
+
+            Mock Set-ItemProperty
+            Mock Remove-ItemProperty
+
+            Mock Get-HermesExplorerSettings {
+                $script:restoreReadCount++
+
+                if ($script:restoreReadCount -eq 1) {
+                    return [PSCustomObject]@{
+                        ShowFileExtensions = $false
+                        ShowHiddenFiles    = $false
+                        LaunchExplorerTo   = 'Home'
+                    }
+                }
+
+                return [PSCustomObject]@{
+                    ShowFileExtensions = $true
+                    ShowHiddenFiles    = $true
+                    LaunchExplorerTo   = 'ThisPC'
+                }
+            }
+        }
+
+        It 'throws when the backup file does not exist' {
             {
                 Restore-HermesExplorerSettings `
-                    -BackupPath 'backup.json'
+                    -BackupPath (Join-Path $TestDrive 'missing.json') `
+                    -Confirm:$false
             } |
                 Should -Throw `
                     -ExpectedMessage `
-                    '*has not been implemented yet*'
+                    '*Explorer backup could not be found*'
+        }
+
+        It 'rejects a backup created by another Hermes module' {
+            Mock Read-HermesBackup {
+                [PSCustomObject]@{
+                    ModuleName = 'Terminal'
+                    Settings   = [PSCustomObject]@{
+                        ShowFileExtensions = $true
+                        ShowHiddenFiles    = $true
+                        LaunchExplorerTo   = 'ThisPC'
+                    }
+                }
+            }
+
+            {
+                Restore-HermesExplorerSettings `
+                    -BackupPath $script:validRestoreBackupPath `
+                    -Confirm:$false
+            } |
+                Should -Throw `
+                    -ExpectedMessage `
+                    '*belongs to module*not Explorer*'
+        }
+
+        It 'rejects a backup with an invalid Explorer setting' {
+            Mock Read-HermesBackup {
+                [PSCustomObject]@{
+                    ModuleName = 'Explorer'
+                    Settings   = [PSCustomObject]@{
+                        ShowFileExtensions = $true
+                        ShowHiddenFiles    = $true
+                        LaunchExplorerTo   = 'Downloads'
+                    }
+                }
+            }
+
+            {
+                Restore-HermesExplorerSettings `
+                    -BackupPath $script:validRestoreBackupPath `
+                    -Confirm:$false
+            } |
+                Should -Throw `
+                    -ExpectedMessage `
+                    '*invalid LaunchExplorerTo value*'
+        }
+
+        It 'does nothing when the backup state is already restored' {
+            Mock Get-HermesExplorerSettings {
+                [PSCustomObject]@{
+                    ShowFileExtensions = $true
+                    ShowHiddenFiles    = $true
+                    LaunchExplorerTo   = 'ThisPC'
+                }
+            }
+
+            $result = Restore-HermesExplorerSettings `
+                -BackupPath $script:validRestoreBackupPath `
+                -Confirm:$false
+
+            $result.Restored |
+                Should -BeFalse
+
+            $result.Verified |
+                Should -BeTrue
+
+            $result.SafetyBackupCreated |
+                Should -BeFalse
+
+            Should -Invoke Backup-HermesExplorerSettings `
+                -Times 0 `
+                -Exactly
+
+            Should -Invoke Set-ItemProperty `
+                -Times 0 `
+                -Exactly
+        }
+
+        It 'previews the restore without creating a backup or writing registry values' {
+            $result = Restore-HermesExplorerSettings `
+                -BackupPath $script:validRestoreBackupPath `
+                -WhatIf
+
+            $result.Restored |
+                Should -BeFalse
+
+            $result.Planned |
+                Should -BeTrue
+
+            $result.Verified |
+                Should -BeFalse
+
+            Should -Invoke Backup-HermesExplorerSettings `
+                -Times 0 `
+                -Exactly
+
+            Should -Invoke Set-ItemProperty `
+                -Times 0 `
+                -Exactly
+
+            Should -Invoke Remove-ItemProperty `
+                -Times 0 `
+                -Exactly
+        }
+
+        It 'creates a safety backup and restores the saved registry values' {
+            $result = Restore-HermesExplorerSettings `
+                -BackupPath $script:validRestoreBackupPath `
+                -Confirm:$false
+
+            $result.Restored |
+                Should -BeTrue
+
+            $result.Verified |
+                Should -BeTrue
+
+            $result.SafetyBackupCreated |
+                Should -BeTrue
+
+            $result.SafetyBackupPath |
+                Should -Be 'C:\Backups\Explorer-Safety.json'
+
+            $result.RestartExplorerRequired |
+                Should -BeTrue
+
+            Should -Invoke Backup-HermesExplorerSettings `
+                -Times 1 `
+                -Exactly
+
+            Should -Invoke Set-ItemProperty `
+                -Times 1 `
+                -Exactly `
+                -ParameterFilter {
+                    $Name -eq 'HideFileExt' -and
+                    $Value -eq 0
+                }
+
+            Should -Invoke Set-ItemProperty `
+                -Times 1 `
+                -Exactly `
+                -ParameterFilter {
+                    $Name -eq 'Hidden' -and
+                    $Value -eq 1
+                }
+
+            Should -Invoke Set-ItemProperty `
+                -Times 1 `
+                -Exactly `
+                -ParameterFilter {
+                    $Name -eq 'LaunchTo' -and
+                    $Value -eq 1
+                }
+        }
+
+        It 'removes LaunchTo when the backup records NotConfigured' {
+            Mock Read-HermesBackup {
+                [PSCustomObject]@{
+                    ModuleName = 'Explorer'
+                    Settings   = [PSCustomObject]@{
+                        ShowFileExtensions = $true
+                        ShowHiddenFiles    = $true
+                        LaunchExplorerTo   = 'NotConfigured'
+                    }
+                }
+            }
+
+            Mock Get-HermesExplorerSettings {
+                $script:restoreReadCount++
+
+                if ($script:restoreReadCount -eq 1) {
+                    return [PSCustomObject]@{
+                        ShowFileExtensions = $false
+                        ShowHiddenFiles    = $false
+                        LaunchExplorerTo   = 'Home'
+                    }
+                }
+
+                return [PSCustomObject]@{
+                    ShowFileExtensions = $true
+                    ShowHiddenFiles    = $true
+                    LaunchExplorerTo   = 'NotConfigured'
+                }
+            }
+
+            $result = Restore-HermesExplorerSettings `
+                -BackupPath $script:validRestoreBackupPath `
+                -Confirm:$false
+
+            $result.Verified |
+                Should -BeTrue
+
+            Should -Invoke Remove-ItemProperty `
+                -Times 1 `
+                -Exactly `
+                -ParameterFilter {
+                    $Name -eq 'LaunchTo'
+                }
+
+            Should -Invoke Set-ItemProperty `
+                -Times 0 `
+                -Exactly `
+                -ParameterFilter {
+                    $Name -eq 'LaunchTo'
+                }
+        }
+
+        It 'passes the requested safety backup directory to the backup operation' {
+            $safetyDirectory = Join-Path `
+                -Path $TestDrive `
+                -ChildPath 'safety-backups'
+
+            $null = Restore-HermesExplorerSettings `
+                -BackupPath $script:validRestoreBackupPath `
+                -SafetyBackupDirectory $safetyDirectory `
+                -Confirm:$false
+
+            Should -Invoke Backup-HermesExplorerSettings `
+                -Times 1 `
+                -Exactly `
+                -ParameterFilter {
+                    $BackupDirectory -eq $safetyDirectory
+                }
+        }
+
+        It 'throws with the safety backup path when a registry write fails' {
+            Mock Set-ItemProperty {
+                throw 'Write denied'
+            }
+
+            {
+                Restore-HermesExplorerSettings `
+                    -BackupPath $script:validRestoreBackupPath `
+                    -Confirm:$false
+            } |
+                Should -Throw `
+                    -ExpectedMessage `
+                    '*C:\Backups\Explorer-Safety.json*'
+        }
+
+        It 'throws when post-restore verification fails' {
+            Mock Get-HermesExplorerSettings {
+                [PSCustomObject]@{
+                    ShowFileExtensions = $false
+                    ShowHiddenFiles    = $false
+                    LaunchExplorerTo   = 'Home'
+                }
+            }
+
+            {
+                Restore-HermesExplorerSettings `
+                    -BackupPath $script:validRestoreBackupPath `
+                    -Confirm:$false
+            } |
+                Should -Throw `
+                    -ExpectedMessage `
+                    '*verification failed*C:\Backups\Explorer-Safety.json*'
         }
     }
 }

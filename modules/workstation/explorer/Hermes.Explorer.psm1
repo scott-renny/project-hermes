@@ -387,18 +387,229 @@ function Restore-HermesExplorerSettings {
         Restores Explorer settings from a Hermes backup.
 
     .DESCRIPTION
-        Restore support will be implemented after the apply workflow is
-        complete and validated.
+        Reads and validates a standardized Hermes backup, confirms that it
+        belongs to the Explorer module, creates a new safety backup, restores
+        the saved registry state, and verifies the result.
+
+        Supports backups where LaunchExplorerTo was not configured. In that
+        case, the LaunchTo registry value is removed rather than replaced with
+        a guessed value.
+
+    .PARAMETER BackupPath
+        Path to a Hermes Explorer backup JSON file.
+
+    .PARAMETER SafetyBackupDirectory
+        Optional destination for the pre-restore safety backup.
+
+    .OUTPUTS
+        PSCustomObject describing the restore operation.
     #>
 
-    [CmdletBinding(SupportsShouldProcess)]
+    [CmdletBinding(SupportsShouldProcess, ConfirmImpact = 'High')]
+    [OutputType([PSCustomObject])]
     param(
         [Parameter(Mandatory)]
         [ValidateNotNullOrEmpty()]
-        [string]$BackupPath
+        [string]$BackupPath,
+
+        [Parameter()]
+        [ValidateNotNullOrEmpty()]
+        [string]$SafetyBackupDirectory
     )
 
-    throw 'Restore-HermesExplorerSettings has not been implemented yet.'
+    $resolvedBackupPath = try {
+        (Resolve-Path -LiteralPath $BackupPath -ErrorAction Stop).Path
+    }
+    catch {
+        throw "Explorer backup could not be found at '$BackupPath'. $($_.Exception.Message)"
+    }
+
+    $backup = try {
+        Read-HermesBackup -BackupPath $resolvedBackupPath
+    }
+    catch {
+        throw "Unable to read Explorer backup '$resolvedBackupPath'. $($_.Exception.Message)"
+    }
+
+    if ($null -eq $backup) {
+        throw "Hermes.Core returned no backup data for '$resolvedBackupPath'."
+    }
+
+    $moduleProperty = $backup.PSObject.Properties['ModuleName']
+
+    if ($null -eq $moduleProperty) {
+        $moduleProperty = $backup.PSObject.Properties['Module']
+    }
+
+    if ($null -eq $moduleProperty -or
+        [string]::IsNullOrWhiteSpace([string]$moduleProperty.Value)) {
+        throw "Backup '$resolvedBackupPath' does not identify its Hermes module."
+    }
+
+    $backupModuleName = [string]$moduleProperty.Value
+
+    if ($backupModuleName -ne 'Explorer' -and
+        $backupModuleName -ne 'Hermes.Explorer') {
+        throw "Backup '$resolvedBackupPath' belongs to module '$backupModuleName', not Explorer."
+    }
+
+    $settingsProperty = $backup.PSObject.Properties['Settings']
+
+    if ($null -eq $settingsProperty -or $null -eq $settingsProperty.Value) {
+        throw "Backup '$resolvedBackupPath' does not contain Explorer settings."
+    }
+
+    $savedSettings = $settingsProperty.Value
+
+    foreach ($requiredSetting in @(
+        'ShowFileExtensions'
+        'ShowHiddenFiles'
+        'LaunchExplorerTo'
+    )) {
+        if ($null -eq $savedSettings.PSObject.Properties[$requiredSetting]) {
+            throw "Backup '$resolvedBackupPath' is missing the Explorer setting '$requiredSetting'."
+        }
+    }
+
+    if ($savedSettings.ShowFileExtensions -isnot [bool]) {
+        throw "Backup '$resolvedBackupPath' contains an invalid ShowFileExtensions value."
+    }
+
+    if ($savedSettings.ShowHiddenFiles -isnot [bool]) {
+        throw "Backup '$resolvedBackupPath' contains an invalid ShowHiddenFiles value."
+    }
+
+    $launchExplorerTo = [string]$savedSettings.LaunchExplorerTo
+
+    if ($launchExplorerTo -notin @('ThisPC', 'Home', 'NotConfigured')) {
+        throw "Backup '$resolvedBackupPath' contains an invalid LaunchExplorerTo value '$launchExplorerTo'."
+    }
+
+    $restoreSettings = [PSCustomObject]@{
+        ShowFileExtensions = [bool]$savedSettings.ShowFileExtensions
+        ShowHiddenFiles    = [bool]$savedSettings.ShowHiddenFiles
+        LaunchExplorerTo   = $launchExplorerTo
+    }
+
+    $before = Get-HermesExplorerSettings
+    $alreadyRestored = (
+        $before.ShowFileExtensions -eq $restoreSettings.ShowFileExtensions -and
+        $before.ShowHiddenFiles -eq $restoreSettings.ShowHiddenFiles -and
+        $before.LaunchExplorerTo -eq $restoreSettings.LaunchExplorerTo
+    )
+
+    if ($alreadyRestored) {
+        return [PSCustomObject]@{
+            Restored                = $false
+            Planned                 = $false
+            Verified                = $true
+            SourceBackupPath        = $resolvedBackupPath
+            SafetyBackupCreated     = $false
+            SafetyBackupPath        = $null
+            RestartExplorerRequired = $false
+            Before                  = $before
+            After                   = $before
+            RestoredSettings        = $restoreSettings
+        }
+    }
+
+    if (-not $PSCmdlet.ShouldProcess(
+        $script:ExplorerAdvancedRegistryPath,
+        "Create a safety backup and restore Windows Explorer settings from '$resolvedBackupPath'"
+    )) {
+        return [PSCustomObject]@{
+            Restored                = $false
+            Planned                 = $true
+            Verified                = $false
+            SourceBackupPath        = $resolvedBackupPath
+            SafetyBackupCreated     = $false
+            SafetyBackupPath        = $null
+            RestartExplorerRequired = $false
+            Before                  = $before
+            After                   = $before
+            RestoredSettings        = $restoreSettings
+        }
+    }
+
+    $backupParameters = @{}
+
+    if (-not [string]::IsNullOrWhiteSpace($SafetyBackupDirectory)) {
+        $backupParameters.BackupDirectory = $SafetyBackupDirectory
+    }
+
+    $safetyBackup = Backup-HermesExplorerSettings @backupParameters
+    $hideFileExtValue = if ($restoreSettings.ShowFileExtensions) { 0 } else { 1 }
+    $hiddenValue = if ($restoreSettings.ShowHiddenFiles) { 1 } else { 2 }
+
+    try {
+        Set-ItemProperty `
+            -LiteralPath $script:ExplorerAdvancedRegistryPath `
+            -Name 'HideFileExt' `
+            -Value $hideFileExtValue `
+            -Type DWord `
+            -ErrorAction Stop
+
+        Set-ItemProperty `
+            -LiteralPath $script:ExplorerAdvancedRegistryPath `
+            -Name 'Hidden' `
+            -Value $hiddenValue `
+            -Type DWord `
+            -ErrorAction Stop
+
+        switch ($restoreSettings.LaunchExplorerTo) {
+            'ThisPC' {
+                Set-ItemProperty `
+                    -LiteralPath $script:ExplorerAdvancedRegistryPath `
+                    -Name 'LaunchTo' `
+                    -Value 1 `
+                    -Type DWord `
+                    -ErrorAction Stop
+            }
+
+            'Home' {
+                Set-ItemProperty `
+                    -LiteralPath $script:ExplorerAdvancedRegistryPath `
+                    -Name 'LaunchTo' `
+                    -Value 2 `
+                    -Type DWord `
+                    -ErrorAction Stop
+            }
+
+            'NotConfigured' {
+                Remove-ItemProperty `
+                    -LiteralPath $script:ExplorerAdvancedRegistryPath `
+                    -Name 'LaunchTo' `
+                    -ErrorAction SilentlyContinue
+            }
+        }
+    }
+    catch {
+        throw "Unable to restore Explorer settings. A safety backup was created at '$($safetyBackup.BackupPath)'. $($_.Exception.Message)"
+    }
+
+    $after = Get-HermesExplorerSettings
+    $verified = (
+        $after.ShowFileExtensions -eq $restoreSettings.ShowFileExtensions -and
+        $after.ShowHiddenFiles -eq $restoreSettings.ShowHiddenFiles -and
+        $after.LaunchExplorerTo -eq $restoreSettings.LaunchExplorerTo
+    )
+
+    if (-not $verified) {
+        throw "Explorer restore completed but verification failed. Restore the safety backup at '$($safetyBackup.BackupPath)' if necessary."
+    }
+
+    [PSCustomObject]@{
+        Restored                = $true
+        Planned                 = $false
+        Verified                = $true
+        SourceBackupPath        = $resolvedBackupPath
+        SafetyBackupCreated     = $true
+        SafetyBackupPath        = $safetyBackup.BackupPath
+        RestartExplorerRequired = $true
+        Before                  = $before
+        After                   = $after
+        RestoredSettings        = $restoreSettings
+    }
 }
 
 Export-ModuleMember -Function @(
