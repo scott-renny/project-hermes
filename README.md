@@ -1,5 +1,3 @@
-# Project Hermes
-
 <h1 align="center">Project Hermes</h1>
 
 <p align="center">
