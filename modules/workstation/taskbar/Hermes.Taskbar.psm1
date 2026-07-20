@@ -20,14 +20,20 @@ $script:CanonicalProperties = @(
 )
 
 $coreManifest = Join-Path -Path $PSScriptRoot -ChildPath '..\..\core\Hermes.Core.psd1'
+$commonManifest = Join-Path -Path $PSScriptRoot -ChildPath '..\..\common\Hermes.Common.psd1'
 
 if (-not (Test-Path -LiteralPath $coreManifest)) {
     throw "Hermes.Core was not found at '$coreManifest'."
 }
 
-Import-Module -Name $coreManifest -Force -ErrorAction Stop
+if (-not (Test-Path -LiteralPath $commonManifest)) {
+    throw "Hermes.Common was not found at '$commonManifest'."
+}
 
-function Get-HermesRegistryValue {
+Import-Module -Name $coreManifest -Force -ErrorAction Stop
+Import-Module -Name $commonManifest -Force -ErrorAction Stop
+
+function Get-HermesTaskbarRegistryValue {
     [CmdletBinding()]
     param(
         [Parameter(Mandatory)]
@@ -37,36 +43,20 @@ function Get-HermesRegistryValue {
         [string]$Name
     )
 
-    if (-not (Test-Path -LiteralPath $Path)) {
-        return [pscustomobject]@{
-            Exists = $false
-            Value  = $null
-        }
+    $missingValue = [pscustomobject]@{
+        PSTypeName = 'Hermes.Taskbar.MissingRegistryValue'
     }
 
-    try {
-        $item = Get-ItemProperty -LiteralPath $Path -Name $Name -ErrorAction Stop
+    $value = Get-HermesRegistryValue `
+        -Path $Path `
+        -Name $Name `
+        -DefaultValue $missingValue
 
-        return [pscustomobject]@{
-            Exists = $true
-            Value  = $item.$Name
-        }
-    }
-    catch [System.Management.Automation.PSArgumentException] {
-        return [pscustomobject]@{
-            Exists = $false
-            Value  = $null
-        }
-    }
-    catch {
-        if ($_.FullyQualifiedErrorId -match 'PropertyNotFound') {
-            return [pscustomobject]@{
-                Exists = $false
-                Value  = $null
-            }
-        }
+    $exists = -not [object]::ReferenceEquals($value, $missingValue)
 
-        throw
+    return [pscustomobject]@{
+        Exists = $exists
+        Value  = if ($exists) { $value } else { $null }
     }
 }
 
@@ -83,17 +73,14 @@ function Set-HermesRegistryDword {
         [int]$Value
     )
 
-    if (-not (Test-Path -LiteralPath $Path)) {
-        $null = New-Item -Path $Path -Force -ErrorAction Stop
-    }
-
-    $null = New-ItemProperty `
-        -LiteralPath $Path `
+    Set-HermesRegistryValue `
+        -Path $Path `
         -Name $Name `
-        -PropertyType DWord `
         -Value $Value `
-        -Force `
-        -ErrorAction Stop
+        -Type DWord `
+        -CreatePath `
+        -Confirm:$false |
+        Out-Null
 }
 
 function ConvertTo-HermesState {
@@ -176,7 +163,7 @@ function Get-HermesTaskbarAutoHideState {
     [CmdletBinding()]
     param()
 
-    $registryValue = Get-HermesRegistryValue `
+    $registryValue = Get-HermesTaskbarRegistryValue `
         -Path $script:Registry.StuckRects `
         -Name 'Settings'
 
@@ -198,9 +185,15 @@ function Get-HermesTaskbarAutoHideState {
         }
     }
 
+    $state = switch ($bytes[8]) {
+        2 { 'Disabled' }
+        3 { 'Enabled' }
+        default { 'Unknown' }
+    }
+
     return [pscustomobject]@{
-        State     = if ($bytes[8] -eq 3) { 'Enabled' } else { 'Disabled' }
-        Supported = $true
+        State     = $state
+        Supported = ($state -ne 'Unknown')
         RawValue  = $bytes
     }
 }
@@ -222,23 +215,14 @@ function Set-HermesTaskbarAutoHideState {
     $bytes = [byte[]]$current.RawValue.Clone()
     $bytes[8] = if ($enabled -eq 1) { 3 } else { 2 }
 
-    $null = New-ItemProperty `
-        -LiteralPath $script:Registry.StuckRects `
+    Set-HermesRegistryValue `
+        -Path $script:Registry.StuckRects `
         -Name 'Settings' `
-        -PropertyType Binary `
         -Value $bytes `
-        -Force `
-        -ErrorAction Stop
-}
-
-function Restart-HermesExplorer {
-    [CmdletBinding()]
-    param()
-
-    Get-Process -Name explorer -ErrorAction SilentlyContinue |
-        Stop-Process -Force -ErrorAction Stop
-
-    Start-Process -FilePath 'explorer.exe' -ErrorAction Stop
+        -Type Binary `
+        -CreatePath `
+        -Confirm:$false |
+        Out-Null
 }
 
 function Get-HermesTaskbarSettings {
@@ -253,27 +237,27 @@ function Get-HermesTaskbarSettings {
     [OutputType([pscustomobject])]
     param()
 
-    $alignment = Get-HermesRegistryValue `
+    $alignment = Get-HermesTaskbarRegistryValue `
         -Path $script:Registry.Advanced `
         -Name 'TaskbarAl'
 
-    $search = Get-HermesRegistryValue `
+    $search = Get-HermesTaskbarRegistryValue `
         -Path $script:Registry.Search `
         -Name 'SearchboxTaskbarMode'
 
-    $taskView = Get-HermesRegistryValue `
+    $taskView = Get-HermesTaskbarRegistryValue `
         -Path $script:Registry.Advanced `
         -Name 'ShowTaskViewButton'
 
-    $widgets = Get-HermesRegistryValue `
+    $widgets = Get-HermesTaskbarRegistryValue `
         -Path $script:Registry.Advanced `
         -Name 'TaskbarDa'
 
-    $copilot = Get-HermesRegistryValue `
+    $copilot = Get-HermesTaskbarRegistryValue `
         -Path $script:Registry.CopilotPolicy `
         -Name 'TurnOffWindowsCopilot'
 
-    $seconds = Get-HermesRegistryValue `
+    $seconds = Get-HermesTaskbarRegistryValue `
         -Path $script:Registry.Advanced `
         -Name 'ShowSecondsInSystemClock'
 
@@ -473,9 +457,30 @@ function Backup-HermesTaskbarSettings {
         [string]$BackupDirectory
     )
 
+    $autoHideRegistry = Get-HermesTaskbarRegistryValue `
+        -Path $script:Registry.StuckRects `
+        -Name 'Settings'
+
+    $autoHideValue = if (
+        $autoHideRegistry.Exists -and
+        $null -ne $autoHideRegistry.Value
+    ) {
+        [Convert]::ToBase64String([byte[]]$autoHideRegistry.Value)
+    }
+    else {
+        $null
+    }
+
     $parameters = @{
         ModuleName = $script:ModuleName
         Settings   = Get-HermesTaskbarSettings
+        AdditionalMetadata = @{
+            TaskbarBackupFormat = '2.0'
+            AutoHideRegistry = @{
+                Exists = $autoHideRegistry.Exists
+                Value  = $autoHideValue
+            }
+        }
     }
 
     if ($PSBoundParameters.ContainsKey('BackupDirectory')) {
@@ -673,23 +678,43 @@ function Restore-HermesTaskbarSettings {
 
     $settings = $document.Settings
     $configuration = [ordered]@{}
+    $restorableNames = [System.Collections.Generic.List[string]]::new()
 
     foreach ($name in $script:CanonicalProperties) {
         if (
             $settings.PSObject.Properties.Name -contains $name -and
             $null -ne $settings.$name -and
-            $settings.$name -notin @('NotConfigured', 'Unknown')
+            $settings.$name -ne 'Unknown'
         ) {
-            $configuration[$name] = $settings.$name
+            $restorableNames.Add($name)
+
+            if ($settings.$name -ne 'NotConfigured') {
+                $configuration[$name] = $settings.$name
+            }
         }
     }
 
-    if ($configuration.Count -eq 0) {
+    if ($restorableNames.Count -eq 0) {
         throw "The backup '$BackupPath' contains no restorable taskbar settings."
     }
 
-    $precheck = Test-HermesTaskbarSettings `
-        -Configuration $configuration
+    $currentSettings = Get-HermesTaskbarSettings
+    $precheckDifferences = foreach ($name in $restorableNames) {
+        if ($currentSettings.$name -ne $settings.$name) {
+            [pscustomobject]@{
+                Setting  = $name
+                Expected = $settings.$name
+                Actual   = $currentSettings.$name
+            }
+        }
+    }
+
+    $precheck = [pscustomobject]@{
+        PSTypeName  = 'Hermes.Taskbar.Compliance'
+        IsCompliant = (@($precheckDifferences).Count -eq 0)
+        Current     = $currentSettings
+        Differences = @($precheckDifferences)
+    }
 
     if ($precheck.IsCompliant) {
         return [pscustomobject]@{
@@ -721,22 +746,140 @@ function Restore-HermesTaskbarSettings {
         $safetyBackup = Backup-HermesTaskbarSettings @backupParameters
     }
 
-    $setParameters = @{
-        Configuration  = $configuration
-        SkipBackup     = $true
-        Confirm        = $false
-        RestartExplorer = $RestartExplorer
+    $result = $null
+
+    if ($configuration.Count -gt 0) {
+        $setParameters = @{
+            Configuration   = $configuration
+            SkipBackup      = $true
+            Confirm         = $false
+            RestartExplorer = $false
+        }
+
+        $result = Set-HermesTaskbarSettings @setParameters
     }
 
-    $result = Set-HermesTaskbarSettings @setParameters
+    foreach ($name in $restorableNames) {
+        if ($settings.$name -ne 'NotConfigured') {
+            continue
+        }
+
+        $registryTarget = switch ($name) {
+            'Alignment' {
+                @{ Path = $script:Registry.Advanced; Name = 'TaskbarAl' }
+            }
+            'Search' {
+                @{ Path = $script:Registry.Search; Name = 'SearchboxTaskbarMode' }
+            }
+            'TaskView' {
+                @{ Path = $script:Registry.Advanced; Name = 'ShowTaskViewButton' }
+            }
+            'Widgets' {
+                @{ Path = $script:Registry.Advanced; Name = 'TaskbarDa' }
+            }
+            'Copilot' {
+                @{ Path = $script:Registry.CopilotPolicy; Name = 'TurnOffWindowsCopilot' }
+            }
+            'ShowSeconds' {
+                @{ Path = $script:Registry.Advanced; Name = 'ShowSecondsInSystemClock' }
+            }
+            default { $null }
+        }
+
+        if ($null -ne $registryTarget) {
+            Remove-HermesRegistryValue `
+                -Path $registryTarget.Path `
+                -Name $registryTarget.Name `
+                -IgnoreMissing `
+                -Confirm:$false |
+                Out-Null
+        }
+    }
+
+    $hasAdditionalMetadata =
+        $document.PSObject.Properties.Name -contains 'AdditionalMetadata'
+    $hasAutoHideMetadata =
+        $hasAdditionalMetadata -and
+        $null -ne $document.AdditionalMetadata -and
+        $document.AdditionalMetadata.PSObject.Properties.Name -contains 'AutoHideRegistry'
+
+    if ($hasAutoHideMetadata) {
+        $autoHideMetadata = $document.AdditionalMetadata.AutoHideRegistry
+
+        if ([bool]$autoHideMetadata.Exists) {
+            if ([string]::IsNullOrWhiteSpace([string]$autoHideMetadata.Value)) {
+                throw "The backup '$BackupPath' contains invalid AutoHide Registry data."
+            }
+
+            try {
+                $autoHideBytes = [Convert]::FromBase64String(
+                    [string]$autoHideMetadata.Value
+                )
+            }
+            catch {
+                throw "The backup '$BackupPath' contains invalid AutoHide Registry data. $($_.Exception.Message)"
+            }
+
+            Set-HermesRegistryValue `
+                -Path $script:Registry.StuckRects `
+                -Name 'Settings' `
+                -Value $autoHideBytes `
+                -Type Binary `
+                -CreatePath `
+                -Confirm:$false |
+                Out-Null
+        }
+        else {
+            Remove-HermesRegistryValue `
+                -Path $script:Registry.StuckRects `
+                -Name 'Settings' `
+                -IgnoreMissing `
+                -Confirm:$false |
+                Out-Null
+        }
+    }
+
+    $after = Get-HermesTaskbarSettings
+    $verificationDifferences = foreach ($name in $restorableNames) {
+        if ($after.$name -ne $settings.$name) {
+            [pscustomobject]@{
+                Setting  = $name
+                Expected = $settings.$name
+                Actual   = $after.$name
+            }
+        }
+    }
+
+    $verification = [pscustomobject]@{
+        PSTypeName  = 'Hermes.Taskbar.Compliance'
+        IsCompliant = (@($verificationDifferences).Count -eq 0)
+        Current     = $after
+        Differences = @($verificationDifferences)
+    }
+
+    if (-not $verification.IsCompliant) {
+        $details = $verification.Differences |
+            ForEach-Object {
+                "$($_.Setting): expected '$($_.Expected)', actual '$($_.Actual)'"
+            }
+
+        throw "Taskbar restore verification failed. $($details -join '; ')"
+    }
+
+    $restarted = $false
+
+    if ($RestartExplorer) {
+        Restart-HermesExplorer | Out-Null
+        $restarted = $true
+    }
 
     [pscustomobject]@{
         PSTypeName         = 'Hermes.Taskbar.RestoreResult'
-        Changed            = $result.Changed
+        Changed            = $true
         SourceBackupPath   = $BackupPath
         SafetyBackup       = $safetyBackup
-        Verification       = $result.Verification
-        ExplorerRestarted  = $result.ExplorerRestarted
+        Verification       = $verification
+        ExplorerRestarted  = $restarted
     }
 }
 
