@@ -1,30 +1,73 @@
 # Hermes.Explorer
 
-`Hermes.Explorer` manages Windows File Explorer preferences for Project Hermes.
+`Hermes.Explorer` safely manages selected Windows File Explorer preferences.
 
 ## Current capabilities
 
 - Read current Explorer settings
-- Compare current settings with desired configuration
+- Validate desired configuration
+- Compare current and desired state
 - Create standardized backups through `Hermes.Core`
+- Apply settings with automatic pre-change backup
+- Verify settings after application
+- Preview changes with `-WhatIf`
 
-## Planned capabilities
+## Managed settings
 
-- Apply desired Explorer settings
-- Restore Explorer settings from a Hermes backup
-- Verify changes after application or restoration
+| Hermes setting | Registry value |
+|---|---|
+| `ShowFileExtensions` | `HideFileExt` |
+| `ShowHiddenFiles` | `Hidden` |
+| `LaunchExplorerTo` | `LaunchTo` |
+
+## Example configuration
+
+```powershell
+$configuration = [PSCustomObject]@{
+    showFileExtensions = $true
+    showHiddenFiles    = $true
+    launchExplorerTo   = 'ThisPC'
+}
+```
+
+Preview the operation:
+
+```powershell
+Set-HermesExplorerSettings `
+    -Configuration $configuration `
+    -WhatIf
+```
+
+Apply the configuration:
+
+```powershell
+$result = Set-HermesExplorerSettings `
+    -Configuration $configuration
+
+$result | Format-List
+```
+
+## Safety behavior
+
+Hermes performs the following sequence:
+
+1. Validate configuration
+2. Compare current state
+3. Create a backup
+4. Write registry values
+5. Read the settings again
+6. Verify compliance
+
+No backup is created when the machine is already compliant or when `-WhatIf`
+prevents the operation.
 
 ## Dependency
-
-This module loads:
 
 ```text
 modules\core\Hermes.Core.psd1
 ```
 
 ## Tests
-
-From the Project Hermes repository root:
 
 ```powershell
 Invoke-Pester `

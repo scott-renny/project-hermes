@@ -16,10 +16,30 @@ Import-Module `
 $script:ExplorerAdvancedRegistryPath =
     'HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced'
 
+function ConvertTo-HermesExplorerConfiguration {
+    [CmdletBinding()]
+    [OutputType([PSCustomObject])]
+    param(
+        [Parameter(Mandatory)]
+        [ValidateNotNull()]
+        [object]$Configuration
+    )
+
+    $validation = Test-HermesExplorerConfiguration `
+        -Configuration $Configuration
+
+    if (-not $validation.IsValid) {
+        $message = $validation.Errors -join ' '
+        throw "Invalid Explorer configuration. $message"
+    }
+
+    return $validation.NormalizedConfiguration
+}
+
 function Get-HermesExplorerSettings {
     <#
     .SYNOPSIS
-        Reads the current Windows Explorer settings managed by Hermes.
+        Reads the Windows Explorer settings managed by Project Hermes.
 
     .OUTPUTS
         PSCustomObject containing the current Explorer settings.
@@ -65,10 +85,88 @@ function Get-HermesExplorerSettings {
     }
 }
 
+function Test-HermesExplorerConfiguration {
+    <#
+    .SYNOPSIS
+        Validates and normalizes an Explorer configuration object.
+
+    .PARAMETER Configuration
+        Object containing showFileExtensions, showHiddenFiles, and
+        launchExplorerTo.
+
+    .OUTPUTS
+        PSCustomObject containing validation status, errors, and a normalized
+        configuration object.
+    #>
+
+    [CmdletBinding()]
+    [OutputType([PSCustomObject])]
+    param(
+        [Parameter(Mandatory)]
+        [ValidateNotNull()]
+        [object]$Configuration
+    )
+
+    $errors = [System.Collections.Generic.List[string]]::new()
+
+    $requiredProperties = @(
+        'showFileExtensions'
+        'showHiddenFiles'
+        'launchExplorerTo'
+    )
+
+    foreach ($requiredProperty in $requiredProperties) {
+        if ($null -eq $Configuration.PSObject.Properties[$requiredProperty]) {
+            $errors.Add(
+                "The required property '$requiredProperty' is missing."
+            )
+        }
+    }
+
+    $normalizedConfiguration = $null
+
+    if ($errors.Count -eq 0) {
+        if ($Configuration.showFileExtensions -isnot [bool]) {
+            $errors.Add(
+                "The property 'showFileExtensions' must be a Boolean value."
+            )
+        }
+
+        if ($Configuration.showHiddenFiles -isnot [bool]) {
+            $errors.Add(
+                "The property 'showHiddenFiles' must be a Boolean value."
+            )
+        }
+
+        $launchExplorerTo = [string]$Configuration.launchExplorerTo
+
+        if ($launchExplorerTo -notin @('ThisPC', 'Home')) {
+            $errors.Add(
+                "The property 'launchExplorerTo' must be either 'ThisPC' or 'Home'."
+            )
+        }
+
+        if ($errors.Count -eq 0) {
+            $normalizedConfiguration = [PSCustomObject]@{
+                ShowFileExtensions = [bool]$Configuration.showFileExtensions
+                ShowHiddenFiles    = [bool]$Configuration.showHiddenFiles
+                LaunchExplorerTo   = $launchExplorerTo
+            }
+        }
+    }
+
+    [PSCustomObject]@{
+        IsValid                = ($errors.Count -eq 0)
+        ErrorCount             = $errors.Count
+        Errors                 = $errors.ToArray()
+        NormalizedConfiguration = $normalizedConfiguration
+    }
+}
+
 function Backup-HermesExplorerSettings {
     <#
     .SYNOPSIS
-        Creates a standardized backup of the current Explorer settings.
+        Creates a standardized backup of current Explorer settings.
 
     .PARAMETER BackupDirectory
         Optional destination directory. When omitted, Hermes.Core writes the
@@ -106,8 +204,7 @@ function Test-HermesExplorerSettings {
         Compares current Explorer settings with desired configuration.
 
     .PARAMETER Configuration
-        Hashtable or object containing showFileExtensions, showHiddenFiles,
-        and launchExplorerTo.
+        Explorer configuration to compare with the current machine.
 
     .OUTPUTS
         PSCustomObject containing compliance status and differences.
@@ -121,32 +218,10 @@ function Test-HermesExplorerSettings {
         [object]$Configuration
     )
 
-    $requiredProperties = @(
-        'showFileExtensions'
-        'showHiddenFiles'
-        'launchExplorerTo'
-    )
-
-    foreach ($requiredProperty in $requiredProperties) {
-        if ($Configuration.PSObject.Properties.Name -notcontains $requiredProperty) {
-            throw "Explorer configuration is missing the required property '$requiredProperty'."
-        }
-    }
-
-    $desiredLaunchValue = [string]$Configuration.launchExplorerTo
-
-    if ($desiredLaunchValue -notin @('ThisPC', 'Home')) {
-        throw "Explorer configuration property 'launchExplorerTo' must be either 'ThisPC' or 'Home'."
-    }
+    $desiredSettings = ConvertTo-HermesExplorerConfiguration `
+        -Configuration $Configuration
 
     $currentSettings = Get-HermesExplorerSettings
-
-    $desiredSettings = [PSCustomObject]@{
-        ShowFileExtensions = [bool]$Configuration.showFileExtensions
-        ShowHiddenFiles    = [bool]$Configuration.showHiddenFiles
-        LaunchExplorerTo   = $desiredLaunchValue
-    }
-
     $differences = [System.Collections.Generic.List[object]]::new()
 
     foreach ($settingName in @(
@@ -180,21 +255,130 @@ function Test-HermesExplorerSettings {
 function Set-HermesExplorerSettings {
     <#
     .SYNOPSIS
-        Applies desired Explorer settings.
+        Safely applies desired Windows Explorer settings.
 
     .DESCRIPTION
-        This function is intentionally not implemented until backup and
-        restore workflows are complete and tested.
+        Validates the requested configuration, compares it with the current
+        state, creates a backup before making changes, writes the registry
+        values, and verifies the resulting state.
+
+        Supports -WhatIf and -Confirm through PowerShell ShouldProcess.
+
+    .PARAMETER Configuration
+        Explorer configuration to apply.
+
+    .PARAMETER BackupDirectory
+        Optional destination for the automatic pre-change backup.
+
+    .OUTPUTS
+        PSCustomObject describing the operation.
     #>
 
-    [CmdletBinding(SupportsShouldProcess)]
+    [CmdletBinding(SupportsShouldProcess, ConfirmImpact = 'Medium')]
+    [OutputType([PSCustomObject])]
     param(
         [Parameter(Mandatory)]
         [ValidateNotNull()]
-        [object]$Configuration
+        [object]$Configuration,
+
+        [Parameter()]
+        [ValidateNotNullOrEmpty()]
+        [string]$BackupDirectory
     )
 
-    throw 'Set-HermesExplorerSettings has not been implemented yet.'
+    $desiredSettings = ConvertTo-HermesExplorerConfiguration `
+        -Configuration $Configuration
+
+    $before = Test-HermesExplorerSettings `
+        -Configuration $Configuration
+
+    if ($before.IsCompliant) {
+        return [PSCustomObject]@{
+            Applied                 = $false
+            Planned                 = $false
+            Verified                = $true
+            BackupCreated           = $false
+            BackupPath              = $null
+            RestartExplorerRequired = $false
+            Before                  = $before.Current
+            After                   = $before.Current
+            Desired                 = $desiredSettings
+        }
+    }
+
+    if (-not $PSCmdlet.ShouldProcess(
+        $script:ExplorerAdvancedRegistryPath,
+        'Back up and apply Windows Explorer settings'
+    )) {
+        return [PSCustomObject]@{
+            Applied                 = $false
+            Planned                 = $true
+            Verified                = $false
+            BackupCreated           = $false
+            BackupPath              = $null
+            RestartExplorerRequired = $false
+            Before                  = $before.Current
+            After                   = $before.Current
+            Desired                 = $desiredSettings
+        }
+    }
+
+    $backupParameters = @{}
+
+    if (-not [string]::IsNullOrWhiteSpace($BackupDirectory)) {
+        $backupParameters.BackupDirectory = $BackupDirectory
+    }
+
+    $backup = Backup-HermesExplorerSettings @backupParameters
+
+    $hideFileExtValue = if ($desiredSettings.ShowFileExtensions) { 0 } else { 1 }
+    $hiddenValue = if ($desiredSettings.ShowHiddenFiles) { 1 } else { 2 }
+    $launchToValue = if ($desiredSettings.LaunchExplorerTo -eq 'ThisPC') { 1 } else { 2 }
+
+    try {
+        Set-ItemProperty `
+            -LiteralPath $script:ExplorerAdvancedRegistryPath `
+            -Name 'HideFileExt' `
+            -Value $hideFileExtValue `
+            -Type DWord `
+            -ErrorAction Stop
+
+        Set-ItemProperty `
+            -LiteralPath $script:ExplorerAdvancedRegistryPath `
+            -Name 'Hidden' `
+            -Value $hiddenValue `
+            -Type DWord `
+            -ErrorAction Stop
+
+        Set-ItemProperty `
+            -LiteralPath $script:ExplorerAdvancedRegistryPath `
+            -Name 'LaunchTo' `
+            -Value $launchToValue `
+            -Type DWord `
+            -ErrorAction Stop
+    }
+    catch {
+        throw "Unable to apply Explorer settings. A backup was created at '$($backup.BackupPath)'. $($_.Exception.Message)"
+    }
+
+    $verification = Test-HermesExplorerSettings `
+        -Configuration $Configuration
+
+    if (-not $verification.IsCompliant) {
+        throw "Explorer settings were written but verification failed. Restore from '$($backup.BackupPath)' if necessary."
+    }
+
+    [PSCustomObject]@{
+        Applied                 = $true
+        Planned                 = $false
+        Verified                = $true
+        BackupCreated           = $true
+        BackupPath              = $backup.BackupPath
+        RestartExplorerRequired = $true
+        Before                  = $before.Current
+        After                   = $verification.Current
+        Desired                 = $desiredSettings
+    }
 }
 
 function Restore-HermesExplorerSettings {
@@ -203,8 +387,8 @@ function Restore-HermesExplorerSettings {
         Restores Explorer settings from a Hermes backup.
 
     .DESCRIPTION
-        This function is intentionally not implemented until its validation
-        and rollback test suite is complete.
+        Restore support will be implemented after the apply workflow is
+        complete and validated.
     #>
 
     [CmdletBinding(SupportsShouldProcess)]
@@ -219,6 +403,7 @@ function Restore-HermesExplorerSettings {
 
 Export-ModuleMember -Function @(
     'Get-HermesExplorerSettings'
+    'Test-HermesExplorerConfiguration'
     'Backup-HermesExplorerSettings'
     'Test-HermesExplorerSettings'
     'Set-HermesExplorerSettings'
