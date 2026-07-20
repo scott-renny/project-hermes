@@ -8,6 +8,10 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and
 
 ### Added
 
+- `Hermes.PowerShell` v0.5.0 with safe managed-block installation, validation, backup, exact restore, and automatic module initialization.
+- Version-controlled initial PowerShell module-loading profile.
+- Complete `Hermes.PowerShell` documentation and a Pester suite with 14 passing tests.
+
 - `Hermes.Desktop` v0.5.0 with native wallpaper path, wallpaper style, and desktop-icon visibility management.
 - Desktop discovery, validation, compliance testing, backup, apply, verification, and exact restore commands.
 - Complete `Hermes.Desktop` module documentation and a Pester suite with 25 passing tests.
@@ -72,6 +76,12 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and
 - Documented the boundary between native Hermes Taskbar state and optional Windhawk visual overrides.
 
 ### Fixed
+
+- Made PowerShell profile parent-directory creation terminating and independently verified before writing the managed profile.
+- Routed PowerShell profile writes and byte-exact restoration through the PowerShell filesystem provider for OneDrive-backed profile compatibility.
+- Corrected zero-byte PowerShell profile handling so empty existing files produce valid state and backups instead of null-value cascades.
+- Added defensive profile-text normalization at every managed-block, compliance, backup, and installation boundary.
+- Isolated PowerShell profile lifecycle tests after adding zero-byte profile coverage.
 
 - Prevented PowerShell scalar unrolling from breaking single-match Hermes.Desktop configuration normalization under strict mode.
 

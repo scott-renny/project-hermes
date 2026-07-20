@@ -286,6 +286,20 @@ and references the version-controlled wallpaper through a repository-relative pa
 
 Documentation: [`modules/workstation/desktop/README.md`](modules/workstation/desktop/README.md)
 
+### Hermes.PowerShell
+
+`Hermes.PowerShell` v0.5.0 safely manages a clearly marked Project Hermes block
+inside the current user's all-hosts PowerShell profile. It preserves unrelated
+profile content, backs up the complete file before mutation, supports `-WhatIf`,
+and restores the exact prior bytes or removes a profile that did not previously
+exist.
+
+The initial profile automatically imports the completed Hermes modules in each
+new PowerShell 7 session, eliminating repeated manual imports during development.
+The complete suite passes **14 tests with no failures**.
+
+Documentation: [`modules/workstation/powershell/README.md`](modules/workstation/powershell/README.md)
+
 ---
 
 ## Validation

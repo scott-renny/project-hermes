@@ -299,6 +299,27 @@ Tests Passed: 48
 Tests Failed: 0
 ```
 
+### Live Validation Finding
+
+The workstation's current-user all-hosts profile resolves to a OneDrive-backed
+path whose PowerShell directory did not yet exist. The first live installation
+correctly left the profile absent after `WriteAllText` failed, but exposed that
+parent-directory creation was not terminating or independently verified. The
+module now requires successful directory creation before writing and includes a
+regression test for a completely missing nested profile path.
+
+After the directory was created manually, direct .NET `WriteAllText` still could
+not create the file inside the OneDrive-projected directory. Profile installation
+and byte restoration now use PowerShell's filesystem provider through
+`Set-Content`, retaining UTF-8 without a BOM and exact byte restoration while
+supporting OneDrive-backed profile locations.
+
+Manual creation produced a zero-byte OneDrive reparse-point profile. PowerShell's
+raw content read returned `$null`, which exposed missing normalization at multiple
+call sites before OneDrive denied the final write. Profile text is now normalized
+to a string at every boundary, backup creation uses an explicit module identity,
+and a regression test covers discovery and backup of an existing empty profile.
+
 After portable wallpaper support and profile coverage were added, the first
 25-test run passed 24 tests. The remaining test incorrectly called Core's
 repository-root command from outside the Desktop module dependency scope. The
@@ -641,6 +662,37 @@ A duplicate `gitignore(1)` file was identified and removed.
 ### Outcome
 
 Version 0.4.0 established the validation foundation required for the v0.5.0 workstation framework.
+
+---
+
+## Hermes.PowerShell v0.5.0
+
+### Objective
+
+Eliminate repeated manual module imports while preserving complete control over
+the user's PowerShell profile.
+
+### Work Completed
+
+- Confirmed that no PowerShell 7 or Windows PowerShell profile currently exists.
+- Added a six-command profile lifecycle with validation, compliance testing,
+  backup, installation, verification, and exact restoration.
+- Limited ownership to an explicit Project Hermes managed block.
+- Preserved unrelated profile content during installation and replacement.
+- Added automatic imports for Common, Explorer, Taskbar, Windows, and Desktop.
+- Added `ShouldProcess`, `-WhatIf`, idempotency, and duplicate-block prevention.
+- Added a version-controlled initial profile configuration.
+
+### Validation
+
+Manifest, import, export, help, configuration, absent-state, `-WhatIf`, managed
+block installation, content preservation, idempotency, and replacement behavior
+all pass.
+
+```text
+Tests Passed: 14
+Tests Failed: 0
+```
 
 ---
 
