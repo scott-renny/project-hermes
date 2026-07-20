@@ -198,10 +198,11 @@ Restore-Hermes<Component>Settings
 | `Hermes.Terminal` | Windows Terminal configuration | Planned |
 | `Hermes.Git` | Git workstation configuration | Planned |
 | `Hermes.VSCode` | Visual Studio Code configuration | Planned |
-| `Hermes.Desktop` | Desktop layout and related user settings | Planned |
+| `Hermes.Desktop` | Native wallpaper, fit mode, and desktop-icon visibility | Complete and tested |
 | Workstation profiles | Profile-driven desired state | Planned |
 | Initial Windows visual profile | Version-controlled dark personalization baseline | Complete and tested |
 | Initial Taskbar profile | Windows Home-compatible operations Taskbar baseline | Complete and tested |
+| Initial Desktop profile | Portable wallpaper and native desktop baseline | Complete and tested |
 | Integrated validation | Full v0.5.0 workstation test pass | Planned |
 
 ### Shared Architecture Work

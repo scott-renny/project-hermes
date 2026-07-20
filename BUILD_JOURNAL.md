@@ -299,6 +299,39 @@ Tests Passed: 48
 Tests Failed: 0
 ```
 
+After portable wallpaper support and profile coverage were added, the first
+25-test run passed 24 tests. The remaining test incorrectly called Core's
+repository-root command from outside the Desktop module dependency scope. The
+test now derives the repository root from its own file location, preserving the
+intentional encapsulation of imported shared commands.
+
+The corrected suite completed with 25 passing tests and no failures. The module,
+portable profile, and repository wallpaper asset are ready for live `-WhatIf`
+validation before the initial Desktop baseline is applied.
+
+#### Live Validation
+
+The existing Photos-cache wallpaper, `Fill` style, and shown desktop icons were
+captured in a standardized Hermes.Desktop backup before the new profile was
+applied. The portable profile resolved its repository-relative wallpaper path to
+the active clone, and `-WhatIf` correctly reported a single planned wallpaper
+change.
+
+The approved Project Hermes wallpaper concept was then applied successfully.
+Independent discovery and compliance testing returned:
+
+```text
+WallpaperPath  : C:\Users\scott\Projects\Project-Hermes\assets\wallpapers\hermes-wallpaper-concept-v2.png
+WallpaperStyle : Fill
+DesktopIcons   : Shown
+IsCompliant    : True
+Differences    : {}
+```
+
+The original desktop state remains recoverable from backup
+`Hermes.Desktop-20260720-134746-133.json`, which remains local and excluded from
+version control.
+
 #### Problems Encountered
 
 The expanded test suite exposed unsupported auto-hide bytes being silently interpreted as disabled and a compliance test fixture containing two differences while expecting one. A later restore test also treated `NotConfigured` as non-restorable even though exact restoration requires removing the managed Registry value.
@@ -385,6 +418,67 @@ Compatibility is transitive. A component cannot truthfully claim support for a P
 2. Select and implement the next v0.5.0 workstation module.
 3. Add profile-driven desired state after the component module contracts stabilize.
 4. Perform an integrated v0.5.0 validation pass before merging into `main`.
+
+---
+
+### Hermes.Desktop v0.5.0
+
+#### Objective
+
+Add a native Windows desktop configuration component that can consume visual
+assets without depending on the application used to create them.
+
+#### Managed Scope
+
+- Wallpaper file path
+- Wallpaper fit mode
+- Desktop-icon visibility
+
+#### Work Completed
+
+- Added the standard six-command Hermes component lifecycle.
+- Added partial desired-state validation and compliance comparison.
+- Added safety backups with exact raw Registry metadata.
+- Added native wallpaper refresh through the Windows API.
+- Added optional Explorer restart for desktop-icon presentation.
+- Added exact restoration of configured and previously absent Registry values.
+- Added complete module documentation and initial Pester coverage.
+
+#### Architecture Decision
+
+Adobe Creative Cloud is treated as an optional design-production environment.
+Hermes.Desktop consumes exported wallpaper files through configuration, keeping
+native Windows automation independent from Photoshop, Illustrator, or any other
+asset-authoring application.
+
+Wallpaper profiles store repository-relative paths. `Hermes.Desktop` resolves
+those paths through `Hermes.Core`, preventing user-specific clone locations from
+being committed while retaining support for deliberately absolute external paths.
+
+#### Validation Status
+
+Manifest validation, clean import, exact public exports, comment-based help,
+configuration validation, Registry mapping, `-WhatIf`, apply lifecycle, and
+invalid-restore handling all pass.
+
+The first Pester run passed the manifest, import, export, help, Registry mapping,
+and restore-rejection tests but exposed scalar unrolling in the value-normalization
+branches. A single matching allowed value was returned as a string rather than an
+array, and strict mode correctly rejected the subsequent `.Count` access. Both
+normalization assignments now enforce array shape at their boundaries.
+
+The second run passed 22 tests and exposed one test-fixture defect. The wallpaper
+apply test returned noncompliance for both the pre-change check and the required
+post-change verification, so the module correctly rejected the simulated result.
+The mock now models the intended lifecycle by returning noncompliant before the
+Registry writes and compliant during verification.
+
+Final result:
+
+```text
+Tests Passed: 23
+Tests Failed: 0
+```
 
 ---
 

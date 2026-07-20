@@ -267,6 +267,25 @@ The complete Windows Pester suite currently passes **34 tests with no failures**
 
 Documentation: [`modules/workstation/windows/README.md`](modules/workstation/windows/README.md)
 
+### Hermes.Desktop
+
+`Hermes.Desktop` v0.5.0 manages the native Windows wallpaper path, wallpaper
+fit mode, and desktop-icon visibility. It follows the standard Hermes lifecycle
+with partial desired state, safety backups, `-WhatIf`, post-change verification,
+and exact Registry restoration.
+
+Adobe Creative Cloud and other design applications are asset-authoring tools,
+not runtime dependencies. Exported wallpaper assets remain replaceable inputs to
+the native Desktop configuration.
+
+The complete `Hermes.Desktop` Pester suite passes **25 tests with no failures**.
+
+The initial portable Desktop profile is stored in
+[`configs/windows/hermes-desktop-base.psd1`](configs/windows/hermes-desktop-base.psd1)
+and references the version-controlled wallpaper through a repository-relative path.
+
+Documentation: [`modules/workstation/desktop/README.md`](modules/workstation/desktop/README.md)
+
 ---
 
 ## Validation

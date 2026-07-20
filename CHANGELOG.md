@@ -8,6 +8,13 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and
 
 ### Added
 
+- `Hermes.Desktop` v0.5.0 with native wallpaper path, wallpaper style, and desktop-icon visibility management.
+- Desktop discovery, validation, compliance testing, backup, apply, verification, and exact restore commands.
+- Complete `Hermes.Desktop` module documentation and a Pester suite with 25 passing tests.
+- Version-controlled `configs/windows/hermes-desktop-base.psd1` profile and initial Hermes wallpaper concept.
+- Automated validation that the Desktop profile exists, resolves its wallpaper asset, and remains compatible with `Hermes.Desktop`.
+- Successful live application and independent verification of the initial Hermes Desktop wallpaper baseline.
+
 - `Hermes.Common` v0.1.0 shared utility module.
 - Standardized logging with console and UTF-8 file output.
 - Administrator, operating-system, and PowerShell version validation helpers.
@@ -41,6 +48,8 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and
 
 ### Changed
 
+- Added portable repository-relative wallpaper resolution to `Hermes.Desktop` while retaining absolute-path support.
+
 - Updated the root README for the active v0.5.0 workstation architecture.
 - Documented Windows 11 Home as the primary Project Hermes platform.
 - Expanded repository documentation for module responsibilities, safety, validation, generated runtime data, and current milestone status.
@@ -63,6 +72,8 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and
 - Documented the boundary between native Hermes Taskbar state and optional Windhawk visual overrides.
 
 ### Fixed
+
+- Prevented PowerShell scalar unrolling from breaking single-match Hermes.Desktop configuration normalization under strict mode.
 
 - Replaced the obsolete `Hermes.Explorer` restore placeholder test with validation of the completed implementation.
 - Corrected test isolation in `Hermes.Common` JSON tests for Pester 6.
