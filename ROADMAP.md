@@ -9,8 +9,8 @@
 | Document Version | 2.2.0 |
 | Status | Active |
 | Primary Platform | Windows 11 Home |
-| Current Milestone | v0.5.0 — Workstation Framework |
-| Last Updated | July 20, 2026 |
+| Current Milestone | v0.6.0 — Developer Environment Provisioning |
+| Last Updated | July 21, 2026 |
 
 ---
 
@@ -71,7 +71,7 @@ Maintain or restore
 | v0.2.0 | Shared core infrastructure | Complete |
 | v0.3.1 | Safe Explorer configuration workflow | Complete |
 | v0.4.0 | Environment validation framework | Complete |
-| v0.5.0 | Workstation configuration framework | In progress |
+| v0.5.0 | Workstation configuration framework | Complete |
 | v0.6.0 | Developer environment provisioning | Planned |
 | v0.7.0 | Visual environment and productivity integration | Planned |
 | v0.8.0 | Recovery, maintenance, and reporting | Planned |
@@ -153,7 +153,7 @@ Release scope may be refined as implementation evidence becomes available. Any m
 
 ---
 
-## 6. Active Release: v0.5.0 — Workstation Framework
+## 6. Completed Release: v0.5.0 — Workstation Framework
 
 ### Objective
 

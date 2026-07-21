@@ -10,7 +10,7 @@ While the `CHANGELOG.md` contains a technical record of every change, this docum
 
 | Version | Status | Summary |
 |----------|--------|---------|
-| v0.5.0 | 🟡 Release candidate | Workstation Framework |
+| v0.5.0 | ✅ Released | Workstation Framework |
 | v0.4.0 | ✅ Released | Validation Framework |
 | v0.3.0 | ✅ Released | Bootstrap Framework |
 
@@ -20,11 +20,11 @@ While the `CHANGELOG.md` contains a technical record of every change, this docum
 
 **Status**
 
-Release candidate on `feature/v0.5-workstation`
+Released and tagged on `main`
 
 **Release Date**
 
-Pending final branch review and merge.
+July 20, 2026
 
 ---
 
@@ -55,10 +55,10 @@ for reversible settings, and complete validation evidence.
 - Generated backups, inventories, logs, and workstation state remain excluded from Git.
 - Windhawk and Rainmeter visual configuration remain deferred to the visual-integration milestone.
 
-## Release Gate
+## Release Result
 
-The release becomes final only after the feature branch is reviewed, merged into
-`main`, validated again from the merged state, and tagged according to project policy.
+The feature branch was reviewed and merged into `main`, the merged state was
+validated, and the release was tagged as `v0.5.0`.
 
 ---
 
