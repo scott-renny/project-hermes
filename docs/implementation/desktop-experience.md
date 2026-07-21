@@ -126,10 +126,10 @@ Apply the coordinated graphite-and-cyan icon set after creating the desktop navi
 | Desktop item | Icon path |
 |---|---|
 | This PC | `assets/icons/ico/hermes-this-pc.ico` |
-| Projects | `assets/icons/ico/hermes-projects.ico` |
-| Downloads | `assets/icons/ico/hermes-downloads.ico` |
-| Recycle Bin (empty) | `assets/icons/ico/hermes-recycle-bin.ico` |
-| Recycle Bin (full) | `assets/icons/ico/hermes-recycle-bin-full.ico` |
+| Projects | `assets/icons/ico/hermes-projects-v2.ico` |
+| Downloads | `assets/icons/ico/hermes-downloads-v2.ico` |
+| Recycle Bin (empty) | `assets/icons/ico/hermes-recycle-bin-v3.ico` |
+| Recycle Bin (full) | `assets/icons/ico/hermes-recycle-bin-full-v3.ico` |
 
 Use **Personalization > Themes > Desktop icon settings** to assign the This PC and Recycle Bin icons. Assign both Recycle Bin states so Windows automatically displays the correct artwork as its contents change. Clear **Allow themes to change desktop icons** to prevent a theme from replacing the Hermes system icons.
 
