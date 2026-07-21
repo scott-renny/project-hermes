@@ -1,22 +1,28 @@
-# Generated logs and workstation inventory
+# Generated Hermes runtime data
 logs/*
-exports/*
 !logs/.gitkeep
-!exports/.gitkeep
 
-# Local state and temporary files
-*.tmp
+exports/
+
+# Temporary and backup files
 *.bak
+*.tmp
+*.old
 *.log
 *.out.txt
 *.err.txt
+*~
+
+# Dated module backup directories
+modules/**/*.backup-*
+modules/**/*backup-*
 
 # PowerShell and editor artifacts
 .vscode/
 .history/
 *.ps1xml
 
-# Windows files
+# Windows metadata
 Thumbs.db
 Desktop.ini
 

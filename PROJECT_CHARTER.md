@@ -9,12 +9,12 @@
   Subtitle           Mobile Operations Terminal
   Repository         project-hermes
   Owner              Scott Renny
-  Status             Draft -- Planning Phase
-  Document Version   2.0.0
-  Project Version    v0.1.0
+  Status             Active Development
+  Document Version   2.1.0
+  Project Version    v0.5.0 Release Candidate
   License            MIT
-  Last Updated       July 19, 2026
-  Next Review        Prior to Phase 1 completion
+  Last Updated       July 20, 2026
+  Next Review        Prior to v0.5.0 release
 
 ------------------------------------------------------------------------
 
@@ -286,6 +286,11 @@ Project Hermes reaches completion when:
                                                         definition of
                                                         done, and
                                                         governance.
+
+  2.1.0             July 20, 2026     Scott Renny       Updated project
+                                                        status for the
+                                                        validated v0.5.0
+                                                        release candidate.
 
   -----------------------------------------------------------------------
 
