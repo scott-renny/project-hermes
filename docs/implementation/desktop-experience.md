@@ -19,6 +19,8 @@ The desktop experience builds on the native configuration managed by the Project
 | Desktop wallpaper | `assets/wallpapers/hermes-wallpaper-concept-v2.png` | Primary Hermes desktop background |
 | Lock-screen artwork | `assets/lockscreens/hermes-lockscreen-concept-v1.png` | Matching Windows lock screen |
 | Rainmeter skin | `assets/rainmeter/HermesPerformance/HermesPerformance.ini` | Desktop performance panel |
+| Agenda skin | `assets/rainmeter/HermesAgenda/HermesAgenda.ini` | Date, week, and five editable priorities |
+| Identity skin | `assets/rainmeter/HermesIdentity/HermesIdentity.ini` | Mobile Operations Terminal identity plaque |
 | Windhawk baseline | `configs/windhawk/hermes-windhawk-base.psd1` | Approved mod and theme inventory |
 | Transparent icon artwork | `assets/icons/png/` | Production PNG artwork with transparent backgrounds |
 | Windows desktop icons | `assets/icons/ico/` | Multi-resolution Windows icon files |
@@ -90,6 +92,22 @@ The initial panel uses native Rainmeter measures for:
 - Battery percentage
 - Date and time
 
+## Rainmeter operations layout
+
+The final desktop uses three Rainmeter components:
+
+| Component | Placement | Interaction |
+|---|---|---|
+| Hermes Performance | Upper-right with a small screen-edge inset | On desktop; click-through enabled |
+| Hermes Agenda | Beneath Performance and aligned to the same edges | On desktop; click-through disabled |
+| Hermes Identity | Lower-left above the taskbar | On desktop; click-through enabled |
+
+Keep a consistent visual gap between Performance and Agenda. Leave the central wallpaper emblem unobstructed.
+
+Hermes Agenda displays the current day, date, ISO week number, and five editable priorities. Right-click the skin and select **Edit Hermes priorities**, update the `Priority1` through `Priority5` values under `[Variables]`, save the file, and refresh the skin.
+
+The Windows taskbar remains the single application launcher. A second launcher is intentionally omitted to avoid duplicating pinned applications and to preserve desktop space.
+
 ## Desktop navigation zone
 
 Keep the following shortcuts vertically aligned along the upper-left edge:
@@ -141,6 +159,9 @@ Spotify and PowerToys may be pinned when they are used frequently. Windhawk shou
 - Start-menu web results open Brave Search in the Windows default browser.
 - The Rainmeter panel stays behind normal application windows.
 - The Rainmeter panel remains readable against the Hermes wallpaper.
+- Performance and Agenda align as a single right-side operations column.
+- The Hermes Identity plaque remains inset above the lower-left taskbar edge.
+- All five Agenda priorities remain visible above the taskbar.
 - `Windows + L` displays the concept-v1 lock-screen artwork.
 - This PC, Projects, and Downloads display their assigned Hermes icons without visible background rectangles.
 - Recycle Bin switches between the separate empty and full Hermes states.
@@ -148,4 +169,4 @@ Spotify and PowerToys may be pinned when they are used frequently. Windhawk shou
 
 ## Recovery
 
-Disable the four Windhawk Styler mods to return the shell to its native appearance. Unload the Hermes Rainmeter skin to remove the performance panel. Use **Desktop icon settings > Restore Default** to restore the native This PC and Recycle Bin icons. Open the Projects and Downloads shortcut properties to select their default icons or remove the shortcuts. Use the existing Project Hermes restore commands for native Windows, Taskbar, and Desktop settings.
+Disable the four Windhawk Styler mods to return the shell to its native appearance. Unload Hermes Performance, Hermes Agenda, and Hermes Identity to remove the Rainmeter desktop layer. Use **Desktop icon settings > Restore Default** to restore the native This PC and Recycle Bin icons. Open the Projects and Downloads shortcut properties to select their default icons or remove the shortcuts. Use the existing Project Hermes restore commands for native Windows, Taskbar, and Desktop settings.
