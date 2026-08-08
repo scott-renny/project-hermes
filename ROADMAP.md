@@ -6,10 +6,10 @@
 |---|---|
 | Document | Project Roadmap |
 | Project | Project Hermes |
-| Document Version | 2.2.0 |
+| Document Version | 2.3.0 |
 | Status | Active |
 | Primary Platform | Windows 11 Home |
-| Current Milestone | v0.6.0 — Developer Environment Provisioning |
+| Current Milestone | v0.7.0 — Visual Environment and Productivity Integration |
 | Last Updated | August 8, 2026 |
 
 ---
@@ -72,7 +72,7 @@ Maintain or restore
 | v0.3.1 | Safe Explorer configuration workflow | Complete |
 | v0.4.0 | Environment validation framework | Complete |
 | v0.5.0 | Workstation configuration framework | Complete |
-| v0.6.0 | Developer environment provisioning | Planned |
+| v0.6.0 | Developer environment provisioning | Complete |
 | v0.7.0 | Visual environment and productivity integration | Planned |
 | v0.8.0 | Recovery, maintenance, and reporting | Planned |
 | v0.9.0 | Integrated orchestration and release candidate | Planned |
@@ -260,11 +260,13 @@ Remaining shared architecture work:
 
 ## 7. v0.6.0 — Developer Environment Provisioning
 
+**Status:** Complete and released on August 8, 2026
+
 ### Objective
 
 Provision and validate the development tools required for engineering, cybersecurity, automation, and infrastructure work.
 
-### Planned Scope
+### Delivered Scope
 
 - Expand the WinGet package-profile foundation delivered during v0.5.0
 - Git and GitHub CLI installation validation
@@ -295,6 +297,12 @@ Provision and validate the development tools required for engineering, cybersecu
 - A configured Remote SSH host can be validated without interactive password authentication.
 - Optional runtimes do not make the developer profile noncompliant.
 - Hermes does not modify COC server configuration as part of workstation provisioning.
+
+### Release Evidence
+
+- The profile-isolated repository suite passed 328 tests with no failures, skips, or tests left unrun.
+- Remote SSH to `coc-srv-01` was validated on the trusted home network using the hardened key-based connection.
+- VPN configuration and untrusted-network validation remain explicitly deferred and are not claimed by this release.
 
 ---
 
