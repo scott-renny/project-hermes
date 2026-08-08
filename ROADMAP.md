@@ -6,10 +6,10 @@
 |---|---|
 | Document | Project Roadmap |
 | Project | Project Hermes |
-| Document Version | 2.3.0 |
+| Document Version | 2.4.0 |
 | Status | Active |
 | Primary Platform | Windows 11 Home |
-| Current Milestone | v0.7.0 — Visual Environment and Productivity Integration |
+| Current Milestone | v0.8.0 — Recovery, Maintenance, and Reporting |
 | Last Updated | August 8, 2026 |
 
 ---
@@ -73,7 +73,7 @@ Maintain or restore
 | v0.4.0 | Environment validation framework | Complete |
 | v0.5.0 | Workstation configuration framework | Complete |
 | v0.6.0 | Developer environment provisioning | Complete |
-| v0.7.0 | Visual environment and productivity integration | Planned |
+| v0.7.0 | Visual environment and productivity integration | Complete |
 | v0.8.0 | Recovery, maintenance, and reporting | Planned |
 | v0.9.0 | Integrated orchestration and release candidate | Planned |
 | v1.0.0 | Stable reproducible workstation release | Planned |
@@ -312,27 +312,28 @@ Provision and validate the development tools required for engineering, cybersecu
 
 Apply the Project Hermes visual identity and productivity configuration without compromising stability or daily usability.
 
-### Planned Scope
+### Delivered Scope
 
-- Project Hermes design language
-- Wallpaper and approved visual assets
-- Use the Hermes concept v1 artwork as the initial lock-screen candidate, subject to final visual review and export validation
-- PowerToys configuration
-- Extend the PowerToys configuration foundation delivered during v0.5.0
-- Windhawk configuration management
-- Rainmeter configuration and selected widgets
-- AutoHotkey workflow automation
-- Font and icon deployment where licensing permits
-- Desktop zones and launch strategy
-- Consistent backup and restore for managed settings
+- Original gothic command-center wallpaper and documented visual design language.
+- Shared Rainmeter visual resources plus clock, launcher, notes, and system-monitoring sidebars.
+- Repeatable Rainmeter deployment with repository-controlled source assets.
+- Guarded Windows Explorer, Windows Terminal, and PowerShell theme integration.
+- Desktop, Start menu, taskbar, Explorer, shell surface, and notification-area visual validation.
+- Installation and operating guidance for the completed gothic visual environment.
 
-### Acceptance Criteria
+### Release Boundaries
 
-- Visual changes remain subordinate to functionality.
-- Third-party tools are optional and profile-controlled.
-- All distributed assets have verified licensing or original ownership.
-- Each managed configuration has an installation, validation, and recovery path.
-- The resulting environment remains suitable for daily work.
+- Rainmeter and visual customization remain optional and separate from required workstation configuration.
+- AutoHotkey automation, a complete Windhawk configuration lifecycle, and generalized font deployment remain outside this release.
+- Shell customization scripts back up affected user configuration where practical and avoid claiming universal Windows build compatibility.
+
+### Release Evidence
+
+- Pull request #5 was squash-merged into `main`.
+- The merged repository passed 328 Pester tests with no failures, skips, inconclusive results, or tests left unrun.
+- All added PowerShell scripts passed parser validation.
+- The release diff passed whitespace validation and was reviewed for secrets and machine-specific personal paths.
+- The resulting desktop was visually validated for daily use on the target Windows 11 workstation.
 
 ---
 

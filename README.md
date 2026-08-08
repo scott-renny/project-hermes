@@ -46,8 +46,8 @@ Restore when required
 
 | Area | Status |
 |---|---|
-| Stable release | v0.6.0 — Developer Environment Provisioning |
-| Next milestone | v0.7.0 — Visual Environment and Productivity Integration |
+| Stable release | v0.7.0 — Visual Environment and Productivity Integration |
+| Next milestone | v0.8.0 — Recovery, Maintenance, and Reporting |
 | Development branch | Not started |
 | Primary platform | Windows 11 Home |
 | Primary shell | PowerShell 7+ |
@@ -90,6 +90,21 @@ Restore when required
 
 ---
 
+### v0.7.0 Release
+
+| Component | Status |
+|---|---|
+| Gothic command-center wallpaper | Complete and visually validated |
+| Rainmeter clock, launcher, notes, and monitoring sidebars | Complete |
+| Repeatable Rainmeter deployment | Complete |
+| Explorer, Windows Terminal, and PowerShell theme integration | Complete |
+| Visual environment documentation | Complete |
+| Full merged repository validation | Complete — 328 tests passed |
+
+The visual environment is optional. AutoHotkey automation and a complete managed
+Windhawk lifecycle remain deferred and are not claimed by v0.7.0.
+
+---
 ## Project Objectives
 
 - Provision a consistent Windows engineering workstation.
@@ -466,7 +481,7 @@ Invoke-Pester `
     -Output Detailed
 ```
 
-The merged v0.6.0 release passes **328 tests with no failures** in a
+The merged v0.7.0 release passes **328 tests with no failures** in a
 profile-isolated PowerShell session.
 
 No module is considered complete until its manifest, import, public exports, documentation, and Pester suite have been validated.
@@ -491,44 +506,18 @@ No module is considered complete until its manifest, import, public exports, doc
 
 ## Roadmap
 
-### v0.4.0 — Validation Framework
+Completed milestones:
 
-Completed:
+- v0.4.0 — Validation framework
+- v0.5.0 — Workstation configuration framework
+- v0.6.0 — Developer environment provisioning
+- v0.7.0 — Visual environment and productivity integration
 
-- Bootstrap framework
-- Environment validation
-- Repository standards
-- Git and remote validation
-- Core tool validation
+Upcoming milestones:
 
-### v0.5.0 — Workstation Framework
-
-In progress:
-
-- Shared common utilities
-- Windows Explorer configuration
-- Taskbar configuration (complete and tested)
-- Windows personalization configuration (complete and tested)
-- PowerShell profile deployment
-- Windows Terminal configuration
-- Git configuration
-- Visual Studio Code configuration (complete and tested)
-- Desktop configuration
-- PowerToys configuration (complete and tested)
-- WinGet package profiles (complete and tested)
-- Unified workstation profile (complete and tested)
-- Integrated module and profile validation (314 tests passed)
-- Final release closeout
-
-### Future Milestones
-
-- Developer environment provisioning
-- WSL and Docker automation
-- Rainmeter and Windhawk integration
-- Backup, restore, repair, and drift detection
-- Reporting and operational summaries
-- Full workstation orchestration
-- Stable v1.0.0 release
+- v0.8.0 — Recovery, maintenance, drift detection, and reporting
+- v0.9.0 — Integrated orchestration and release candidate
+- v1.0.0 — Stable reproducible workstation release
 
 See [`ROADMAP.md`](ROADMAP.md) for the broader project execution plan.
 

@@ -6,6 +6,26 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and
 
 ## [Unreleased]
 
+## [0.7.0] - 2026-08-08
+
+### Added
+
+- Original Project Hermes gothic command-center wallpaper.
+- Rainmeter clock, application launcher, editable notes, and system-monitoring sidebar skins.
+- Shared Rainmeter visual resources and a repeatable installation script.
+- Guarded Explorer and PowerShell theme integration scripts, including Windows Terminal color-scheme support.
+- v0.7 visual-environment implementation and operating documentation.
+
+### Changed
+
+- Advanced the active roadmap milestone to v0.8.0 recovery, maintenance, and reporting.
+- Refined the visual milestone to preserve optional tooling and explicit compatibility boundaries.
+
+### Validation
+
+- Validated the merged `main` state with 328 passing Pester tests and no failures.
+- Confirmed clean PowerShell parsing, whitespace validation, and review for secrets and personal machine paths.
+- Visually validated the desktop, taskbar, Start menu, Explorer, PowerShell, Quick Settings, notifications, and context menus.
 ## [0.6.0] - 2026-08-08
 
 ### Added
