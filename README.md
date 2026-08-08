@@ -7,7 +7,7 @@
 <p align="center">
 
 ![Status](https://img.shields.io/badge/Status-Active%20Development-orange?style=for-the-badge)
-![Milestone](https://img.shields.io/badge/Milestone-v0.5.0%20Workstation-0078D6?style=for-the-badge)
+![Milestone](https://img.shields.io/badge/Milestone-v0.6.0%20Developer-0078D6?style=for-the-badge)
 ![PowerShell](https://img.shields.io/badge/PowerShell-7%2B-5391FE?style=for-the-badge&logo=powershell&logoColor=white)
 ![Windows](https://img.shields.io/badge/Windows-11%20Home-0078D6?style=for-the-badge&logo=windows11&logoColor=white)
 ![License](https://img.shields.io/github/license/scott-renny/project-hermes?style=for-the-badge)
@@ -24,7 +24,7 @@ Project Hermes is a modular PowerShell framework for provisioning, configuring, 
 
 Hermes replaces manual workstation setup with documented, repeatable, and testable configuration workflows. Its modules support software engineering, cybersecurity work, homelab administration, and infrastructure operations while preserving clear rollback paths and validation evidence.
 
-The current development milestone, **v0.5.0 Workstation**, is establishing a consistent lifecycle for Windows configuration modules:
+The stable **v0.6.0 Developer Environment** release extends the workstation lifecycle with native Windows developer provisioning and validated Remote SSH access:
 
 ```text
 Get current state
@@ -46,9 +46,9 @@ Restore when required
 
 | Area | Status |
 |---|---|
-| Stable release | v0.5.0 — Workstation Framework |
-| Development milestone | v0.6.0 — Developer Environment Provisioning |
-| Development branch | `feature/v0.6-developer-environment` |
+| Stable release | v0.6.0 — Developer Environment Provisioning |
+| Next milestone | v0.7.0 — Visual Environment and Productivity Integration |
+| Development branch | Not started |
 | Primary platform | Windows 11 Home |
 | Primary shell | PowerShell 7+ |
 | License | MIT |
@@ -75,7 +75,7 @@ Restore when required
 
 `Hermes.Common` v0.1.0 and `Hermes.Taskbar` v0.5.0 each pass **48 Pester tests with no failures**.
 
-### v0.6.0 Progress
+### v0.6.0 Release
 
 | Component | Status |
 |---|---|
@@ -86,7 +86,7 @@ Restore when required
 | Bounded Remote SSH connectivity validation | Complete and live-validated |
 | Optional runtime capability reporting | Complete and tested |
 | Full repository validation | Complete — 328 tests passed |
-| VPN integration | Deferred until a VPN architecture is selected |
+| VPN and untrusted-network validation | Deferred; trusted-network Remote SSH is validated |
 
 ---
 
@@ -466,8 +466,8 @@ Invoke-Pester `
     -Output Detailed
 ```
 
-The current v0.5.0 feature branch passes **314 tests with no failures** across
-13 test files.
+The merged v0.6.0 release passes **328 tests with no failures** in a
+profile-isolated PowerShell session.
 
 No module is considered complete until its manifest, import, public exports, documentation, and Pester suite have been validated.
 
