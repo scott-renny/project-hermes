@@ -1,6 +1,6 @@
 @{
     Settings = @{
-        'workbench.colorTheme' = 'Default Dark Modern'
+        'workbench.colorTheme' = 'Dark Modern'
         'editor.fontFamily' = "'Cascadia Code', Consolas, 'Courier New', monospace"
         'editor.fontSize' = 14
         'editor.formatOnSave' = $true

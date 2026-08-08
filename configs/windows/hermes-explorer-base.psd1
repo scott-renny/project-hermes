@@ -1,9 +1,9 @@
 @{
-    # Project Hermes initial Windows Explorer baseline.
-    # File extensions remain visible for technical work, hidden files remain
-    # concealed by default, and Explorer opens to This PC.
+    # Project Hermes Windows Explorer baseline.
+    # File extensions remain visible, hidden files remain concealed, and the
+    # completed v0.7 shell opens Explorer to Home.
 
     showFileExtensions = $true
     showHiddenFiles    = $false
-    launchExplorerTo   = 'ThisPC'
+    launchExplorerTo   = 'Home'
 }

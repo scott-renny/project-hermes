@@ -1,12 +1,12 @@
 @{
-    # Project Hermes initial taskbar baseline.
-    # The layout favors a clean operations workspace while retaining
-    # Task View and clock seconds for daily technical work.
+    # Project Hermes compact gothic taskbar baseline.
+    # Redundant widgets, Task View, and clock seconds are disabled because the
+    # v0.7 desktop panels provide the corresponding information and launchers.
 
     Alignment   = 'Center'
     Search      = 'Icon'
-    TaskView    = 'Enabled'
+    TaskView    = 'Disabled'
     Widgets     = 'Disabled'
     AutoHide    = 'Disabled'
-    ShowSeconds = 'Enabled'
+    ShowSeconds = 'Disabled'
 }

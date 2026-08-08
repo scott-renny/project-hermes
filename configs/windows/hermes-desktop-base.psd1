@@ -1,8 +1,9 @@
 @{
-    # Project Hermes initial native desktop baseline.
-    # The wallpaper path is repository-relative and is resolved by Hermes.Desktop.
+    # Project Hermes gothic desktop baseline.
+    # Rainmeter provides the managed launch surface, so native desktop icons
+    # remain hidden and the final v0.7 wallpaper is repository-owned.
 
-    WallpaperPath  = 'assets\wallpapers\hermes-wallpaper-concept-v2.png'
+    WallpaperPath  = 'assets\wallpapers\hermes-gothic-command-center-wallpaper-v7.png'
     WallpaperStyle = 'Fill'
-    DesktopIcons   = 'Shown'
+    DesktopIcons   = 'Hidden'
 }
