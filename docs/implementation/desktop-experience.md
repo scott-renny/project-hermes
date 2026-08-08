@@ -170,3 +170,25 @@ Spotify and PowerToys may be pinned when they are used frequently. Windhawk shou
 ## Recovery
 
 Disable the four Windhawk Styler mods to return the shell to its native appearance. Unload Hermes Performance, Hermes Agenda, and Hermes Identity to remove the Rainmeter desktop layer. Use **Desktop icon settings > Restore Default** to restore the native This PC and Recycle Bin icons. Open the Projects and Downloads shortcut properties to select their default icons or remove the shortcuts. Use the existing Project Hermes restore commands for native Windows, Taskbar, and Desktop settings.
+
+<!-- HERMES-V07-SHELL-START -->
+## Windows shell and command-line theme
+
+Project Hermes v0.7 extends the gothic visual environment to native Windows
+surfaces while preserving standard behavior and accessibility.
+
+- scripts/customization/Set-HermesPowerShellTheme.ps1 installs the
+  Project Hermes Gothic Windows Terminal scheme and a managed PowerShell
+  color/prompt block. Existing settings and profile content are preserved.
+- scripts/customization/Set-HermesExplorerTheme.ps1 applies dark mode,
+  transparency, compact Explorer spacing, visible extensions, the status bar,
+  and the Hermes violet Windows accent palette.
+- Windhawk's built-in TranslucentShell theme is used for Quick Settings,
+  notifications, and the calendar. Custom XAML targets are intentionally
+  avoided on Windows 11 25H2.
+- Modern context menus retain the native Windows layout and inherit the dark
+  system palette. No unsupported context-menu injection is required.
+
+Both installers create timestamped backups below xports/backups and support
+PowerShell's standard -WhatIf preview behavior.
+<!-- HERMES-V07-SHELL-END -->
