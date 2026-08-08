@@ -956,6 +956,48 @@ v0.5.0 implementation before branch review and merge.
 
 ---
 
+## Hermes.Developer v0.6.0 Foundation
+
+### Objective
+
+Establish a safe native Windows developer-environment contract for a laptop that
+uses Remote SSH to perform server-side engineering work on the Ubuntu COC host.
+
+### Work Completed
+
+- Added `Hermes.Developer` v0.6.0 with six public commands.
+- Added portable required-tool, VS Code extension, SSH-agent, host-alias, and
+  optional-capability configuration data.
+- Added previewable installation of missing approved WinGet packages and VS Code
+  extensions without blanket upgrades or optional runtime installation.
+- Added local JSON inventory export and bounded non-interactive SSH connectivity
+  testing.
+- Distinguished detected Windows launchers from operational optional runtimes so
+  the Microsoft Store Python alias is not reported as an installed Python runtime.
+- Integrated the module into the unified workstation and managed PowerShell
+  profiles.
+
+### Engineering Decisions
+
+- The laptop remains a native Windows client; WSL, Docker, Python, Node.js, and
+  .NET are optional until a concrete workload requires them.
+- Project Hermes owns client provisioning and connection validation only. The COC
+  retains ownership of Ubuntu configuration, containers, secrets, backups,
+  network policy, and server repositories.
+- VPN integration remains deferred until the COC VPN architecture is selected.
+
+### Validation
+
+- The module manifest is valid and exports exactly six documented commands.
+- Fourteen deterministic module tests pass with no failures.
+- The complete profile-free repository suite passes 328 tests with no failures,
+  skips, or tests left unrun.
+- Live inventory reports the required developer baseline compliant.
+- The `ssh-agent` service is automatic and running with an ED25519 key loaded.
+- The `coc-srv-01` alias passed a bounded non-interactive SSH connectivity test.
+
+---
+
 ## Journal Maintenance Standard
 
 Future entries should record:

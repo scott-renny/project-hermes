@@ -1,7 +1,7 @@
 @{
     SchemaVersion = '1.0'
     Name          = 'Project Hermes Base Workstation'
-    Description   = 'Windows 11 engineering workstation baseline for Project Hermes v0.5.0.'
+    Description   = 'Windows 11 engineering workstation baseline for Project Hermes v0.6.0.'
 
     Platform = @{
         OperatingSystem          = 'Windows 11'
@@ -11,6 +11,7 @@
 
     Order = @(
         'Winget'
+        'Developer'
         'Windows'
         'Explorer'
         'Taskbar'
@@ -28,6 +29,12 @@
             Required          = $true
             ModulePath        = 'modules\workstation\winget\Hermes.Winget.psd1'
             ConfigurationPath = 'configs\winget\hermes-winget-base.psd1'
+        }
+        Developer = @{
+            Enabled           = $true
+            Required          = $true
+            ModulePath        = 'modules\developer\environment\Hermes.Developer.psd1'
+            ConfigurationPath = 'configs\developer\hermes-developer-base.psd1'
         }
         Windows = @{
             Enabled           = $true

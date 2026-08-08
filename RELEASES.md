@@ -177,7 +177,7 @@ The following milestones are currently planned.
 
 | Version | Planned Focus |
 |----------|---------------|
-| v0.6.0 | Developer environment provisioning, WSL, Docker, and toolchains |
+| v0.6.0 | Native Windows developer provisioning, OpenSSH/Remote SSH integration, and optional capability reporting |
 | v0.7.0 | Visual environment, Rainmeter, Windhawk, and productivity integration |
 | v0.8.0 | Recovery, maintenance, drift detection, and reporting |
 | v0.9.0 | Integrated orchestration and release candidate |

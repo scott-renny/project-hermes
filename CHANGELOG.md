@@ -8,6 +8,12 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and
 
 ### Added
 
+- `Hermes.Developer` v0.6.0 with required-tool inventory, previewable WinGet and VS Code extension provisioning, SSH-agent and host-alias compliance, JSON inventory export, and bounded Remote SSH connectivity testing.
+- Portable developer baseline covering Git, GitHub CLI, PowerShell 7, Visual Studio Code, OpenSSH, required VS Code extensions, the `coc-srv-01` alias, and non-required runtime capability reporting.
+- Developer-environment integration in the unified workstation profile and managed PowerShell startup profile.
+- Explicit ownership boundary keeping Ubuntu COC containers, secrets, backups, network policy, and repositories outside workstation provisioning.
+- Full profile-isolated repository validation with 328 passing tests and no failures.
+
 - Supported v0.5.0 installation-and-usage guide covering prerequisites, complete validation, component preview and application, managed PowerShell initialization, WinGet safety, generated data, and recovery boundaries.
 - v0.5.0 release-candidate overview and release gate in `RELEASES.md`.
 
