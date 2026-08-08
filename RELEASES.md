@@ -10,9 +10,54 @@ While the `CHANGELOG.md` contains a technical record of every change, this docum
 
 | Version | Status | Summary |
 |----------|--------|---------|
+| v0.6.0 | ✅ Released | Developer Environment Provisioning |
 | v0.5.0 | ✅ Released | Workstation Framework |
 | v0.4.0 | ✅ Released | Validation Framework |
 | v0.3.0 | ✅ Released | Bootstrap Framework |
+
+---
+
+# v0.6.0 — Developer Environment Provisioning
+
+**Status**
+
+Released and tagged on `main`
+
+**Release Date**
+
+August 8, 2026
+
+---
+
+## Overview
+
+Version 0.6.0 adds a native Windows developer-environment contract for Project
+Hermes. It inventories and safely provisions required tooling, validates Visual
+Studio Code extensions and OpenSSH state, reports optional runtime capabilities,
+and verifies bounded Remote SSH access without requiring local Linux or container
+workloads.
+
+## Highlights
+
+- `Hermes.Developer` v0.6.0 with six documented public commands
+- Native Windows tool inventory and previewable approved-package provisioning
+- Visual Studio Code extension validation and provisioning
+- SSH-agent, loaded-key, host-alias, and bounded Remote SSH validation
+- Optional WSL, Docker, Python, Node.js, and .NET capability reporting
+- Unified workstation and managed PowerShell profile integration
+- Explicit Windows-client and Ubuntu COC-server ownership boundaries
+- 328 passing Pester tests with no failures
+
+## Network Boundary
+
+Remote SSH was validated on the trusted home network using hardened key-based
+authentication. VPN configuration and untrusted-network validation remain deferred;
+this release does not claim secure off-network access.
+
+## Release Result
+
+The implementation was reviewed and squash-merged into `main`. The merged release
+state passed the complete profile-isolated test suite and was tagged as `v0.6.0`.
 
 ---
 
@@ -177,7 +222,6 @@ The following milestones are currently planned.
 
 | Version | Planned Focus |
 |----------|---------------|
-| v0.6.0 | Native Windows developer provisioning, OpenSSH/Remote SSH integration, and optional capability reporting |
 | v0.7.0 | Visual environment, Rainmeter, Windhawk, and productivity integration |
 | v0.8.0 | Recovery, maintenance, drift detection, and reporting |
 | v0.9.0 | Integrated orchestration and release candidate |
