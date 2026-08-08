@@ -9,6 +9,7 @@ BeforeAll {
 
     $script:ExpectedComponents = @(
         'Winget'
+        'Developer'
         'Windows'
         'Explorer'
         'Taskbar'
@@ -22,6 +23,7 @@ BeforeAll {
 
     $script:ValidationCommands = @{
         Winget     = 'Test-HermesWingetConfiguration'
+        Developer  = 'Test-HermesDeveloperConfiguration'
         Windows    = 'Test-HermesWindowsConfiguration'
         Explorer   = 'Test-HermesExplorerConfiguration'
         Taskbar    = 'Test-HermesTaskbarConfiguration'

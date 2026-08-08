@@ -46,9 +46,9 @@ Restore when required
 
 | Area | Status |
 |---|---|
-| Stable release | v0.4.0 — Validation Framework |
-| Development milestone | v0.5.0 — Workstation Framework |
-| Development branch | `feature/v0.5-workstation` |
+| Stable release | v0.5.0 — Workstation Framework |
+| Development milestone | v0.6.0 — Developer Environment Provisioning |
+| Development branch | `feature/v0.6-developer-environment` |
 | Primary platform | Windows 11 Home |
 | Primary shell | PowerShell 7+ |
 | License | MIT |
@@ -74,6 +74,19 @@ Restore when required
 | v0.5.0 integration validation | Complete — 314 tests passed |
 
 `Hermes.Common` v0.1.0 and `Hermes.Taskbar` v0.5.0 each pass **48 Pester tests with no failures**.
+
+### v0.6.0 Progress
+
+| Component | Status |
+|---|---|
+| Native Windows developer-tool inventory | Complete and tested |
+| WinGet-backed required-tool provisioning | Complete and tested |
+| VS Code extension validation and provisioning | Complete and tested |
+| OpenSSH agent, key, and host-alias validation | Complete and tested |
+| Bounded Remote SSH connectivity validation | Complete and live-validated |
+| Optional runtime capability reporting | Complete and tested |
+| Full repository validation | Complete — 328 tests passed |
+| VPN integration | Deferred until a VPN architecture is selected |
 
 ---
 
@@ -383,9 +396,23 @@ and the module loads from the managed PowerShell profile.
 
 Documentation: [`modules/workstation/winget/README.md`](modules/workstation/winget/README.md)
 
+### Hermes.Developer
+
+`Hermes.Developer` v0.6.0 defines the native Windows developer-environment
+contract. It inventories required tools, installs only missing approved WinGet
+packages and VS Code extensions, validates `ssh-agent`, loaded keys, and configured
+host aliases, exports local JSON inventories, and performs explicit bounded Remote
+SSH connectivity tests.
+
+WSL, Docker, Python, Node.js, and .NET remain optional capabilities. Their absence
+does not make the workstation noncompliant, and Hermes does not manage the remote
+Ubuntu server, its containers, secrets, backups, or repositories.
+
+Documentation: [`modules/developer/environment/README.md`](modules/developer/environment/README.md)
+
 ### Unified Workstation Profile
 
-The schema-versioned base workstation profile ties all ten configurable components
+The schema-versioned base workstation profile ties all eleven configurable components
 to their owning module manifests and desired-state files without duplicating policy.
 It defines supported platform metadata, execution order, enabled state, required
 versus optional components, and portable repository-relative paths.

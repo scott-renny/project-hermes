@@ -10,7 +10,7 @@
 | Status | Active |
 | Primary Platform | Windows 11 Home |
 | Current Milestone | v0.6.0 — Developer Environment Provisioning |
-| Last Updated | July 21, 2026 |
+| Last Updated | August 8, 2026 |
 
 ---
 
@@ -271,10 +271,12 @@ Provision and validate the development tools required for engineering, cybersecu
 - Visual Studio Code installation and extension management
 - PowerShell 7 installation and module management
 - Windows Terminal provisioning
-- OpenSSH client configuration where supported
-- WSL capability assessment and supported setup
-- Docker capability assessment and supported setup
+- OpenSSH client, agent, key-state, host-alias, and Remote SSH validation
+- VS Code Remote SSH integration with the Ubuntu COC server
+- WSL capability detection without requiring a Linux distribution
+- Docker capability detection without requiring local container workloads
 - Python and Node.js evaluation where required by later tooling
+- Explicit Windows-client and COC-server ownership boundaries
 
 ### Constraints
 
@@ -290,6 +292,9 @@ Provision and validate the development tools required for engineering, cybersecu
 - Failed or unavailable dependencies are reported clearly.
 - Tool versions and availability can be validated after provisioning.
 - Installation behavior supports preview or explicit confirmation where practical.
+- A configured Remote SSH host can be validated without interactive password authentication.
+- Optional runtimes do not make the developer profile noncompliant.
+- Hermes does not modify COC server configuration as part of workstation provisioning.
 
 ---
 

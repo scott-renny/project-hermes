@@ -10,5 +10,6 @@
         'Hermes.VSCode'
         'Hermes.PowerToys'
         'Hermes.Winget'
+        'Hermes.Developer'
     )
 }
