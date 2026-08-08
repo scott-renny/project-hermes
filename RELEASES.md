@@ -10,6 +10,7 @@ While the `CHANGELOG.md` contains a technical record of every change, this docum
 
 | Version | Status | Summary |
 |----------|--------|---------|
+| v0.7.0 | ✅ Released | Visual Environment and Productivity Integration |
 | v0.6.0 | ✅ Released | Developer Environment Provisioning |
 | v0.5.0 | ✅ Released | Workstation Framework |
 | v0.4.0 | ✅ Released | Validation Framework |
@@ -17,6 +18,48 @@ While the `CHANGELOG.md` contains a technical record of every change, this docum
 
 ---
 
+# v0.7.0 — Visual Environment and Productivity Integration
+
+**Status**
+
+Released and tagged on `main`
+
+**Release Date**
+
+August 8, 2026
+
+---
+
+## Overview
+
+Version 0.7.0 delivers the Project Hermes gothic command-center environment as an
+optional, repository-controlled visual layer. It combines original wallpaper,
+Rainmeter panels, and guarded shell-theme helpers without making the visual stack a
+prerequisite for the underlying workstation framework.
+
+## Highlights
+
+- Original gothic command-center wallpaper and cohesive violet visual language
+- Rainmeter clock, launcher, notes, and monitoring sidebars
+- Shared Rainmeter resources and repeatable deployment tooling
+- Guarded Windows Explorer, Windows Terminal, and PowerShell theme integration
+- Documented installation, customization, validation, and recovery boundaries
+- 328 passing Pester tests with no failures on the merged release state
+
+## Release Boundaries
+
+- Rainmeter and shell customization remain optional.
+- AutoHotkey automation and a complete managed Windhawk lifecycle remain deferred.
+- Visual helpers target the validated Windows 11 workstation and do not claim
+  compatibility with every Windows build or third-party theme combination.
+
+## Release Result
+
+The visual environment was reviewed and squash-merged into `main` through pull
+request #5. The merged state passed the complete repository test suite and visual
+desktop review before release tagging.
+
+---
 # v0.6.0 — Developer Environment Provisioning
 
 **Status**
@@ -222,7 +265,7 @@ The following milestones are currently planned.
 
 | Version | Planned Focus |
 |----------|---------------|
-| v0.7.0 | Visual environment, Rainmeter, Windhawk, and productivity integration |
+
 | v0.8.0 | Recovery, maintenance, drift detection, and reporting |
 | v0.9.0 | Integrated orchestration and release candidate |
 | v1.0.0 | Stable production release |
