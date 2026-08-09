@@ -356,4 +356,28 @@ The following milestones are currently planned.
 | Version | Planned Focus |
 |----------|---------------|
 
-| v1.0.0 | Stable production release |
+| v1.0.0 | Stable production release — complete |
+
+
+## v1.0.0 — Stable Reproducible Workstation
+
+Project Hermes v1.0.0 is the first stable release of the supported Windows 11 workstation automation framework.
+
+### Release validation
+
+- Full Pester suite: **381 passed, 0 failed**.
+- PowerShell parsing: no errors across modules, scripts, and tests.
+- Module manifests: **15 valid, 0 invalid**.
+- Canonical workstation audit: **11 of 11 components compliant**.
+- Orchestration preflight: ready on the supported workstation.
+- Recovery readiness: portable backup round-trip and restore-command coverage validated.
+- Source quality: clean whitespace check and no unresolved release changes before finalization.
+- WireGuard: installation and the Home and Untrusted tunnel profiles are configured and complete. The unstable phone-hotspot attempt is not treated as release-validation evidence.
+
+### Stable scope
+
+The release provides documented assessment, planning, backup, provisioning, configuration, validation, reporting, maintenance, and recovery workflows for the supported Windows 11 and PowerShell 7 workstation profile.
+
+Infrastructure services, AI integrations, enterprise directory management, and future homelab services remain external to the stable workstation framework.
+
+---

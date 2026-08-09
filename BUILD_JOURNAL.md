@@ -1139,3 +1139,17 @@ Future entries should record:
 - Remaining work
 
 Entries should describe implementation truthfully and must not mark a module or milestone complete before its required validation passes.
+
+
+## August 8, 2026 — v1.0.0 Stable Release Validation
+
+Project Hermes completed its stable workstation release gates.
+
+- The complete Pester suite passed 381 tests with no failures.
+- Every repository PowerShell file parsed without error.
+- All 15 module manifests were readable and declared valid versions.
+- The canonical repository audit reported 11 of 11 workstation components compliant with no drift, failures, or skipped components.
+- Orchestration preflight reported the supported workstation ready.
+- Recovery-readiness tests confirmed portable backup round-trip behavior, explicit restore commands, and sanitized sample reports.
+- WireGuard and both laptop tunnel profiles were confirmed configured. A phone-hotspot attempt was excluded as evidence because the hotspot was unstable.
+- v1.0 documentation and release records were synchronized.

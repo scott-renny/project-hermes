@@ -9,7 +9,7 @@
 | Document Version | 2.5.0 |
 | Status | Active |
 | Primary Platform | Windows 11 Home |
-| Current Milestone | v1.0.0 — Stable Reproducible Workstation Release |
+| Current Milestone | v1.0.0 — Stable Reproducible Workstation Release (Complete) |
 | Last Updated | August 8, 2026 |
 
 ---
@@ -76,7 +76,7 @@ Maintain or restore
 | v0.7.0 | Visual environment and productivity integration | Complete |
 | v0.8.0 | Recovery, maintenance, and reporting | Complete |
 | v0.9.0 | Integrated orchestration and release candidate | Complete |
-| v1.0.0 | Stable reproducible workstation release | Planned |
+| v1.0.0 | Stable reproducible workstation release | Complete |
 
 Release scope may be refined as implementation evidence becomes available. Any material change must be reflected in this roadmap, the build journal, and the changelog.
 
@@ -402,7 +402,7 @@ Combine stable modules into a coherent end-to-end workstation deployment workflo
 
 ---
 
-## 11. v1.0.0 — Stable Reproducible Workstation
+## 11. v1.0.0 — Stable Reproducible Workstation (Complete)
 
 ### Objective
 
