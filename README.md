@@ -46,9 +46,9 @@ Restore when required
 
 | Area | Status |
 |---|---|
-| Stable release | v0.9.0 — Integrated Orchestration and Release Candidate |
-| Next milestone | v1.0.0 — Stable Reproducible Workstation Release |
-| Development branch | Not started |
+| Stable release | v1.0.0 — Stable Reproducible Workstation |
+| Next milestone | Post-v1 maintenance and documented integrations |
+| Development branch | Stable release preparation complete |
 | Primary platform | Windows 11 Home |
 | Primary shell | PowerShell 7+ |
 | License | MIT |
@@ -533,7 +533,7 @@ Completed milestones:
 - v0.8.0 — Recovery, maintenance, drift detection, and reporting
 - v0.9.0 — Integrated orchestration and release candidate
 
-Upcoming milestones:
+Stable milestone:
 - v1.0.0 — Stable reproducible workstation release
 
 See [`ROADMAP.md`](ROADMAP.md) for the broader project execution plan.
