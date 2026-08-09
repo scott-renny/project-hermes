@@ -6,8 +6,8 @@
 
 <p align="center">
 
-![Status](https://img.shields.io/badge/Status-Active%20Development-orange?style=for-the-badge)
-![Milestone](https://img.shields.io/badge/Milestone-v0.6.0%20Developer-0078D6?style=for-the-badge)
+![Status](https://img.shields.io/badge/Status-Stable-2EA44F?style=for-the-badge)
+![Release](https://img.shields.io/badge/Release-v1.0.0-6F42C1?style=for-the-badge)
 ![PowerShell](https://img.shields.io/badge/PowerShell-7%2B-5391FE?style=for-the-badge&logo=powershell&logoColor=white)
 ![Windows](https://img.shields.io/badge/Windows-11%20Home-0078D6?style=for-the-badge&logo=windows11&logoColor=white)
 ![License](https://img.shields.io/github/license/scott-renny/project-hermes?style=for-the-badge)
@@ -24,7 +24,7 @@ Project Hermes is a modular PowerShell framework for provisioning, configuring, 
 
 Hermes replaces manual workstation setup with documented, repeatable, and testable configuration workflows. Its modules support software engineering, cybersecurity work, homelab administration, and infrastructure operations while preserving clear rollback paths and validation evidence.
 
-The stable **v0.6.0 Developer Environment** release extends the workstation lifecycle with native Windows developer provisioning and validated Remote SSH access:
+The stable **v1.0.0 Stable Reproducible Workstation** release provides an integrated Windows workstation lifecycle with provisioning, validation, backup, recovery, maintenance, reporting, and orchestration:
 
 ```text
 Get current state
@@ -48,7 +48,7 @@ Restore when required
 |---|---|
 | Stable release | v1.0.0 — Stable Reproducible Workstation |
 | Next milestone | Post-v1 maintenance and documented integrations |
-| Development branch | Stable release preparation complete |
+| Release state | Stable and maintained |
 | Primary platform | Windows 11 Home |
 | Primary shell | PowerShell 7+ |
 | License | MIT |
@@ -86,7 +86,7 @@ Restore when required
 | Bounded Remote SSH connectivity validation | Complete and live-validated |
 | Optional runtime capability reporting | Complete and tested |
 | Full repository validation | Complete — 328 tests passed |
-| VPN and untrusted-network validation | Deferred; trusted-network Remote SSH is validated |
+| VPN and untrusted-network validation | Deferred in v0.6.0; WireGuard configuration completed for v1.0.0 |
 
 ---
 
@@ -106,6 +106,17 @@ Windhawk lifecycle remain deferred and are not claimed by v0.7.0.
 
 ---
 
+### v0.8.0 Release
+
+| Component | Status |
+|---|---|
+| Unified workstation audit | Complete and tested |
+| Backup-health validation | Complete and tested |
+| JSON and Markdown maintenance reporting | Complete and tested |
+| Recovery-readiness evidence | Complete and tested |
+| Sanitized maintenance samples | Complete |
+
+---
 ### v0.9.0 Release
 
 | Component | Status |
@@ -121,6 +132,22 @@ Windhawk lifecycle remain deferred and are not claimed by v0.7.0.
 `Hermes.Orchestration` keeps successful, drifted, planned, skipped, and failed
 component outcomes visible independently. Ordinary user-scope work does not require
 unnecessary administrator mode.
+
+---
+### v1.0.0 Stable Release
+
+| Validation gate | Result |
+|---|---|
+| Full Pester suite | 381 passed, 0 failed |
+| PowerShell module manifests | 15 valid, 0 invalid |
+| Canonical workstation audit | 11/11 compliant |
+| Orchestration preflight | Ready |
+| Recovery readiness | Passed |
+| WireGuard configuration | Complete |
+
+The stable release combines the v0.8 recovery and maintenance framework with the
+v0.9 integrated orchestration layer. It provides an ordered, previewable, auditable,
+and recoverable workflow for the supported Windows 11 workstation profile.
 
 ---
 ## Project Objectives
@@ -173,7 +200,7 @@ Invoke-Pester `
     -Output Detailed
 ```
 
-Project Hermes remains under active development. Review module documentation and use `-WhatIf` for supported state-changing commands before applying them.
+Project Hermes v1.0.0 is stable and maintained. Review module documentation and use `-WhatIf` for supported state-changing commands before applying them.
 
 ---
 
@@ -183,9 +210,17 @@ Project Hermes separates orchestration, reusable framework helpers, component po
 
 ```text
 Project-Hermes/
+├── assets/
+│   ├── lockscreens/
+│   ├── rainmeter/
+│   └── wallpapers/
 ├── configs/
+│   ├── developer/
+│   ├── maintenance/
+│   ├── orchestration/
 │   ├── packages/
 │   ├── powershell/
+│   ├── profiles/
 │   ├── rainmeter/
 │   ├── terminal/
 │   ├── vscode/
@@ -200,7 +235,10 @@ Project-Hermes/
 ├── logs/                     # Generated locally; ignored by Git
 ├── modules/
 │   ├── common/
+│   ├── core/
 │   ├── developer/
+│   ├── operations/
+│   ├── orchestration/
 │   └── workstation/
 ├── scripts/
 │   ├── automation/

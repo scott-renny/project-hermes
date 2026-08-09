@@ -35,3 +35,10 @@ Desktop.ini
 .env.*
 credentials*
 secrets*
+
+# Local Hermes overrides and private infrastructure configuration
+assets/rainmeter/HermesLauncher/HermesLauncher.settings.psd1
+configs/**/*.local.psd1
+configs/local/
+wireguard/*.conf
+*.wireguard.conf

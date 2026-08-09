@@ -301,8 +301,8 @@ Provision and validate the development tools required for engineering, cybersecu
 ### Release Evidence
 
 - The profile-isolated repository suite passed 328 tests with no failures, skips, or tests left unrun.
-- Remote SSH to `coc-srv-01` was validated on the trusted home network using the hardened key-based connection.
-- VPN configuration and untrusted-network validation remain explicitly deferred and are not claimed by this release.
+- Remote SSH to `hermes-remote-host` was validated on the trusted home network using the hardened key-based connection.
+- VPN configuration and untrusted-network validation were deferred in v0.6.0 and were later completed as WireGuard configuration for v1.0.0.
 
 ---
 

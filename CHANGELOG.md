@@ -90,15 +90,15 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and
 ### Added
 
 - `Hermes.Developer` v0.6.0 with required-tool inventory, previewable WinGet and VS Code extension provisioning, SSH-agent and host-alias compliance, JSON inventory export, and bounded Remote SSH connectivity testing.
-- Portable developer baseline covering Git, GitHub CLI, PowerShell 7, Visual Studio Code, OpenSSH, required VS Code extensions, the `coc-srv-01` alias, and non-required runtime capability reporting.
+- Portable developer baseline covering Git, GitHub CLI, PowerShell 7, Visual Studio Code, OpenSSH, required VS Code extensions, the `hermes-remote-host` alias, and non-required runtime capability reporting.
 - Developer-environment integration in the unified workstation profile and managed PowerShell startup profile.
 - Explicit ownership boundary keeping Ubuntu COC containers, secrets, backups, network policy, and repositories outside workstation provisioning.
 - Full profile-isolated repository validation with 328 passing tests and no failures.
 
 ### Network Boundary
 
-- Validated hardened key-based Remote SSH to `coc-srv-01` on the trusted home network.
-- Deferred VPN configuration and untrusted-network validation without claiming off-network readiness.
+- Validated hardened key-based Remote SSH to `hermes-remote-host` on the trusted home network.
+- Deferred VPN configuration and untrusted-network validation in v0.6.0 without claiming off-network readiness; WireGuard configuration was completed for v1.0.0.
 
 ### Added
 

@@ -47,7 +47,7 @@
     }
 
     RemoteHosts = @(
-        'coc-srv-01'
+        'hermes-remote-host'
     )
 
     OptionalCapabilities = @(
