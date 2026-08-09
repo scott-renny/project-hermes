@@ -6,10 +6,10 @@
 |---|---|
 | Document | Project Roadmap |
 | Project | Project Hermes |
-| Document Version | 2.4.0 |
+| Document Version | 2.5.0 |
 | Status | Active |
 | Primary Platform | Windows 11 Home |
-| Current Milestone | v0.9.0 — Integrated Orchestration and Release Candidate |
+| Current Milestone | v1.0.0 — Stable Reproducible Workstation Release |
 | Last Updated | August 8, 2026 |
 
 ---
@@ -75,7 +75,7 @@ Maintain or restore
 | v0.6.0 | Developer environment provisioning | Complete |
 | v0.7.0 | Visual environment and productivity integration | Complete |
 | v0.8.0 | Recovery, maintenance, and reporting | Complete |
-| v0.9.0 | Integrated orchestration and release candidate | Planned |
+| v0.9.0 | Integrated orchestration and release candidate | Complete |
 | v1.0.0 | Stable reproducible workstation release | Planned |
 
 Release scope may be refined as implementation evidence becomes available. Any material change must be reflected in this roadmap, the build journal, and the changelog.
@@ -370,7 +370,7 @@ Support long-term workstation operation, repair, drift detection, and evidence-b
 
 Combine stable modules into a coherent end-to-end workstation deployment workflow and prepare the framework for a stable release.
 
-### Planned Scope
+### Completed Scope
 
 - Unified entry point
 - Profile selection
@@ -382,6 +382,14 @@ Combine stable modules into a coherent end-to-end workstation deployment workflo
 - Centralized results and final report
 - Failure recovery guidance
 - Full clean-install rehearsal
+
+### Completion Evidence
+
+- Unified orchestration plans and executes all eleven workstation components in dependency order.
+- Audit, selective apply, explicit inclusion and exclusion, elevation reporting, resumable state, and consolidated reports are implemented.
+- Excluded components remain visible as `Skipped`; successful, drifted, planned, skipped, and failed outcomes are counted independently.
+- `WhatIf` previews do not persist state or claim compliance.
+- The complete Project Hermes suite passes 381 tests with no failures.
 
 ### Acceptance Criteria
 

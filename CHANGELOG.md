@@ -6,6 +6,31 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and
 
 ## [Unreleased]
 
+## [0.9.0] - 2026-08-08
+
+### Added
+
+- `Hermes.Orchestration` v0.9.0 as the unified workstation entry point.
+- Ordered plans, preflight validation, audit and selective apply modes, persistent run state, bounded resume, and JSON/Markdown reports.
+- Explicit component exclusions that remain visible as `Skipped` results.
+- Elevation-awareness metadata for preflight checks and completed runs.
+
+### Changed
+
+- Added independent compliant, drifted, planned, skipped, and failure summaries.
+- Updated resume behavior so intentionally skipped components are not repeated.
+- Advanced the active roadmap milestone to v1.0.0 stable reproducible workstation release.
+
+### Safety
+
+- Preserved explicit apply behavior and `WhatIf` previews without state-file writes.
+- Kept ordinary user-scope configuration available without unnecessary administrator mode.
+
+### Validation
+
+- Validated the complete repository with 381 passing Pester tests and no failures, skips, inconclusive results, or tests left unrun.
+- Completed whitespace validation and focused orchestration validation with 24 passing tests.
+
 ## [0.8.0] - 2026-08-08
 
 ### Added

@@ -1084,6 +1084,46 @@ recovery readiness without introducing unattended destructive maintenance.
 - Prepared the validated branch for review, merge, and the `v0.8.0` release tag.
 
 ---
+
+## August 8, 2026 — v0.9.0 Integrated Orchestration Completion
+
+### Objective
+
+Complete the release-candidate orchestration layer and prove that Project Hermes can
+plan, audit, selectively apply, resume, and report the unified workstation profile
+without hiding skipped or failed work.
+
+### Work Completed
+
+- Added ordered orchestration for all eleven workstation components.
+- Added preflight validation, audit and apply modes, persistent state, bounded resume,
+  and consolidated JSON and Markdown reports.
+- Added explicit component inclusion and exclusion while preserving profile order.
+- Kept excluded components visible as `Skipped` and added independent skipped counts.
+- Added elevation awareness without forcing administrator mode for user-scope work.
+- Updated reporting and documentation for the completed release-candidate behavior.
+
+### Validation Evidence
+
+- Focused orchestration suite: 24 passed, 0 failed.
+- Complete repository suite: 381 passed, 0 failed.
+- No skipped, inconclusive, or unrun tests.
+- `git diff --check` completed successfully.
+
+### Engineering Decisions
+
+- Execution success and desired-state compliance remain separate concepts.
+- Explicit exclusions are auditable outcomes, not invisible omissions.
+- Resume treats compliant, applied, and intentionally skipped components as complete.
+- Elevation is reported centrally, while individual modules retain control over any
+  necessary Windows approval prompt.
+
+### Release Result
+
+- Marked v0.9.0 complete and advanced the active milestone to v1.0.0.
+- Prepared the validated completion branch for review, merge, and the `v0.9.0` tag.
+
+---
 ## Journal Maintenance Standard
 
 Future entries should record:

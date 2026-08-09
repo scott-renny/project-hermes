@@ -10,8 +10,14 @@ Apply mode remains explicit and supports `WhatIf`. Required component failures c
 stop the run; optional-component behavior is controlled by configuration.
 
 Run results distinguish successful execution from full desired-state compliance and
-include component, compliant, drifted, planned, and failure counts. Preview runs do
-not persist orchestration state files.
+include component, compliant, drifted, planned, skipped, and failure counts. Use
+`-Component` for an inclusion list or `-ExcludeComponent` for explicit skips. Skipped
+components remain in the ordered result instead of disappearing from the report.
+
+Preflight and run state record whether the current PowerShell process is elevated.
+User-scope work does not require administrator mode; components that may install
+machine-wide software are labeled so Windows can request approval only when needed.
+Preview runs do not persist orchestration state files.
 
 Apply persistent path-bearing settings such as Desktop and PowerShell only from the
 canonical Project Hermes checkout. Temporary worktrees are intended for development,

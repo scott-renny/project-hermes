@@ -10,12 +10,58 @@ While the `CHANGELOG.md` contains a technical record of every change, this docum
 
 | Version | Status | Summary |
 |----------|--------|---------|
+| v0.9.0 | ✅ Released | Integrated Orchestration and Release Candidate |
 | v0.8.0 | ✅ Released | Recovery, Maintenance, and Reporting |
 | v0.7.0 | ✅ Released | Visual Environment and Productivity Integration |
 | v0.6.0 | ✅ Released | Developer Environment Provisioning |
 | v0.5.0 | ✅ Released | Workstation Framework |
 | v0.4.0 | ✅ Released | Validation Framework |
 | v0.3.0 | ✅ Released | Bootstrap Framework |
+
+---
+
+# v0.9.0 — Integrated Orchestration and Release Candidate
+
+**Status**
+
+Released and tagged on `main`
+
+**Release Date**
+
+August 8, 2026
+
+---
+
+## Overview
+
+Version 0.9.0 combines the existing Project Hermes modules behind a single ordered
+workstation orchestration layer. It supports preflight validation, auditing,
+selective and previewable application, persistent run state, bounded resume, and
+consolidated JSON and Markdown reporting.
+
+## Highlights
+
+- `Hermes.Orchestration` v0.9.0 with six documented public commands
+- Ordered execution across all eleven workstation-profile components
+- Explicit component inclusion and exclusion with visible `Skipped` results
+- Elevation-aware preflight and execution reporting
+- Separate execution-success and desired-state compliance summaries
+- Resumable state that avoids repeating compliant, applied, or skipped work
+- 381 passing Pester tests with no failures
+
+## Safety Boundaries
+
+- Apply mode remains explicit and supports `WhatIf`.
+- Preview runs do not write orchestration state.
+- User-scope configuration does not require an elevated shell.
+- Components that may install machine-wide software identify that requirement and
+  allow Windows to request approval only when a change is necessary.
+
+## Release Result
+
+The release-candidate orchestration workflow passed the complete repository suite,
+including component ordering, exclusions, elevation awareness, reporting, resume,
+maintenance, recovery, visual integration, and every workstation module contract.
 
 ---
 
@@ -310,5 +356,4 @@ The following milestones are currently planned.
 | Version | Planned Focus |
 |----------|---------------|
 
-| v0.9.0 | Integrated orchestration and release candidate |
 | v1.0.0 | Stable production release |
