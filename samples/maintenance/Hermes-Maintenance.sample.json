@@ -1,0 +1,29 @@
+{
+  "schemaVersion": "1.0",
+  "reportId": "00000000-0000-0000-0000-000000000000",
+  "generatedAt": "2026-01-01T00:00:00.0000000Z",
+  "computerName": "REDACTED",
+  "userName": "REDACTED",
+  "overallStatus": "AttentionRequired",
+  "workstationAudit": {
+    "componentCount": 4,
+    "compliantCount": 1,
+    "driftedCount": 1,
+    "unavailableCount": 1,
+    "errorCount": 1,
+    "components": [
+      { "component": "ExampleSuccess", "required": true, "status": "Compliant", "differenceCount": 0 },
+      { "component": "ExampleWarning", "required": true, "status": "Drifted", "differenceCount": 1 },
+      { "component": "ExampleSkipped", "required": false, "status": "Unavailable", "differenceCount": 0 },
+      { "component": "ExampleFailure", "required": true, "status": "Error", "differenceCount": 0 }
+    ]
+  },
+  "backupHealth": {
+    "isHealthy": true,
+    "backupCount": 1,
+    "validCount": 1,
+    "staleCount": 0,
+    "backups": [],
+    "issues": []
+  }
+}

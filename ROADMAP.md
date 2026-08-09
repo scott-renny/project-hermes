@@ -9,7 +9,7 @@
 | Document Version | 2.4.0 |
 | Status | Active |
 | Primary Platform | Windows 11 Home |
-| Current Milestone | v0.8.0 — Recovery, Maintenance, and Reporting |
+| Current Milestone | v0.9.0 — Integrated Orchestration and Release Candidate |
 | Last Updated | August 8, 2026 |
 
 ---
@@ -74,7 +74,7 @@ Maintain or restore
 | v0.5.0 | Workstation configuration framework | Complete |
 | v0.6.0 | Developer environment provisioning | Complete |
 | v0.7.0 | Visual environment and productivity integration | Complete |
-| v0.8.0 | Recovery, maintenance, and reporting | Planned |
+| v0.8.0 | Recovery, maintenance, and reporting | Complete |
 | v0.9.0 | Integrated orchestration and release candidate | Planned |
 | v1.0.0 | Stable reproducible workstation release | Planned |
 
@@ -343,26 +343,24 @@ Apply the Project Hermes visual identity and productivity configuration without 
 
 Support long-term workstation operation, repair, drift detection, and evidence-based maintenance.
 
-### Planned Scope
+### Delivered Scope
 
-- Unified backup inventory
-- Configuration restore orchestration
-- Repair workflows
-- Drift detection
-- Workstation health checks
-- Maintenance scripts
-- Structured execution summaries
-- Human-readable reports
-- Sanitized sample report formats
-- Backup retention policy
+- Unified workstation drift audit across the selected Hermes profile
+- Backup inventory, health, age, and retention-policy evaluation
+- Structured JSON and human-readable Markdown maintenance reports
+- Explicit, exported restore commands with `WhatIf` coverage
+- Portable backup round-trip validation without changing workstation state
+- Sanitized sample reports representing success, warning, skipped, and failed outcomes
+- Recovery-readiness tests covering supported workstation modules
+- Documented operational references to the COC runbook repository
 
-### Acceptance Criteria
+### Release Evidence
 
-- Hermes can identify managed settings that differ from the selected profile.
-- Recovery operations are explicit and validated.
-- Reports separate success, warning, skipped, and failed outcomes.
-- Sensitive workstation data is excluded from public output by default.
-- Maintenance tasks do not run automatically without documented user control.
+- The complete repository suite passed 357 tests with no failures, skips, inconclusive results, or tests left unrun.
+- Recovery evidence verifies portable backup round trips and explicit restore surfaces for every supported workstation module.
+- Sanitized JSON and Markdown samples contain no live workstation identity or local user paths.
+- Whitespace validation completed successfully.
+- Destructive cleanup and automatic repair remain intentionally outside the unattended maintenance path.
 
 ---
 

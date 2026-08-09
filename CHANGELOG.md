@@ -6,6 +6,29 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and
 
 ## [Unreleased]
 
+## [0.8.0] - 2026-08-08
+
+### Added
+
+- `Hermes.Maintenance` v0.8.0 for unified workstation audits, backup-health evaluation, and consolidated maintenance reporting.
+- JSON and Markdown maintenance report export with sanitized public samples.
+- Recovery-readiness coverage for portable backup round trips and every supported workstation restore command.
+- Explicit operational references to the COC engineering runbook repository.
+
+### Changed
+
+- Aligned portable desired-state files with the completed v0.7 visual environment.
+- Advanced the active roadmap milestone to v0.9.0 integrated orchestration and release-candidate preparation.
+
+### Safety
+
+- Kept repair, restore, retention cleanup, and other destructive actions explicit and user controlled.
+- Excluded machine identity, local user paths, and secrets from published sample reports.
+
+### Validation
+
+- Validated the complete repository with 357 passing Pester tests and no failures, skips, inconclusive results, or tests left unrun.
+- Completed whitespace validation and recovery-evidence review.
 ## [0.7.0] - 2026-08-08
 
 ### Added
@@ -241,7 +264,11 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and
 - Core tool installation workflow.
 - Initial project documentation and repository standards.
 
-[Unreleased]: https://github.com/scott-renny/project-hermes/compare/v0.4.0...HEAD
+[Unreleased]: https://github.com/scott-renny/project-hermes/compare/v0.8.0...HEAD
+[0.8.0]: https://github.com/scott-renny/project-hermes/releases/tag/v0.8.0
+[0.7.0]: https://github.com/scott-renny/project-hermes/releases/tag/v0.7.0
+[0.6.0]: https://github.com/scott-renny/project-hermes/releases/tag/v0.6.0
+[0.5.0]: https://github.com/scott-renny/project-hermes/releases/tag/v0.5.0
 [0.4.0]: https://github.com/scott-renny/project-hermes/releases/tag/v0.4.0
 [0.3.1]: https://github.com/scott-renny/project-hermes/releases/tag/v0.3.1
 [0.2.0]: https://github.com/scott-renny/project-hermes/releases/tag/v0.2.0

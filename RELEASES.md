@@ -10,6 +10,7 @@ While the `CHANGELOG.md` contains a technical record of every change, this docum
 
 | Version | Status | Summary |
 |----------|--------|---------|
+| v0.8.0 | ✅ Released | Recovery, Maintenance, and Reporting |
 | v0.7.0 | ✅ Released | Visual Environment and Productivity Integration |
 | v0.6.0 | ✅ Released | Developer Environment Provisioning |
 | v0.5.0 | ✅ Released | Workstation Framework |
@@ -18,6 +19,49 @@ While the `CHANGELOG.md` contains a technical record of every change, this docum
 
 ---
 
+# v0.8.0 — Recovery, Maintenance, and Reporting
+
+**Status**
+
+Released and tagged on `main`
+
+**Release Date**
+
+August 8, 2026
+
+---
+
+## Overview
+
+Version 0.8.0 adds evidence-based workstation maintenance and recovery readiness.
+It consolidates component drift, backup health, retention findings, and operational
+references into portable JSON and Markdown reports while keeping repair and restore
+actions explicit and user controlled.
+
+## Highlights
+
+- `Hermes.Maintenance` v0.8.0 with five documented public commands
+- Unified audits across the selected workstation profile
+- Backup health and retention-policy evaluation
+- Structured JSON and Markdown maintenance reports
+- Portable backup round-trip and restore-surface validation
+- Sanitized sample reports covering every supported outcome
+- 357 passing Pester tests with no failures
+
+## Safety Boundaries
+
+- Maintenance audits and reports do not automatically repair drift.
+- Restore operations remain explicit, independently exported, and previewable where supported.
+- Public samples exclude local paths, live workstation identity, and secrets.
+- Destructive cleanup remains deferred to documented, user-controlled workflows.
+
+## Release Result
+
+The complete repository suite passed with 357 tests and no failures. Recovery-readiness
+evidence verifies portable backups, explicit restore commands, `WhatIf` documentation,
+and sanitized maintenance output suitable for public review.
+
+---
 # v0.7.0 — Visual Environment and Productivity Integration
 
 **Status**
@@ -266,6 +310,5 @@ The following milestones are currently planned.
 | Version | Planned Focus |
 |----------|---------------|
 
-| v0.8.0 | Recovery, maintenance, drift detection, and reporting |
 | v0.9.0 | Integrated orchestration and release candidate |
 | v1.0.0 | Stable production release |
