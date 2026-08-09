@@ -10,11 +10,11 @@
   Repository         project-hermes
   Owner              Scott Renny
   Status             Stable
-  Document Version   2.1.0
-  Project Version    v0.5.0 Release Candidate
+  Document Version   2.2.0
+  Project Version    v1.0.1 Stable
   License            MIT
-  Last Updated       July 20, 2026
-  Next Review        Prior to v0.5.0 release
+  Last Updated       August 9, 2026
+  Next Review        At the next supported release or material scope change
 
 ------------------------------------------------------------------------
 
