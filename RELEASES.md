@@ -10,6 +10,8 @@ While the `CHANGELOG.md` contains a technical record of every change, this docum
 
 | Version | Status | Summary |
 |----------|--------|---------|
+| v1.0.1 | ✅ Released | Public Release Sanitization |
+| v1.0.0 | ✅ Released | Stable Reproducible Workstation |
 | v0.9.0 | ✅ Released | Integrated Orchestration and Release Candidate |
 | v0.8.0 | ✅ Released | Recovery, Maintenance, and Reporting |
 | v0.7.0 | ✅ Released | Visual Environment and Productivity Integration |
@@ -17,6 +19,63 @@ While the `CHANGELOG.md` contains a technical record of every change, this docum
 | v0.5.0 | ✅ Released | Workstation Framework |
 | v0.4.0 | ✅ Released | Validation Framework |
 | v0.3.0 | ✅ Released | Bootstrap Framework |
+
+---
+
+# v1.0.1 — Public Release Sanitization
+
+**Status**
+
+Released and tagged on `main`
+
+**Release Date**
+
+August 9, 2026
+
+---
+
+## Overview
+
+Version 1.0.1 synchronizes the public repository with the stable v1 release. It
+removes machine-specific paths and host aliases from portable examples, strengthens
+local-configuration exclusions and security-reporting guidance, and updates public
+release and governance documentation.
+
+## Validation
+
+- Sensitive-pattern scan returned no private hostnames, internal addresses, or personal paths.
+- The complete repository suite passed 381 tests with no failures.
+- Whitespace validation completed without errors.
+- Workstation automation behavior is unchanged from v1.0.0.
+
+---
+
+# v1.0.0 — Stable Reproducible Workstation
+
+**Status**
+
+Released and tagged on `main`
+
+**Release Date**
+
+August 8, 2026
+
+---
+
+## Overview
+
+Version 1.0.0 is the first stable release of the supported Windows 11 workstation
+automation framework. It combines the complete workstation lifecycle, recovery and
+maintenance evidence, and integrated orchestration behind documented and validated
+public workflows.
+
+## Validation
+
+- Full Pester suite: **381 passed, 0 failed**.
+- PowerShell parsing: no errors across modules, scripts, and tests.
+- Module manifests: **15 valid, 0 invalid**.
+- Canonical workstation audit: **11 of 11 components compliant**.
+- Orchestration preflight and recovery readiness passed.
 
 ---
 
@@ -349,15 +408,7 @@ This version created the foundation that all future Hermes functionality builds 
 
 ---
 
-# Future Releases
-
-The following milestones are currently planned.
-
-| Version | Planned Focus |
-|----------|---------------|
-
-| v1.0.0 | Stable production release — complete |
-
+# Stable Release Scope
 
 ## v1.0.0 — Stable Reproducible Workstation
 

@@ -7,7 +7,7 @@
 <p align="center">
 
 ![Status](https://img.shields.io/badge/Status-Stable-2EA44F?style=for-the-badge)
-![Release](https://img.shields.io/badge/Release-v1.0.0-6F42C1?style=for-the-badge)
+![Release](https://img.shields.io/badge/Release-v1.0.1-6F42C1?style=for-the-badge)
 ![PowerShell](https://img.shields.io/badge/PowerShell-7%2B-5391FE?style=for-the-badge&logo=powershell&logoColor=white)
 ![Windows](https://img.shields.io/badge/Windows-11%20Home-0078D6?style=for-the-badge&logo=windows11&logoColor=white)
 ![License](https://img.shields.io/github/license/scott-renny/project-hermes?style=for-the-badge)
@@ -24,7 +24,7 @@ Project Hermes is a modular PowerShell framework for provisioning, configuring, 
 
 Hermes replaces manual workstation setup with documented, repeatable, and testable configuration workflows. Its modules support software engineering, cybersecurity work, homelab administration, and infrastructure operations while preserving clear rollback paths and validation evidence.
 
-The stable **v1.0.0 Stable Reproducible Workstation** release provides an integrated Windows workstation lifecycle with provisioning, validation, backup, recovery, maintenance, reporting, and orchestration:
+The stable **v1.0.1** release preserves the v1.0.0 Stable Reproducible Workstation and provides an integrated Windows workstation lifecycle with provisioning, validation, backup, recovery, maintenance, reporting, and orchestration:
 
 ```text
 Get current state
@@ -46,7 +46,7 @@ Restore when required
 
 | Area | Status |
 |---|---|
-| Stable release | v1.0.0 — Stable Reproducible Workstation |
+| Stable release | v1.0.1 — Public Release Sanitization |
 | Next milestone | Post-v1 maintenance and documented integrations |
 | Release state | Stable and maintained |
 | Primary platform | Windows 11 Home |
@@ -134,6 +134,21 @@ component outcomes visible independently. Ordinary user-scope work does not requ
 unnecessary administrator mode.
 
 ---
+### v1.0.1 Maintenance Release
+
+| Maintenance area | Result |
+|---|---|
+| Public documentation | Synchronized with the stable release |
+| Machine-specific examples | Replaced with portable placeholders |
+| Local configuration exclusions | Strengthened |
+| Security reporting guidance | Updated |
+| Regression validation | 381 passed, 0 failed |
+
+This patch release changes public documentation and examples only; it does not alter
+the supported workstation automation behavior.
+
+---
+
 ### v1.0.0 Stable Release
 
 | Validation gate | Result |
@@ -200,7 +215,7 @@ Invoke-Pester `
     -Output Detailed
 ```
 
-Project Hermes v1.0.0 is stable and maintained. Review module documentation and use `-WhatIf` for supported state-changing commands before applying them.
+Project Hermes v1.0.1 is stable and maintained. Review module documentation and use `-WhatIf` for supported state-changing commands before applying them.
 
 ---
 

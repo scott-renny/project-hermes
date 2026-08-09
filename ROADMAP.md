@@ -9,8 +9,8 @@
 | Document Version | 2.5.0 |
 | Status | Active |
 | Primary Platform | Windows 11 Home |
-| Current Milestone | v1.0.0 — Stable Reproducible Workstation Release (Complete) |
-| Last Updated | August 8, 2026 |
+| Current Milestone | v1.0.1 — Public Release Sanitization (Complete) |
+| Last Updated | August 9, 2026 |
 
 ---
 
@@ -77,6 +77,7 @@ Maintain or restore
 | v0.8.0 | Recovery, maintenance, and reporting | Complete |
 | v0.9.0 | Integrated orchestration and release candidate | Complete |
 | v1.0.0 | Stable reproducible workstation release | Complete |
+| v1.0.1 | Public release sanitization | Complete |
 
 Release scope may be refined as implementation evidence becomes available. Any material change must be reflected in this roadmap, the build journal, and the changelog.
 
