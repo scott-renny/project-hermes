@@ -46,8 +46,8 @@ Restore when required
 
 | Area | Status |
 |---|---|
-| Stable release | v0.7.0 — Visual Environment and Productivity Integration |
-| Next milestone | v0.8.0 — Recovery, Maintenance, and Reporting |
+| Stable release | v0.8.0 — Recovery, Maintenance, and Reporting |
+| Next milestone | v0.9.0 — Integrated Orchestration and Release Candidate |
 | Development branch | Not started |
 | Primary platform | Windows 11 Home |
 | Primary shell | PowerShell 7+ |
@@ -512,10 +512,9 @@ Completed milestones:
 - v0.5.0 — Workstation configuration framework
 - v0.6.0 — Developer environment provisioning
 - v0.7.0 — Visual environment and productivity integration
+- v0.8.0 — Recovery, maintenance, drift detection, and reporting
 
 Upcoming milestones:
-
-- v0.8.0 — Recovery, maintenance, drift detection, and reporting
 - v0.9.0 — Integrated orchestration and release candidate
 - v1.0.0 — Stable reproducible workstation release
 

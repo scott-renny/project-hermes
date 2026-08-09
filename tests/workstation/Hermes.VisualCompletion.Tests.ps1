@@ -24,7 +24,7 @@ Describe 'Hermes visual-completion assets' {
     It 'forces the launcher to accept mouse input on refresh' {
         $content = Get-Content -LiteralPath $launcherIni -Raw
         $content | Should -Match '\[!ClickThrough 0\]'
-        $content | Should -Match '(?m)^MouseActionCursor=1$'
+        $content | Should -Match '(?m)^MouseActionCursor=1\r?$'
     }
 
     It 'defines every launcher action exposed by the skin' {

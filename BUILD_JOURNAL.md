@@ -1049,6 +1049,41 @@ gothic command-center direction while preserving workstation stability and daily
 - Prepared the validated merged state for the `v0.7.0` release tag.
 
 ---
+## v0.8.0 Recovery, Maintenance, and Reporting Closeout
+
+### Objective
+
+Deliver evidence-based workstation auditing, backup-health reporting, and explicit
+recovery readiness without introducing unattended destructive maintenance.
+
+### Work Completed
+
+- Added `Hermes.Maintenance` v0.8.0 and its portable maintenance configuration.
+- Added consolidated workstation audit and backup-health reporting.
+- Added JSON and Markdown report export plus sanitized representative samples.
+- Added recovery-readiness coverage for portable backup round trips and all supported restore commands.
+- Aligned the portable baseline with the completed v0.7 visual environment.
+- Documented COC operational references without duplicating its runbooks and playbooks.
+
+### Engineering Decisions
+
+- Auditing and reporting may run independently; repair and restore remain explicit user actions.
+- Public evidence must exclude local paths, live workstation identity, and secrets.
+- Destructive retention cleanup and automatic remediation remain deferred.
+- COC procedures remain owned by the COC engineering repository and are referenced rather than copied.
+
+### Validation
+
+- The complete repository suite passed 357 tests with no failures, skips, inconclusive results, or tests left unrun.
+- Portable backup round-trip, restore-surface, `WhatIf`, and sanitized-sample contracts passed.
+- `git diff --check` completed successfully.
+
+### Release Result
+
+- Marked v0.8.0 complete and advanced the active milestone to v0.9.0.
+- Prepared the validated branch for review, merge, and the `v0.8.0` release tag.
+
+---
 ## Journal Maintenance Standard
 
 Future entries should record:
