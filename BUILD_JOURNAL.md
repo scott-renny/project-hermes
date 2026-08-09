@@ -1153,3 +1153,16 @@ Project Hermes completed its stable workstation release gates.
 - Recovery-readiness tests confirmed portable backup round-trip behavior, explicit restore commands, and sanitized sample reports.
 - WireGuard and both laptop tunnel profiles were confirmed configured. A phone-hotspot attempt was excluded as evidence because the hotspot was unstable.
 - v1.0 documentation and release records were synchronized.
+
+---
+
+## August 9, 2026 — v1.0.1 Public Release Sanitization
+
+Project Hermes completed a post-v1 public repository consistency and privacy review.
+
+- Replaced machine-specific paths and host aliases in portable examples.
+- Strengthened exclusions for local launcher settings, local configuration, and VPN exports.
+- Updated stable-release badges, summaries, governance metadata, and security-reporting guidance.
+- Confirmed the sensitive-pattern scan returned no private hostnames, internal addresses, or personal paths.
+- Revalidated the complete repository with 381 passing tests and no failures.
+- Preserved the v1.0.0 workstation automation behavior without functional changes.
