@@ -192,3 +192,7 @@ surfaces while preserving standard behavior and accessibility.
 Both installers create timestamped backups below xports/backups and support
 PowerShell's standard -WhatIf preview behavior.
 <!-- HERMES-V07-SHELL-END -->
+
+## Visual completion
+
+The completed shell includes a repository-owned gothic lock screen and a portable Rainmeter launcher resolver. Launcher actions no longer depend on temporary Codex worktrees; local applications are discovered at runtime, operational documentation opens from the authoritative COC repository, and private dashboard addresses remain explicitly local configuration.

@@ -30,6 +30,14 @@ if ($PSCmdlet.ShouldProcess($destinationRoot, 'Install Project Hermes Rainmeter 
         $source = Join-Path $sourceRoot $skinName
         $destination = Join-Path $destinationRoot $skinName
 
+        $preservedSettings = $null
+        if ($skinName -eq 'HermesLauncher') {
+            $settingsPath = Join-Path $destination 'HermesLauncher.settings.psd1'
+            if (Test-Path -LiteralPath $settingsPath -PathType Leaf) {
+                $preservedSettings = Get-Content -LiteralPath $settingsPath -Raw
+            }
+        }
+
         if (-not (Test-Path -LiteralPath $source -PathType Container)) {
             throw "Required Rainmeter asset '$source' is missing."
         }
@@ -42,6 +50,18 @@ if ($PSCmdlet.ShouldProcess($destinationRoot, 'Install Project Hermes Rainmeter 
 
         if ($LASTEXITCODE -ge 8) {
             throw "Rainmeter deployment failed for '$skinName' with Robocopy exit code $LASTEXITCODE."
+        }
+
+        if ($skinName -eq 'HermesLauncher') {
+            $settingsPath = Join-Path $destination 'HermesLauncher.settings.psd1'
+            if ($null -ne $preservedSettings) {
+                Set-Content -LiteralPath $settingsPath -Value $preservedSettings -NoNewline -Encoding utf8NoBOM
+            }
+            elseif (-not (Test-Path -LiteralPath $settingsPath -PathType Leaf)) {
+                Copy-Item `
+                    -LiteralPath (Join-Path $destination 'HermesLauncher.settings.example.psd1') `
+                    -Destination $settingsPath
+            }
         }
 
         $installedIniFiles = Get-ChildItem -LiteralPath $destination -Filter '*.ini' -File
@@ -99,18 +119,45 @@ if (-not $rainmeterProcess) {
 & $rainmeterPath '!RefreshApp'
 Start-Sleep -Milliseconds 750
 
+$legacyConfigs = @(
+    'HermesClock'
+    'HermesPerformance'
+    'HermesAgenda'
+    'HermesNotes'
+    'HermesIdentity'
+    'HermesQuickLaunch'
+    'ProjectHermes\HermesClock'
+    'ProjectHermes\HermesPerformance'
+    'ProjectHermes\HermesAgenda'
+    'ProjectHermes\HermesNotes'
+    'ProjectHermes\HermesIdentity'
+    'ProjectHermes\HermesLauncher'
+    'ProjectHermes\HermesSidebar'
+)
+
+foreach ($legacyConfig in $legacyConfigs) {
+    & $rainmeterPath '!DeactivateConfig' $legacyConfig
+}
+
 $configs = @(
     @{ Name = 'HermesLauncher'; File = 'HermesLauncher.ini' }
-    @{ Name = 'HermesClock'; File = 'HermesClock.ini' }
-    @{ Name = 'HermesPerformance'; File = 'HermesPerformance.ini' }
-    @{ Name = 'HermesAgenda'; File = 'HermesAgenda.ini' }
-    @{ Name = 'HermesNotes'; File = 'HermesNotes.ini' }
-    @{ Name = 'HermesIdentity'; File = 'HermesIdentity.ini' }
+    @{ Name = 'HermesSidebar'; File = 'HermesSidebar.ini' }
 )
 
 foreach ($config in $configs) {
     & $rainmeterPath '!ActivateConfig' $config.Name $config.File
 }
+
+Add-Type -AssemblyName System.Windows.Forms
+$workingArea = [System.Windows.Forms.Screen]::PrimaryScreen.WorkingArea
+$panelWidth = 376
+
+& $rainmeterPath '!Move' $workingArea.Left $workingArea.Top 'HermesLauncher'
+& $rainmeterPath `
+    '!Move' `
+    ($workingArea.Right - $panelWidth) `
+    $workingArea.Top `
+    'HermesSidebar'
 
 [pscustomobject]@{
     InstalledTo = $destinationRoot
