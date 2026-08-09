@@ -6,9 +6,9 @@
 |---|---|
 | Document | Security Policy |
 | Project | Project Hermes |
-| Version | 1.0.0 |
+| Version | 1.1.0 |
 | Status | Active |
-| Last Updated | July 19, 2026 |
+| Last Updated | August 9, 2026 |
 
 ---
 
@@ -48,7 +48,7 @@ Project Hermes follows these principles:
 
 | Version | Supported |
 |---|:---:|
-| 0.x.x | ✅ |
+| 0.x.x | ❌ |
 | 1.x.x | ✅ |
 
 ---
@@ -57,12 +57,12 @@ Project Hermes follows these principles:
 
 If a security issue is discovered:
 
-1. Do not publish exploit details immediately.
-2. Document the issue privately.
-3. Assess impact and affected files.
-4. Implement and validate a fix.
-5. Record the resolution in the Build Journal.
-6. Document release-impacting fixes in the Changelog.
+1. Use GitHub's private vulnerability-reporting feature from the repository Security tab when available.
+2. Do not include credentials, exploit details, or private infrastructure data in a public issue.
+3. If private reporting is unavailable, open a minimal public issue requesting a private contact channel without disclosing sensitive details.
+4. Assess impact and affected files privately.
+5. Implement and validate a fix.
+6. Record the resolution in the Build Journal and document release-impacting fixes in the Changelog.
 
 ---
 
@@ -145,3 +145,4 @@ For confirmed security issues:
 | Version | Date | Description |
 |---|---|---|
 | 1.0.0 | July 19, 2026 | Initial security policy. |
+| 1.1.0 | August 9, 2026 | Updated supported versions and private vulnerability-reporting guidance for v1.0.0. |

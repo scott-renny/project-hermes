@@ -9,7 +9,7 @@
   Subtitle           Mobile Operations Terminal
   Repository         project-hermes
   Owner              Scott Renny
-  Status             Active Development
+  Status             Stable
   Document Version   2.1.0
   Project Version    v0.5.0 Release Candidate
   License            MIT

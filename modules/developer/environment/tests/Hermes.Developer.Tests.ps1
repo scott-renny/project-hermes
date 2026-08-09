@@ -13,7 +13,7 @@ BeforeAll {
         Tools = @($script:Configuration.Tools | ForEach-Object {[pscustomobject]@{Name=$_.Name;Command=$_.Command;Installed=$true;Version='test';Path="C:\Test\$($_.Command).exe";PackageId=$_.PackageId;Source=$_.Source}})
         VSCodeExtensions = @($script:Configuration.VSCodeExtensions)
         SshAgent = [pscustomobject]@{Exists=$true;Status='Running';StartupType='Automatic';LoadedKeys=@('256 SHA256:test hermes-test (ED25519)')}
-        RemoteHosts = @('coc-srv-01')
+        RemoteHosts = @('hermes-remote-host')
         OptionalCapabilities = @()
     }
 }

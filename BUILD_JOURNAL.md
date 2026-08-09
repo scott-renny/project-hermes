@@ -342,7 +342,7 @@ The approved Project Hermes wallpaper concept was then applied successfully.
 Independent discovery and compliance testing returned:
 
 ```text
-WallpaperPath  : C:\Users\scott\Projects\Project-Hermes\assets\wallpapers\hermes-wallpaper-concept-v2.png
+WallpaperPath  : assets\wallpapers\hermes-wallpaper-concept-v2.png
 WallpaperStyle : Fill
 DesktopIcons   : Shown
 IsCompliant    : True
@@ -994,7 +994,7 @@ uses Remote SSH to perform server-side engineering work on the Ubuntu COC host.
   skips, or tests left unrun.
 - Live inventory reports the required developer baseline compliant.
 - The `ssh-agent` service is automatic and running with an ED25519 key loaded.
-- The `coc-srv-01` alias passed a bounded non-interactive SSH connectivity test.
+- The `hermes-remote-host` alias passed a bounded non-interactive SSH connectivity test.
 
 ---
 
@@ -1004,7 +1004,7 @@ uses Remote SSH to perform server-side engineering work on the Ubuntu COC host.
 
 - Squash-merged the developer-environment foundation into `main` through pull request #3.
 - Confirmed the complete profile-isolated repository suite passes 328 tests with no failures, skips, or tests left unrun.
-- Recorded trusted-network Remote SSH validation using the hardened key-based `coc-srv-01` connection.
+- Recorded trusted-network Remote SSH validation using the hardened key-based `hermes-remote-host` connection.
 - Kept VPN configuration and untrusted-network validation deferred; v0.6.0 makes no off-network readiness claim.
 - Advanced the active roadmap milestone to v0.7.0 visual environment and productivity integration.
 - Tagged the validated merged release as `v0.6.0`.

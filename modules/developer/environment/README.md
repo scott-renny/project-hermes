@@ -24,7 +24,7 @@ Test-HermesDeveloperConfiguration -Configuration $configuration
 Get-HermesDeveloperEnvironment -Configuration $configuration
 Test-HermesDeveloperEnvironment -Configuration $configuration
 Set-HermesDeveloperEnvironment -Configuration $configuration -WhatIf
-Test-HermesRemoteHost -HostName coc-srv-01
+Test-HermesRemoteHost -HostName hermes-remote-host
 ```
 
 Use `Export-HermesDeveloperInventory` to write a reviewable JSON inventory under the ignored `exports` tree.
