@@ -4,6 +4,23 @@ All notable changes to Project Hermes are documented in this file.
 
 The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and Project Hermes uses [Semantic Versioning](https://semver.org/spec/v2.0.0.html) where applicable.
 
+## [Unreleased]
+
+## [v1.0.1] — 2026-08-09
+
+### Changed
+
+- Synchronized public documentation and governance metadata with the stable release.
+- Replaced machine-specific paths and host aliases in portable examples.
+- Strengthened exclusions for local launcher settings, local configuration, and VPN exports.
+- Updated security reporting guidance and repository architecture summaries.
+
+### Validation
+
+- Confirmed the sensitive-pattern scan returns no private hostnames, internal addresses, or personal paths.
+- Validated the complete repository with 381 passing tests and no failures.
+- Confirmed the patch does not change supported workstation automation behavior.
+
 ## [v1.0.0] — 2026-08-08
 
 ### Stable
@@ -15,8 +32,6 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and
 - Confirmed orchestration preflight, recovery readiness, sanitized reporting evidence, and documented restore coverage.
 - Recorded the completed WireGuard installation and Home and Untrusted tunnel profiles.
 - Completed the release documentation, security/privacy review evidence, and public workflow audit.
-## [Unreleased]
-
 ## [0.9.0] - 2026-08-08
 
 ### Added
