@@ -45,6 +45,29 @@ Describe 'Hermes orchestration planning' {
     It 'rejects an unknown component' {
         { Get-HermesOrchestrationPlan $script:Configuration -Component 'Unknown' } | Should -Throw '*Unknown workstation component*'
     }
+    It 'preserves order and marks explicit exclusions' {
+        $plan = Get-HermesOrchestrationPlan $script:Configuration -ExcludeComponent @('PowerShell','Terminal')
+        $plan.ComponentCount | Should -Be 11
+        $plan.ExcludedCount | Should -Be 2
+        @($plan.Components | Where-Object Excluded).Component | Should -Be @('Terminal','PowerShell')
+    }
+    It 'rejects overlapping inclusion and exclusion' {
+        { Get-HermesOrchestrationPlan $script:Configuration -Component 'Desktop' -ExcludeComponent 'Desktop' } |
+            Should -Throw '*both included and excluded*'
+    }
+}
+
+Describe 'Hermes orchestration elevation awareness' {
+    It 'reports elevation state without failing user-scope preflight' {
+        $preflight = Test-HermesOrchestrationPreflight $script:Configuration -Component 'Desktop'
+        $preflight.IsElevated | Should -BeOfType [bool]
+        $preflight.IsReady | Should -BeTrue
+        $preflight.Components[0].Elevation | Should -Be 'CurrentUser'
+    }
+    It 'labels components that may request administrator approval' {
+        $preflight = Test-HermesOrchestrationPreflight $script:Configuration -Component 'Winget'
+        $preflight.Components[0].Elevation | Should -Be 'MayRequireAdministrator'
+    }
 }
 
 Describe 'Hermes orchestration reporting' {
@@ -64,6 +87,14 @@ Describe 'Hermes orchestration reporting' {
 }
 
 Describe 'Hermes orchestration execution summary' {
+    It 'keeps excluded components visible as skipped' {
+        $state = Invoke-HermesWorkstation -Configuration $script:Configuration -Mode Audit -ExcludeComponent @('Terminal','VSCode','PowerToys')
+        $state.ComponentCount | Should -Be 11
+        $state.SkippedCount | Should -Be 3
+        @($state.Results | Where-Object Status -eq 'Skipped').Component | Should -Be @('Terminal','VSCode','PowerToys')
+        $state.FailureCount | Should -Be 0
+        $state.IsElevated | Should -BeOfType [bool]
+    }
     It 'distinguishes a successful audit from a compliant workstation' {
         $state = Invoke-HermesWorkstation -Configuration $script:Configuration -Mode Audit -Component @('Desktop','PowerShell')
 
@@ -117,6 +148,21 @@ Describe 'Hermes orchestration resume behavior' {
 
         $result.RunId | Should -Be 'completed-run'
         $result.Results.Count | Should -Be 2
+    }
+
+    It 'does not resume an explicitly skipped component' {
+        $statePath = Join-Path $TestDrive 'skipped.json'
+        [pscustomobject]@{
+            RunId = 'skipped-run'
+            Results = @(
+                [pscustomobject]@{ Component='Desktop'; Status='Compliant' }
+                [pscustomobject]@{ Component='PowerShell'; Status='Skipped' }
+            )
+        } | ConvertTo-Json -Depth 4 | Set-Content -LiteralPath $statePath
+
+        $result = Resume-HermesWorkstation -Configuration $script:Configuration -StatePath $statePath -Confirm:$false
+
+        $result.RunId | Should -Be 'skipped-run'
     }
 
     It 'rejects a missing state file' {

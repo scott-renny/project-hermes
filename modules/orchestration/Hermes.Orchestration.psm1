@@ -26,6 +26,26 @@ function ConvertTo-HermesOrchestrationArray {
     @($Value)
 }
 
+function Test-HermesOrchestrationElevation {
+    [CmdletBinding()]
+    param()
+
+    if (-not $IsWindows) { return $false }
+    try {
+        $identity = [Security.Principal.WindowsIdentity]::GetCurrent()
+        $principal = [Security.Principal.WindowsPrincipal]::new($identity)
+        $principal.IsInRole([Security.Principal.WindowsBuiltInRole]::Administrator)
+    }
+    catch { $false }
+}
+
+function Get-HermesComponentElevationRequirement {
+    param([Parameter(Mandatory)] [string]$Component)
+
+    if ($Component -in @('Winget', 'Developer')) { 'MayRequireAdministrator' }
+    else { 'CurrentUser' }
+}
+
 function Test-HermesOrchestrationConfiguration {
     <# .SYNOPSIS Validates a Project Hermes orchestration configuration. #>
     [CmdletBinding()]
@@ -63,7 +83,8 @@ function Get-HermesOrchestrationPlan {
     [CmdletBinding()]
     param(
         [Parameter(Mandatory)] [System.Collections.IDictionary]$Configuration,
-        [string[]]$Component
+        [string[]]$Component,
+        [string[]]$ExcludeComponent
     )
 
     $validation = Test-HermesOrchestrationConfiguration -Configuration $Configuration
@@ -74,9 +95,20 @@ function Get-HermesOrchestrationPlan {
     if (-not (Test-Path -LiteralPath $profilePath -PathType Leaf)) { throw "Workstation profile not found: $profilePath" }
     $profile = Import-PowerShellDataFile -LiteralPath $profilePath
     $selected = if ($Component) { @($Component) } else { @($profile.Order) }
+    $excluded = @(
+        $ExcludeComponent |
+            Where-Object { -not [string]::IsNullOrWhiteSpace([string]$_) }
+    )
 
     foreach ($name in $selected) {
         if ($name -notin $profile.Order) { throw "Unknown workstation component '$name'." }
+    }
+    foreach ($name in $excluded) {
+        if ($name -notin $profile.Order) { throw "Unknown workstation component '$name'." }
+    }
+    $overlap = @($selected | Where-Object { $_ -in $excluded })
+    if ($Component -and $overlap.Count -gt 0) {
+        throw "A workstation component cannot be both included and excluded: $($overlap -join ', ')."
     }
 
     $position = 0
@@ -94,6 +126,8 @@ function Get-HermesOrchestrationPlan {
             ModulePath        = $modulePath
             ConfigurationPath = $configurationPath
             Commands          = [pscustomobject]$script:ComponentCommands[$name]
+            Excluded          = $name -in $excluded
+            Elevation         = Get-HermesComponentElevationRequirement -Component $name
         }
     }
 
@@ -102,6 +136,7 @@ function Get-HermesOrchestrationPlan {
         ProfileName   = $profile.Name
         RepositoryRoot = $root
         ComponentCount = @($items).Count
+        ExcludedCount = @($items | Where-Object Excluded).Count
         Components    = @($items)
     }
 }
@@ -111,12 +146,26 @@ function Test-HermesOrchestrationPreflight {
     [CmdletBinding()]
     param(
         [Parameter(Mandatory)] [System.Collections.IDictionary]$Configuration,
-        [string[]]$Component
+        [string[]]$Component,
+        [string[]]$ExcludeComponent
     )
 
-    $plan = Get-HermesOrchestrationPlan -Configuration $Configuration -Component $Component
+    $plan = Get-HermesOrchestrationPlan -Configuration $Configuration -Component $Component -ExcludeComponent $ExcludeComponent
+    $isElevated = Test-HermesOrchestrationElevation
     $results = foreach ($item in $plan.Components) {
         $issues = [Collections.Generic.List[string]]::new()
+        $warnings = [Collections.Generic.List[string]]::new()
+        if ($item.Excluded) {
+            [pscustomobject]@{
+                Component = $item.Component; Required = $item.Required; IsReady = $true
+                IsExcluded = $true; Elevation = $item.Elevation
+                Issues = @(); Warnings = @('Explicitly excluded from this run.')
+            }
+            continue
+        }
+        if (-not $isElevated -and $item.Elevation -eq 'MayRequireAdministrator') {
+            $warnings.Add('This component may request administrator approval if changes are required.')
+        }
         if (-not (Test-Path -LiteralPath $item.ModulePath -PathType Leaf)) { $issues.Add("Module not found: $($item.ModulePath)") }
         if (-not (Test-Path -LiteralPath $item.ConfigurationPath -PathType Leaf)) { $issues.Add("Configuration not found: $($item.ConfigurationPath)") }
         if ($issues.Count -eq 0) {
@@ -137,12 +186,16 @@ function Test-HermesOrchestrationPreflight {
             Component = $item.Component
             Required   = $item.Required
             IsReady    = $issues.Count -eq 0
+            IsExcluded = $false
+            Elevation  = $item.Elevation
             Issues     = $issues.ToArray()
+            Warnings   = $warnings.ToArray()
         }
     }
 
     [pscustomobject]@{
         IsReady    = @($results | Where-Object { $_.Required -and -not $_.IsReady }).Count -eq 0
+        IsElevated = $isElevated
         Plan       = $plan
         Components = @($results)
     }
@@ -162,11 +215,12 @@ function Invoke-HermesWorkstation {
         [Parameter(Mandatory)] [System.Collections.IDictionary]$Configuration,
         [ValidateSet('Audit', 'Apply')] [string]$Mode = 'Audit',
         [string[]]$Component,
+        [string[]]$ExcludeComponent,
         [string]$StatePath
     )
 
     $started = Get-Date
-    $preflight = Test-HermesOrchestrationPreflight -Configuration $Configuration -Component $Component
+    $preflight = Test-HermesOrchestrationPreflight -Configuration $Configuration -Component $Component -ExcludeComponent $ExcludeComponent
     if (-not $preflight.IsReady) {
         $requiredIssues = $preflight.Components | Where-Object { $_.Required -and -not $_.IsReady }
         throw "Required preflight checks failed: $($requiredIssues.Component -join ', ')"
@@ -175,6 +229,10 @@ function Invoke-HermesWorkstation {
     $results = [Collections.Generic.List[object]]::new()
     foreach ($item in $preflight.Plan.Components) {
         $ready = $preflight.Components | Where-Object Component -eq $item.Component
+        if ($item.Excluded) {
+            $results.Add([pscustomobject]@{ Component=$item.Component; Required=$item.Required; Status='Skipped'; IsCompliant=$false; Message='Explicitly excluded from this run.' })
+            continue
+        }
         if (-not $ready.IsReady) {
             $results.Add([pscustomobject]@{ Component=$item.Component; Required=$item.Required; Status='Unavailable'; IsCompliant=$false; Message=($ready.Issues -join '; ') })
             continue
@@ -212,6 +270,7 @@ function Invoke-HermesWorkstation {
 
     $resultArray = $results.ToArray()
     $compliantCount = @($resultArray | Where-Object IsCompliant).Count
+    $evaluatedCount = @($resultArray | Where-Object Status -ne 'Skipped').Count
     $requiredFailureCount = @(
         $resultArray | Where-Object {
             $_.Required -and $_.Status -in @('Failed','Unavailable','VerificationFailed')
@@ -223,14 +282,16 @@ function Invoke-HermesWorkstation {
         RunId = [guid]::NewGuid().ToString()
         Mode = $Mode
         ProfileName = $preflight.Plan.ProfileName
+        IsElevated = $preflight.IsElevated
         StartedAt = $started.ToString('o')
         CompletedAt = (Get-Date).ToString('o')
         IsSuccessful = $requiredFailureCount -eq 0
-        IsCompliant = $compliantCount -eq $resultArray.Count
+        IsCompliant = $compliantCount -eq $evaluatedCount
         ComponentCount = $resultArray.Count
         CompliantCount = $compliantCount
         DriftedCount = @($resultArray | Where-Object Status -eq 'Drifted').Count
         PlannedCount = @($resultArray | Where-Object Status -eq 'Planned').Count
+        SkippedCount = @($resultArray | Where-Object Status -eq 'Skipped').Count
         FailureCount = @($resultArray | Where-Object Status -in @('Failed','Unavailable','VerificationFailed')).Count
         Results = $resultArray
     }
@@ -249,7 +310,7 @@ function Resume-HermesWorkstation {
     )
     if (-not (Test-Path -LiteralPath $StatePath -PathType Leaf)) { throw "Orchestration state not found: $StatePath" }
     $previous = Get-Content -LiteralPath $StatePath -Raw | ConvertFrom-Json
-    $remaining = @($previous.Results | Where-Object Status -notin @('Compliant','Applied') | Select-Object -ExpandProperty Component)
+    $remaining = @($previous.Results | Where-Object Status -notin @('Compliant','Applied','Skipped') | Select-Object -ExpandProperty Component)
     if ($remaining.Count -eq 0) { return $previous }
     $invokeParameters = @{
         Configuration = $Configuration
@@ -271,6 +332,8 @@ function Export-HermesOrchestrationReport {
     )
     $created = [Collections.Generic.List[string]]::new()
     if ($PSCmdlet.ShouldProcess($OutputDirectory, 'Export Project Hermes orchestration report')) {
+        $isElevated = if ($State.PSObject.Properties['IsElevated']) { $State.IsElevated } else { $false }
+        $skippedCount = if ($State.PSObject.Properties['SkippedCount']) { $State.SkippedCount } else { 0 }
         [IO.Directory]::CreateDirectory($OutputDirectory) | Out-Null
         $base = "Hermes-Orchestration-$($State.RunId)"
         $jsonPath = Join-Path $OutputDirectory "$base.json"
@@ -279,7 +342,8 @@ function Export-HermesOrchestrationReport {
         $lines = @(
             '# Project Hermes Orchestration Report', '',
             "- Run ID: $($State.RunId)", "- Profile: $($State.ProfileName)",
-            "- Mode: $($State.Mode)", "- Successful: $($State.IsSuccessful)", '',
+            "- Mode: $($State.Mode)", "- Successful: $($State.IsSuccessful)",
+            "- Elevated: $isElevated", "- Skipped: $skippedCount", '',
             '| Component | Required | Status | Compliant | Message |',
             '|---|---:|---|---:|---|'
         )

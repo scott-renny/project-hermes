@@ -46,8 +46,8 @@ Restore when required
 
 | Area | Status |
 |---|---|
-| Stable release | v0.8.0 — Recovery, Maintenance, and Reporting |
-| Next milestone | v0.9.0 — Integrated Orchestration and Release Candidate |
+| Stable release | v0.9.0 — Integrated Orchestration and Release Candidate |
+| Next milestone | v1.0.0 — Stable Reproducible Workstation Release |
 | Development branch | Not started |
 | Primary platform | Windows 11 Home |
 | Primary shell | PowerShell 7+ |
@@ -103,6 +103,24 @@ Restore when required
 
 The visual environment is optional. AutoHotkey automation and a complete managed
 Windhawk lifecycle remain deferred and are not claimed by v0.7.0.
+
+---
+
+### v0.9.0 Release
+
+| Component | Status |
+|---|---|
+| Unified ordered workstation orchestration | Complete and tested |
+| Preflight and elevation awareness | Complete and tested |
+| Audit, selective apply, and `WhatIf` modes | Complete and tested |
+| Explicit component inclusion and exclusion | Complete and tested |
+| Persistent state and bounded resume | Complete and tested |
+| Consolidated JSON and Markdown reporting | Complete and tested |
+| Full repository validation | Complete — 381 tests passed |
+
+`Hermes.Orchestration` keeps successful, drifted, planned, skipped, and failed
+component outcomes visible independently. Ordinary user-scope work does not require
+unnecessary administrator mode.
 
 ---
 ## Project Objectives
@@ -481,7 +499,7 @@ Invoke-Pester `
     -Output Detailed
 ```
 
-The merged v0.7.0 release passes **328 tests with no failures** in a
+The v0.9.0 release candidate passes **381 tests with no failures** in a
 profile-isolated PowerShell session.
 
 No module is considered complete until its manifest, import, public exports, documentation, and Pester suite have been validated.
@@ -513,9 +531,9 @@ Completed milestones:
 - v0.6.0 — Developer environment provisioning
 - v0.7.0 — Visual environment and productivity integration
 - v0.8.0 — Recovery, maintenance, drift detection, and reporting
+- v0.9.0 — Integrated orchestration and release candidate
 
 Upcoming milestones:
-- v0.9.0 — Integrated orchestration and release candidate
 - v1.0.0 — Stable reproducible workstation release
 
 See [`ROADMAP.md`](ROADMAP.md) for the broader project execution plan.
