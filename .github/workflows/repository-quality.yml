@@ -1,0 +1,29 @@
+name: PowerShell tests
+
+on:
+  push:
+    branches: [main, "agent/**", "codex/**"]
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    runs-on: windows-latest
+    timeout-minutes: 20
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+      - name: Install Pester
+        shell: pwsh
+        run: Install-Module Pester -MinimumVersion 5.5.0 -Scope CurrentUser -Force -SkipPublisherCheck
+      - name: Run Pester
+        shell: pwsh
+        run: |
+          $configuration = New-PesterConfiguration
+          $configuration.Run.Path = @('modules', 'tests')
+          $configuration.Run.PassThru = $true
+          $configuration.Output.Verbosity = 'Detailed'
+          $result = Invoke-Pester -Configuration $configuration
+          if ($result.FailedCount -gt 0) { exit 1 }
