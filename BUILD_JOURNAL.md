@@ -1166,3 +1166,67 @@ Project Hermes completed a post-v1 public repository consistency and privacy rev
 - Confirmed the sensitive-pattern scan returned no private hostnames, internal addresses, or personal paths.
 - Revalidated the complete repository with 381 passing tests and no failures.
 - Preserved the v1.0.0 workstation automation behavior without functional changes.
+
+---
+
+## 2026-09-11 — Final Windows Desktop Environment
+
+### Objective
+
+Complete and preserve the deployed Project Hermes Windows desktop environment as a
+version-controlled, reboot-persistent workstation configuration.
+
+### Completed
+
+- Migrated the active Rainmeter skin path away from OneDrive to:
+  `%USERPROFILE%\Rainmeter\Skins\`
+- Deployed and validated the final `ProjectHermes` Rainmeter environment:
+  - ServiceDock
+  - SystemGauges
+  - UtilityDock
+  - Status
+- Preserved the Motto skin in a disabled state.
+- Captured exact deployed Rainmeter positions in
+  `configs/rainmeter/ProjectHermes/deployed-layout.ini`.
+- Added live COC reachability, Wi-Fi SSID, and battery/AC status indicators.
+- Added functional Wi-Fi and battery status hitboxes.
+- Finalized the ServiceDock launcher and corrected Tailscale tile alignment.
+- Captured source icons, rendered icons, scripts, and visual resources.
+- Finalized the Windows 11 taskbar appearance with Windhawk Taskbar Styler.
+- Preserved the final Windhawk configuration in
+  `modules/workstation/taskbar/windhawk/hermes-taskbar-styler.yaml`.
+- Hid Search, Widgets, language text, network, battery, notification bell, and
+  Show Desktop while preserving volume and clock/date.
+- Verified Rainmeter startup persistence.
+- Verified Windhawk service and UI persistence.
+- Verified the complete desktop layout after a full system reboot.
+- Added the final mountain lock-screen asset to the repository.
+- Removed the stale system-wide PersonalizationCSP lock-screen override.
+- Repaired the Explorer policy Registry ACL so the local workstation user has
+  explicit FullControl while preserving SYSTEM and Administrators access.
+
+### Validation
+
+The final desktop environment survived a complete reboot with:
+
+- Rainmeter running automatically
+- ServiceDock active
+- SystemGauges active
+- UtilityDock active
+- Status active
+- Motto inactive
+- Windhawk running automatically
+- Search hidden
+- Clock/date visible
+- Volume visible
+- Network and battery tray icons hidden
+- Taskbar island styling preserved
+- Lock screen and desktop wallpaper preserved
+
+### Engineering Decision
+
+The completed visual environment follows the Project Hermes reuse-first principle.
+Windows, Rainmeter, Windhawk, and existing workstation components are configured and
+integrated rather than replaced by a custom desktop shell.
+
+

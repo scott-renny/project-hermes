@@ -6,6 +6,34 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and
 
 ## [Unreleased]
 
+### Added
+
+- Captured the final deployed Project Hermes Rainmeter environment, including
+  ServiceDock, SystemGauges, UtilityDock, Status, supporting resources, icons,
+  status scripts, and deployed screen positions.
+- Added the final Windhawk Taskbar Styler configuration.
+- Added the canonical Hermes mountain lock-screen asset.
+
+### Changed
+
+- Migrated the active Rainmeter skin path from OneDrive to the local user profile
+  for reliable startup and reboot persistence.
+- Finalized the Windows 11 taskbar layout with separate application and system-tray
+  islands.
+- Finalized tray visibility so volume and clock/date remain visible while Search,
+  Widgets, language text, network, battery, notification bell, and Show Desktop
+  are hidden.
+- Removed the stale PersonalizationCSP lock-screen override.
+- Repaired the Explorer policy Registry ACL while preserving SYSTEM and
+  Administrators access.
+
+### Validation
+
+- Verified Rainmeter and Windhawk persistence after a full reboot.
+- Verified all four active Rainmeter components restore correctly.
+- Verified the disabled Motto remains inactive.
+- Verified final taskbar styling, wallpaper, and lock screen survive reboot.
+
 ## [v1.0.1] — 2026-08-09
 
 ### Changed
@@ -323,3 +351,4 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and
 [0.4.0]: https://github.com/scott-renny/project-hermes/releases/tag/v0.4.0
 [0.3.1]: https://github.com/scott-renny/project-hermes/releases/tag/v0.3.1
 [0.2.0]: https://github.com/scott-renny/project-hermes/releases/tag/v0.2.0
+

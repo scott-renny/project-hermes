@@ -109,3 +109,28 @@ From the repository root:
 ```powershell
 Invoke-Pester .\modules\workstation\taskbar\tests
 ```
+
+---
+
+## Deployed Windhawk Configuration
+
+The current Project Hermes workstation uses Windhawk Taskbar Styler for the final Windows 11 taskbar presentation.
+
+Canonical configuration:
+
+`modules/workstation/taskbar/windhawk/hermes-taskbar-styler.yaml`
+
+The deployed configuration provides:
+
+- Centered floating application island
+- Separate right-aligned system-tray island
+- Transparent native taskbar background
+- Hidden Widgets and Search
+- Hidden language indicator
+- Hidden network and battery icons
+- Visible volume icon
+- Hidden notification bell
+- Hidden Show Desktop edge control
+- Visible clock and date
+
+Windhawk startup and taskbar persistence were verified after a complete workstation reboot.

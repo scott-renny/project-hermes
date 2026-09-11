@@ -1,0 +1,4 @@
+01  Review Project Hermes progress
+02  Check systems and updates
+03  Plan the next engineering task
+04  Review alerts and outstanding work

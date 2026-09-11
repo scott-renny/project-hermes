@@ -632,3 +632,21 @@ Report security concerns according to [`SECURITY.md`](SECURITY.md).
 ## License
 
 Project Hermes is released under the MIT License. See [`LICENSE`](LICENSE) for details.
+
+---
+
+## Deployed Desktop Environment
+
+Project Hermes includes a version-controlled Windows desktop presentation built from existing Windows tooling rather than a custom shell.
+
+The deployed environment uses Windows 11, Rainmeter, Windhawk, PowerToys, Windows Terminal, and PowerShell 7.
+
+Rainmeter configuration is preserved under:
+
+`configs/rainmeter/ProjectHermes/`
+
+The final Windhawk Taskbar Styler configuration is preserved under:
+
+`modules/workstation/taskbar/windhawk/`
+
+The desktop and taskbar configuration was validated through a complete reboot.
