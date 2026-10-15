@@ -1,20 +1,16 @@
-<h1 align="center">Project Hermes</h1>
+<div align="center">
 
-<p align="center">
-<b>Windows Engineering Workstation Automation Framework</b>
-</p>
+# Project Hermes
+### Windows Provisioning · Validation · Backup · Recovery
 
-<p align="center">
+![recorded release: v1.0.1](https://img.shields.io/badge/recorded%20release-v1.0.1-2563eb?style=flat-square)
+![automation: PowerShell 7+](https://img.shields.io/badge/automation-PowerShell%207%2B-22d3ee?style=flat-square)
 
-![Status](https://img.shields.io/badge/Status-Stable-2EA44F?style=for-the-badge)
-![Release](https://img.shields.io/badge/Release-v1.0.1-6F42C1?style=for-the-badge)
-![PowerShell](https://img.shields.io/badge/PowerShell-7%2B-5391FE?style=for-the-badge&logo=powershell&logoColor=white)
-![Windows](https://img.shields.io/badge/Windows-11%20Home-0078D6?style=for-the-badge&logo=windows11&logoColor=white)
-![License](https://img.shields.io/github/license/scott-renny/project-hermes?style=for-the-badge)
-![Last Commit](https://img.shields.io/github/last-commit/scott-renny/project-hermes?style=for-the-badge)
-![Issues](https://img.shields.io/github/issues/scott-renny/project-hermes?style=for-the-badge)
+[License](LICENSE)
 
-</p>
+</div>
+
+[Overview](#overview) · [Current Status](#current-status) · [Project Objectives](#project-objectives) · [Quick Start](#quick-start) · [Architecture](#architecture) · [Module Standards](#module-standards)
 
 ---
 
