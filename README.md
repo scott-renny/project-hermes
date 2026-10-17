@@ -646,3 +646,8 @@ The final Windhawk Taskbar Styler configuration is preserved under:
 `modules/workstation/taskbar/windhawk/`
 
 The desktop and taskbar configuration was validated through a complete reboot.
+
+
+## Architecture diagrams
+
+[System lifecycle and module dependency diagrams](docs/reference/system-architecture.md) summarize the documented implementation and recovery boundaries.
